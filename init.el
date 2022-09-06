@@ -15,7 +15,7 @@
 
 ;; Package management ;;
 (setq package-selected-packages
-      '( evil evil-collection
+      '( evil evil-collection which-key
          corfu corfu-doc cape savehist vertico orderless marginalia consult
          ;; Requires svg support in emacs
          ;; svg-lib kind-icon
@@ -101,6 +101,9 @@
 ;; Allows redo functionality in evil
 ;; Only works in emacs 28 and later
 (evil-set-undo-system 'undo-redo)
+;; Which key
+(require 'which-key)
+(which-key-mode)
 ;; Projectile
 (projectile-mode +1)
 (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
@@ -162,24 +165,71 @@
 (dolist (sym '(rust-enable-format-on-save rust-disable-format-on-save))
   (put sym 'completion-predicate #'ignore))
 
+;; Diary config
+(setq view-diary-entries-initially t
+      view-calendar-holidays-initially t
+      mark-diary-entries-in-calendar t
+      mark-holidays-in-calendar t)
+(add-hook 'today-visible-calendar-hook 'calendar-mark-today)
+(add-hook 'diary-display-hook 'fancy-diary-display)
+(add-hook 'list-diary-entries-hook 'sort-diary-entries)
+(add-hook 'list-diary-entries-hook 'include-other-diary-files)
+(add-hook 'mark-diary-entries-hook 'mark-included-diary-files)
+(global-set-key (kbd "C-x c") #'calendar)
+(global-set-key (kbd "C-x y") #'diary)
+
 ;; Org mode config
 (transient-mark-mode 1)
 (require 'org)
+;; Use org mode in org files
 (add-to-list 'auto-mode-alist '("\\.org$" . org-mode))
 (add-to-list 'auto-mode-alist '("\\.org\\'" . org-mode))
+;; TODO keywords in org
 (setq org-todo-keywords
   '((sequence "TODO" "IN-PROGRESS" "WAITING" "DONE")))
+;; Archive when cancelled or done
+(setq org-todo-state-tags-triggers '(("CANCELLED" ("ARCHIVE" . t)) ("DONE" ("ARCHIVE" . t))))
+;; Org tags
+(setq org-tag-persistent-alist '((:startgroup . nil)
+                                 ("@work" . ?w)
+                                 ("@home" . ?h)
+                                 (:endgroup . nil)
+                                 ("emacs" . ?e)
+                                 ("cuervo-burrito" . ?c)
+                                 ("side-project" . ?s)))
+;; Set org directory
 (if (or (eq system-type 'ms-dos) (eq system-type 'windows-nt))
-    (setq org-agenda-files '("C:/org/org-notes"))
-    (setq org-agenda-files '("~/Documents/GitHub/org-notes")))
-(setq org-log-done 'time)
-(setq org-return-follows-link t)
+    (setq org-directory '"C:/org/org-notes")
+    (setq org-directory '"~/Documents/GitHub/org-notes"))
+;; Make list completion make sense
+(setq org-enforce-todo-dependencies t
+      org-enfocre-todo-checkbox-dependencies t
+      ;; Follow links on RET
+      org-return-follows-link t
+      ;; Make org look better
+      org-hide-leading-stars t
+      ;; When a todo is set to done, add the completion time
+      org-log-done 'time
+      ;; Follow links on RET
+      org-return-follows-link t
+      ;; Include diary stuff in the org agenda
+      org-agenda-include-diary t
+      ;; Set default directories, files
+      org-default-notes-file (concat org-directory "/misc-notes.org")
+      org-agenda-files 'org-directory
+      org-archive-location (concat "%s_archive::" org-directory "/archive"))
+;; Pretty indenting in org mode
 (add-hook 'org-mode-hook 'org-indent-mode)
+;; Basic keybinds
+(global-set-key (kbd "C-c l") #'org-store-link)
+(global-set-key (kbd "C-c a") #'org-agenda)
+(global-set-key (kbd "C-c c") #'org-capture)
 
 
 
 ;; Open init.el on opening
 (set-register ?e (find-file (or user-init-file "")))
+(set-register ?f (find-file (or (concat org-directory "/misc-notes.org") "")))
 
 
 
