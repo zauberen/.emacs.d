@@ -201,6 +201,7 @@
 (if (or (eq system-type 'ms-dos) (eq system-type 'windows-nt))
     (setq org-directory '"C:/org/org-notes")
     (setq org-directory '"~/Documents/GitHub/org-notes"))
+(setq diary-file (concat org-directory "/diary"))
 ;; Make list completion make sense
 (setq org-enforce-todo-dependencies t
       org-enfocre-todo-checkbox-dependencies t
@@ -215,7 +216,7 @@
       ;; Include diary stuff in the org agenda
       org-agenda-include-diary t
       ;; Set default directories, files
-      org-default-notes-file (concat org-directory "/misc-notes.org")
+      org-default-notes-file (concat org-directory "/inbox.org")
       org-agenda-files 'org-directory
       org-archive-location (concat "%s_archive::" org-directory "/archive"))
 ;; Pretty indenting in org mode
@@ -227,9 +228,9 @@
 
 
 
-;; Open init.el on opening
+;; Open init.el and org inbox on opening
 (set-register ?e (find-file (or user-init-file "")))
-(set-register ?f (find-file (or (concat org-directory "/misc-notes.org") "")))
+(set-register ?f (find-file (or org-default-notes-file "")))
 
 
 
