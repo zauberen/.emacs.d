@@ -1,6 +1,6 @@
 ;;; init.el --- EMACS config v08262022
 ;;; Commentary:
-;;; Drop ivy
+;;; Configure org
 ;;; Code:
 ;; Set up package.el to work with MELPA
 ;; Security ;;
@@ -17,11 +17,13 @@
 (setq package-selected-packages
       '( evil evil-collection which-key
          corfu corfu-doc cape savehist vertico orderless marginalia consult
+         embark embark-consult
          ;; Requires svg support in emacs
          ;; svg-lib kind-icon
          magit magit-todos hl-todo vterm
          eglot markdown-mode clang-format cmake-mode rust-mode cargo
-         flycheck projectile gcmh
+         flycheck projectile gcmh diminish
+         gnu-elpa-keyring-update
          monokai-theme))
 (setq package-native-compile t
       native-comp-async-report-warnings-errors nil
@@ -35,10 +37,14 @@
 (load-theme 'monokai t)
 (setq display-line-numbers-type 'relative)
 (global-display-line-numbers-mode)
-(set-face-attribute 'default nil :height 120 :family "Hack")
+(column-number-mode)
+(if (eq system-type 'darwin)
+    (setq font-height '120)
+    (setq font-height '100))
+(set-face-attribute 'default nil :height font-height :family "Hack")
 (set-face-attribute 'fixed-pitch nil :family "Hack")
 (set-face-attribute 'variable-pitch nil :family "Hack")
-(global-hl-todo-mode)
+(require 'diminish)
 ;; magit
 (setq magit-view-git-manual-method 'man
       transient-history-file null-device
@@ -98,17 +104,20 @@
 (when (require 'evil-collection nil t)
     (evil-collection-init))
 (evil-mode 1)
+(diminish 'evil-collection-unimpaired-mode)
 ;; Allows redo functionality in evil
 ;; Only works in emacs 28 and later
 (evil-set-undo-system 'undo-redo)
 ;; Which key
 (require 'which-key)
 (which-key-mode)
+(diminish 'which-key-mode)
 ;; Projectile
+;; Set up projectile project directories in local.el!
 (projectile-mode +1)
+(diminish 'projectile-mode)
 (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
-(setq projectile-project-search-path '(("~/Documents/GitHub" . 1)))
-;; Corfu
+;; Virtico, Corfu, cape, orderless, consult, eglot, embark, marginalia
 ;;(require 'kind-icon)
 (setq read-extended-command-predicate #'command-completion-default-include-p
       completion-styles '(orderless basic)
@@ -129,10 +138,12 @@
 (vertico-mode)
 (marginalia-mode)
 (global-corfu-mode)
+(require 'embark)
 (add-hook 'corfu-mode-hook #'corfu-doc-mode)
 (define-key corfu-map (kbd "RET") nil)
 (define-key corfu-map (kbd "M-p") #'corfu-doc-scroll-down)
 (define-key corfu-map (kbd "M-n") #'corfu-doc-scroll-up)
+
 ;; eglot
 (setq eglot-stay-out-of '(eldoc-documentation-strategy)
       eglot-autoshutdown t)
@@ -169,7 +180,8 @@
 (setq view-diary-entries-initially t
       view-calendar-holidays-initially t
       mark-diary-entries-in-calendar t
-      mark-holidays-in-calendar t)
+      mark-holidays-in-calendar t
+      appt-display-mode-line t)
 (add-hook 'today-visible-calendar-hook 'calendar-mark-today)
 (add-hook 'diary-display-hook 'fancy-diary-display)
 (add-hook 'list-diary-entries-hook 'sort-diary-entries)
@@ -185,23 +197,23 @@
 (add-to-list 'auto-mode-alist '("\\.org$" . org-mode))
 (add-to-list 'auto-mode-alist '("\\.org\\'" . org-mode))
 ;; TODO keywords in org
+(setq hl-todo-keyword-faces
+	'(("TODO"   . "#FF0000")
+	  ("IN-PROGRESS"  . "#A020F0")
+	  ("WAITING" . "#FF4500")
+	  ("DONE"   . "#1E90FF")))
+(global-hl-todo-mode)
 (setq org-todo-keywords
   '((sequence "TODO" "IN-PROGRESS" "WAITING" "DONE")))
 ;; Archive when cancelled or done
 (setq org-todo-state-tags-triggers '(("CANCELLED" ("ARCHIVE" . t)) ("DONE" ("ARCHIVE" . t))))
-;; Org tags
-(setq org-tag-persistent-alist '((:startgroup . nil)
-                                 ("@work" . ?w)
-                                 ("@home" . ?h)
-                                 (:endgroup . nil)
-                                 ("emacs" . ?e)
-                                 ("cuervo-burrito" . ?c)
-                                 ("side-project" . ?s)))
 ;; Set org directory
 (if (or (eq system-type 'ms-dos) (eq system-type 'windows-nt))
     (setq org-directory '"C:/org/org-notes")
     (setq org-directory '"~/Documents/GitHub/org-notes"))
 (setq diary-file (concat org-directory "/diary"))
+(setq appt-display-diary nil)
+(appt-activate 1)
 ;; Make list completion make sense
 (setq org-enforce-todo-dependencies t
       org-enfocre-todo-checkbox-dependencies t
@@ -217,20 +229,33 @@
       org-agenda-include-diary t
       ;; Set default directories, files
       org-default-notes-file (concat org-directory "/inbox.org")
-      org-agenda-files 'org-directory
+      org-agenda-files (list org-directory)
       org-archive-location (concat "%s_archive::" org-directory "/archive"))
 ;; Pretty indenting in org mode
 (add-hook 'org-mode-hook 'org-indent-mode)
+;; Org capture templates
+(setq org-capture-templates
+      '(("t" "Todo" entry (file+headline org-default-notes-file "Tasks")
+         "* TODO %?\n%U\n%a")
+        ("j" "Journal" entry (file+datetree org-default-notes-file)
+         "* %?\n%U\n%a")))
 ;; Basic keybinds
 (global-set-key (kbd "C-c l") #'org-store-link)
 (global-set-key (kbd "C-c a") #'org-agenda)
 (global-set-key (kbd "C-c c") #'org-capture)
+(org-agenda-list)
 
 
-
-;; Open init.el and org inbox on opening
+;; Open init.el on opening
 (set-register ?e (find-file (or user-init-file "")))
-(set-register ?f (find-file (or org-default-notes-file "")))
+;; Open org index if it's on this system
+(when (file-exists-p org-default-notes-file)
+  (set-register ?f (find-file (or org-default-notes-file ""))))
+
+;; Load custom settings
+(let ((local-settings "~/.emacs.d/local.el"))
+  (when (file-exists-p local-settings)
+    (load-file local-settings)))
 
 
 
@@ -239,6 +264,9 @@
       gcmh-auto-idle-delay-factor 10
       gcmh-high-cons-threshold (* 32 1024 1024))
 (gcmh-mode 1)
+(diminish 'gcmh-mode)
+
+
 
 ;; Editor package management section
 (custom-set-variables
