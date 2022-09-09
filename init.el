@@ -23,6 +23,7 @@
          magit magit-todos hl-todo vterm
          eglot markdown-mode clang-format cmake-mode rust-mode cargo
          flycheck projectile gcmh diminish
+         jabber
          gnu-elpa-keyring-update
          monokai-theme))
 (setq package-native-compile t
@@ -38,12 +39,14 @@
 (setq display-line-numbers-type 'relative)
 (global-display-line-numbers-mode)
 (column-number-mode)
+;; Mac font sizing is unusually small
 (if (eq system-type 'darwin)
     (setq font-height '120)
     (setq font-height '100))
 (set-face-attribute 'default nil :height font-height :family "Hack")
 (set-face-attribute 'fixed-pitch nil :family "Hack")
 (set-face-attribute 'variable-pitch nil :family "Hack")
+;; Remove minor modes from mode line
 (require 'diminish)
 ;; magit
 (setq magit-view-git-manual-method 'man
@@ -198,15 +201,16 @@
 (add-to-list 'auto-mode-alist '("\\.org\\'" . org-mode))
 ;; TODO keywords in org
 (setq hl-todo-keyword-faces
-	'(("TODO"   . "#FF0000")
-	  ("IN-PROGRESS"  . "#A020F0")
-	  ("WAITING" . "#FF4500")
-	  ("DONE"   . "#1E90FF")))
+	'(("TODO"           . "#FF0000")
+	  ("IN-PROGRESS"    . "#A020F0")
+	  ("WAITING"        . "#FF4500")
+	  ("DONE"           . "#1E90FF")
+      ("CLOSED"         . "#1E90FF")))
 (global-hl-todo-mode)
 (setq org-todo-keywords
-  '((sequence "TODO" "IN-PROGRESS" "WAITING" "DONE")))
+  '((sequence "TODO" "IN-PROGRESS" "WAITING" "DONE" "CLOSED")))
 ;; Archive when cancelled or done
-(setq org-todo-state-tags-triggers '(("CANCELLED" ("ARCHIVE" . t)) ("DONE" ("ARCHIVE" . t))))
+(setq org-todo-state-tags-triggers '(("CLOSED" ("ARCHIVE" . t))))
 ;; Set org directory
 (if (or (eq system-type 'ms-dos) (eq system-type 'windows-nt))
     (setq org-directory '"C:/org/org-notes")
@@ -229,21 +233,29 @@
       org-agenda-include-diary t
       ;; Set default directories, files
       org-default-notes-file (concat org-directory "/inbox.org")
+      org-work-file (concat org-directory "/work.org")
+      org-home-file (concat org-directory "/home.org")
       org-agenda-files (list org-directory)
       org-archive-location (concat "%s_archive::" org-directory "/archive"))
 ;; Pretty indenting in org mode
 (add-hook 'org-mode-hook 'org-indent-mode)
 ;; Org capture templates
 (setq org-capture-templates
-      '(("t" "Todo" entry (file+headline org-default-notes-file "Tasks")
-         "* TODO %?\n%U\n%a")
+      '(("t" "Todo" entry (file+headline org-default-notes-file "Inbox")
+         "* TODO %?\nDEADLINE: \nCREATION: %U\n%a")
+        ("i" "Work Issue" entry (file+headline org-work-file "Inbox")
+        "* TODO %?\nDEADLINE: \nCREATION: %U\n%a")
+        ("h" "Home Task" entry (file+headline org-home-file "Tasks")
+        "* TODO %?\nDEADLINE: \nCREATION: %U\n%a")
         ("j" "Journal" entry (file+datetree org-default-notes-file)
          "* %?\n%U\n%a")))
 ;; Basic keybinds
 (global-set-key (kbd "C-c l") #'org-store-link)
 (global-set-key (kbd "C-c a") #'org-agenda)
 (global-set-key (kbd "C-c c") #'org-capture)
-(org-agenda-list)
+
+;; eshell
+(global-set-key (kbd "C-x e") #'eshell)
 
 
 ;; Open init.el on opening
@@ -257,7 +269,8 @@
   (when (file-exists-p local-settings)
     (load-file local-settings)))
 
-
+;; Display this week's agenda
+(org-agenda-list)
 
 ;; Garbage collection
 (setq gcmh-idle-delay 'auto
