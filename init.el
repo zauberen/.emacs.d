@@ -208,7 +208,7 @@
       ("CLOSED"         . "#1E90FF")))
 (global-hl-todo-mode)
 (setq org-todo-keywords
-  '((sequence "TODO" "IN-PROGRESS" "WAITING" "DONE" "CLOSED")))
+  '((sequence "TODO" "IN-PROGRESS" "WAITING" "|" "DONE" "CLOSED")))
 ;; Archive when cancelled or done
 (setq org-todo-state-tags-triggers '(("CLOSED" ("ARCHIVE" . t))))
 ;; Set org directory
