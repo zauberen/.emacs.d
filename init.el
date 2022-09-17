@@ -11,7 +11,8 @@
 
 (require 'package)
 (add-to-list 'package-archives
-             '("melpa" . "https://melpa.org/packages/"))
+             '("melpa" . "https://melpa.org/packages/")
+             '("org" . "http://orgmode.org/elpa/"))
 
 ;; Package management ;;
 (setq package-selected-packages
@@ -20,6 +21,7 @@
          embark embark-consult
          ;; Requires svg support in emacs
          ;; svg-lib kind-icon
+         org org-contrib org-plus-contrib org-journal
          magit magit-todos hl-todo vterm
          eglot markdown-mode clang-format cmake-mode rust-mode cargo
          flycheck projectile gcmh diminish
@@ -196,6 +198,10 @@
 ;; Org mode config
 (transient-mark-mode 1)
 (require 'org)
+;; Diminish org minor modes
+(diminish 'org-indent-mode)
+(diminish 'eldoc-mode)
+(diminish 'auto-revert-mode)
 ;; Use org mode in org files
 (add-to-list 'auto-mode-alist '("\\.org$" . org-mode))
 (add-to-list 'auto-mode-alist '("\\.org\\'" . org-mode))
@@ -209,7 +215,7 @@
 (global-hl-todo-mode)
 (setq org-todo-keywords
   '((sequence "TODO" "IN-PROGRESS" "WAITING" "|" "DONE" "CLOSED")))
-;; Archive when cancelled or done
+;; Archive when closed
 (setq org-todo-state-tags-triggers '(("CLOSED" ("ARCHIVE" . t))))
 ;; Set org directory
 (if (or (eq system-type 'ms-dos) (eq system-type 'windows-nt))
@@ -218,44 +224,83 @@
 (setq diary-file (concat org-directory "/diary"))
 (setq appt-display-diary nil)
 (appt-activate 1)
-;; Make list completion make sense
+; Make list completion make sense
 (setq org-enforce-todo-dependencies t
       org-enfocre-todo-checkbox-dependencies t
       ;; Follow links on RET
-      org-return-follows-link t
+      ;; Instead use gx
+      ; org-return-follows-link t
       ;; Make org look better
       org-hide-leading-stars t
       ;; When a todo is set to done, add the completion time
       org-log-done 'time
-      ;; Follow links on RET
-      org-return-follows-link t
       ;; Include diary stuff in the org agenda
       org-agenda-include-diary t
+      ;; Journal settings
+      org-journal-dir (concat org-directory "/journal")
+      org-journal-file-format "%Y-%m.org"
+      org-journal-file-type 'monthly
       ;; Set default directories, files
       org-default-notes-file (concat org-directory "/inbox.org")
       org-work-file (concat org-directory "/work.org")
       org-home-file (concat org-directory "/home.org")
-      org-agenda-files (list org-directory)
+      org-agenda-files (seq-filter
+                        (lambda(x)
+                          (not (string-match "/archive/"(file-name-directory x))))
+                        (directory-files-recursively org-directory "\\.org$"))
       org-archive-location (concat "%s_archive::" org-directory "/archive"))
-;; Pretty indenting in org mode
+; Load org-journal so that it is globally accessible
+(require 'org-journal)
+(require 'org-checklist)
+; Enable word wrap and org indenting
+(add-hook 'org-mode-hook 'toggle-truncate-lines)
 (add-hook 'org-mode-hook 'org-indent-mode)
-;; Org capture templates
+; Org capture templates
 (setq org-capture-templates
-      '(("t" "Todo" entry (file+headline org-default-notes-file "Inbox")
-         "* TODO %?\nDEADLINE: \nCREATION: %U\n%a")
+      '(("t" "Inbox" entry (file+headline org-default-notes-file "Inbox")
+         "* TODO %?\n:PROPERTIES:\n:DEADLINE: \n:CREATION: %U\n:END:\n")
         ("i" "Work Issue" entry (file+headline org-work-file "Inbox")
-        "* TODO %?\nDEADLINE: \nCREATION: %U\n%a")
+        "* TODO %?\n:PROPERTIES:\n:DEADLINE: \n:CREATION: %U\n:END:\n")
         ("h" "Home Task" entry (file+headline org-home-file "Tasks")
-        "* TODO %?\nDEADLINE: \nCREATION: %U\n%a")
+        "* TODO %?\n:PROPERTIES:\n:DEADLINE: \n:CREATION: %U\n:END:\n")
         ("j" "Journal" entry (file+datetree org-default-notes-file)
-         "* %?\n%U\n%a")))
-;; Basic keybinds
+         "* %?\n%U\n%a")
+        ("n" "Link Inbox" entry (file+headline org-default-notes-file "Inbox")
+         "* TODO %?\n:PROPERTIES:\n:DEADLINE: \n:CREATION: %U\n:END:\n%a")
+        ("o" "Link Work Issue" entry (file+headline org-work-file "Inbox")
+        "* TODO %?\n:PROPERTIES:\n:DEADLINE: \n:CREATION: %U\n:END:\n%a")
+        ("m" "Link Home Task" entry (file+headline org-home-file "Tasks")
+        "* TODO %?\n:PROPERTIES:\n:DEADLINE: \n:CREATION: %U\n:END:\n%a")))
+;; Org keybinds
 (global-set-key (kbd "C-c l") #'org-store-link)
 (global-set-key (kbd "C-c a") #'org-agenda)
 (global-set-key (kbd "C-c c") #'org-capture)
+(global-set-key (kbd "C-c j") 'org-journal-new-entry)
 
 ;; eshell
 (global-set-key (kbd "C-x e") #'eshell)
+; Default shortcuts
+(add-hook 'eshell-mode-hook (lambda ()
+    ; Quick switch to org
+    (eshell/alias "so"
+        (if (or (eq system-type 'ms-dos) (eq system-type 'windows-nt))
+            "cd C:/org/org-notes"
+            "cd ~/Documents/GitHub/org-notes"))
+    ; Opening files
+    (eshell/alias "e" "find-file $1")
+    (eshell/alias "ff" "find-file $1")
+    (eshell/alias "emacs" "find-file $1")
+    (eshell/alias "ee" "find-file-other-window $1")
+    ; Git
+    (eshell/alias "gd" "magit-diff-unstaged")
+    (eshell/alias "gds" "magit-diff-staged")
+    ; Dired
+    (eshell/alias "d" "dired $1")
+    ; The 'ls' executable requires the Gnu version on the Mac
+    (let ((ls (if (file-exists-p "/usr/local/bin/gls")
+                  "/usr/local/bin/gls"
+                "/bin/ls")))
+      (eshell/alias "ll" (concat ls " -AlohG --color=always")))))
 
 
 ;; Open init.el on opening
