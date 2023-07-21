@@ -12,7 +12,7 @@
 (if (or (eq system-type 'ms-dos) (eq system-type 'windows-nt))
     (setq package-check-signature nil
           gnutls-algorithm-priority "NORMAL")
-    (setq network-security-level 'high
+  (setq network-security-level 'high
         gnutls-verify-error t
         gnutls-min-prime-bits 3072
         gnutls-algorithm-priority "PFS:-VERS-TLS1.2:-VERS-TLS1.1:-VERS-TLS1.0"))
@@ -20,9 +20,9 @@
 ;; Package management ;;
 (setq package-selected-packages
       '( evil evil-collection evil-mc which-key
-         corfu corfu-doc corfu-terminal cape savehist vertico orderless marginalia consult
+         corfu corfu-terminal cape savehist vertico orderless marginalia consult
          tree-sitter tree-sitter-langs
-         lsp-mode lsp-ui lsp-java consult-lsp
+         lsp-mode lsp-ui consult-lsp
          citre citre-config
          yasnippet yasnippet-snippets smartparens evil-smartparens
          embark embark-consult
@@ -81,13 +81,14 @@
 (global-set-key (kbd "C-c {") 'sp-wrap-curly)
 ;; magit
 (global-git-gutter-mode t)
-;(custom-set-variables '(git-gutter:update-interval 2)
-                      ;'(git-gutter:modified-sign " ")
-                      ;'(git-gutter:added-sign " ")
-                      ;'(git-gutter:deleted-sign " "))
-;(set-face-background 'git-gutter:modified "purple")
-;(set-face-background 'git-gutter:added "green")
-;(set-face-background 'git-gutter:deleted "red")
+(custom-set-variables '(git-gutter:update-interval 2))
+
+(custom-set-variables '(git-gutter:modified-sign " ")
+                      '(git-gutter:added-sign " ")
+                      '(git-gutter:deleted-sign " "))
+(set-face-background 'git-gutter:modified "purple")
+(set-face-background 'git-gutter:added "green")
+(set-face-background 'git-gutter:deleted "red")
 
 (global-set-key (kbd "C-x k") 'kill-current-buffer)
 
@@ -136,7 +137,7 @@
               tab-width 4
               tab-always-indent nil
               require-final-newline t)
-(setq indent-line-function 'insert-tab)
+;(setq indent-line-function 'insert-tab)
 (setq sentence-end-double-space nil)
 ;; New formatting engine from doom, see https://editorconfig.org
 (editorconfig-mode 1)
@@ -222,8 +223,9 @@ play well with `evil-mc'."
 ;; Virtico, Corfu, cape, orderless, consult, embark, marginalia
 ;;(require 'kind-icon)
 (setq read-extended-command-predicate #'command-completion-default-include-p
-      completion-styles '(orderless basic)
+      completion-styles '(orderless partial-completion basic)
       completion-category-defaults nil
+      completion-category-overrides nil
       completion-in-region-function #'consult-completion-in-region
       orderless-component-separator #'orderless-escapable-split-on-space
       completion-at-point-functions (list #'cape-file
@@ -244,8 +246,8 @@ play well with `evil-mc'."
 (global-corfu-mode)
 (require 'embark)
 (define-key corfu-map (kbd "RET") nil)
-(define-key corfu-map (kbd "M-p") #'corfu-doc-scroll-down)
-(define-key corfu-map (kbd "M-n") #'corfu-doc-scroll-up)
+(define-key corfu-map (kbd "M-p") #'corfu-popupinfo-scroll-down)
+(define-key corfu-map (kbd "M-n") #'corfu-popupinfo-scroll-up)
 
 ;; eglot
 ;(setq eglot-stay-out-of '(eldoc-documentation-strategy)
@@ -271,25 +273,25 @@ play well with `evil-mc'."
 
 ;; lsp-mode
 (require 'lsp-mode)
+(setq lsp-completion-provider :none)
 ; Use consult for lsp completions
 (define-key lsp-mode-map [remap xref-find-apropos] #'consult-lsp-symbols)
 (setq lsp-keymap-prefix "C-c l")
-;(setq lsp-completion-provider :none)
 (defun corfu-lsp-setup ()
   "Enable lsp and its dependencies."
-  (setq-local completion-styles '(orderless)
-              completion-category-defaults nil))
-;(add-hook 'lsp-mode-hook #'corfu-lsp-setup)
+  (setf (alist-get 'styles (alist-get 'lsp-capf completion-category-defaults))
+        '(orderless)))
+(add-hook 'lsp-completion-mode #'corfu-lsp-setup)
 
 ;; HTML
 (add-to-list 'auto-mode-alist '("\\.html$" . html-mode))
 (add-to-list 'auto-mode-alist '("\\.html\\'" . html-mode))
 
 ;; java
-(defun java-setup-lsp ()
-  "Set up java lsp."
-  (require 'lsp-java)
-  (lsp))
+;(defun java-setup-lsp ()
+  ;"Set up java lsp."
+  ;(require 'lsp-java)
+  ;(lsp))
 ; Not working?
 ;(add-hook 'java-mode-hook #'java-setup-lsp)
 (add-to-list 'auto-mode-alist '("\\.jsp\\'" . java-mode))
@@ -474,16 +476,17 @@ play well with `evil-mc'."
       (eshell/alias "ll" (concat ls " -AlohG --color=always")))))
 
 
-;; Open init.el on opening
-(set-register ?e (find-file (or user-init-file "")))
-;; Open org index if it's on this system
-(when (file-exists-p org-default-notes-file)
-  (set-register ?f (find-file (or org-default-notes-file ""))))
-
 ;; Load custom settings
 (let ((local-settings "~/.emacs.d/local.el"))
   (when (file-exists-p local-settings)
     (load-file local-settings)))
+
+;; Open org index if it's on this system
+(when (file-exists-p org-default-notes-file)
+  (set-register ?f (find-file (or org-default-notes-file ""))))
+
+;; Open init.el on opening
+(set-register ?e (find-file (or user-init-file "")))
 
 ;; Display this week's agenda
 ;(org-agenda-list)
