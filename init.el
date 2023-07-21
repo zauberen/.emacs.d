@@ -1,30 +1,40 @@
-;;; init.el --- EMACS config v08262022
+;;; init.el --- EMACS config v01302023
 ;;; Commentary:
-;;; Configure org
+;;; Updates for corfu doc references
 ;;; Code:
 ;; Set up package.el to work with MELPA
-;; Security ;;
-(setq network-security-level 'high
-      gnutls-verify-error t
-      gnutls-min-prime-bits 3072
-      gnutls-algorithm-priority "PFS:-VERS-TLS1.2:-VERS-TLS1.1:-VERS-TLS1.0")
-
 (require 'package)
 (add-to-list 'package-archives
              '("melpa" . "https://melpa.org/packages/")
              '("org" . "http://orgmode.org/elpa/"))
 
+;; Package signatures are broken in Windows
+(if (or (eq system-type 'ms-dos) (eq system-type 'windows-nt))
+    (setq package-check-signature nil
+          gnutls-algorithm-priority "NORMAL")
+    (setq network-security-level 'high
+        gnutls-verify-error t
+        gnutls-min-prime-bits 3072
+        gnutls-algorithm-priority "PFS:-VERS-TLS1.2:-VERS-TLS1.1:-VERS-TLS1.0"))
+
 ;; Package management ;;
 (setq package-selected-packages
-      '( evil evil-collection which-key
-         corfu corfu-doc cape savehist vertico orderless marginalia consult
+      '( evil evil-collection evil-mc which-key
+         corfu corfu-doc corfu-terminal cape savehist vertico orderless marginalia consult
+         tree-sitter tree-sitter-langs
+         lsp-mode lsp-ui lsp-java consult-lsp
+         citre citre-config
+         yasnippet yasnippet-snippets smartparens evil-smartparens
          embark embark-consult
          ;; Requires svg support in emacs
          ;; svg-lib kind-icon
-         org org-contrib org-plus-contrib org-journal
-         magit magit-todos hl-todo vterm
-         eglot markdown-mode clang-format cmake-mode rust-mode cargo
-         flycheck projectile gcmh diminish
+         org org-contrib org-plus-contrib org-journal evil-org
+         obsidian
+         doom-modeline doom-themes adaptive-wrap editorconfig
+         magit magit-todos hl-todo vterm git-gutter
+         csv-mode markdown-mode clang-format cmake-mode rust-mode cargo
+         flycheck consult-flycheck
+         projectile gcmh diminish
          jabber
          gnu-elpa-keyring-update
          monokai-theme))
@@ -37,10 +47,11 @@
   (package-install-selected-packages t))
 
 ;; Theming ;;
-(load-theme 'monokai t)
+(load-theme 'doom-molokai t)
 (setq display-line-numbers-type 'relative)
 (global-display-line-numbers-mode)
 (column-number-mode)
+(setq adaptive-wrap-prefix-mode t)
 ;; Mac font sizing is unusually small
 (if (eq system-type 'darwin)
     (setq font-height '120)
@@ -48,9 +59,38 @@
 (set-face-attribute 'default nil :height font-height :family "Hack")
 (set-face-attribute 'fixed-pitch nil :family "Hack")
 (set-face-attribute 'variable-pitch nil :family "Hack")
+;; Set display of menu according with whether GUI is used
+(when (and (or (eq system-type 'ms-dos) (eq system-type 'windows-nt)) (display-graphic-p))
+  (menu-bar-mode 1))
+;; Terminal specific settings for corfu
+(unless (display-graphic-p)
+  (require 'corfu-terminal)
+  (corfu-terminal-mode +1))
 ;; Remove minor modes from mode line
 (require 'diminish)
+(require 'doom-modeline)
+(doom-modeline-mode 1)
+(setq doom-modeline-icon nil
+      doom-modeline-height 17)
+;; smart parens
+(require 'smartparens-config)
+(smartparens-global-mode 1)
+(smartparens-strict-mode 1)
+(add-hook 'smartparens-enabled-hook #'evil-smartparens-mode)
+(global-set-key (kbd "C-c (") 'sp-wrap-round)
+(global-set-key (kbd "C-c {") 'sp-wrap-curly)
 ;; magit
+(global-git-gutter-mode t)
+;(custom-set-variables '(git-gutter:update-interval 2)
+                      ;'(git-gutter:modified-sign " ")
+                      ;'(git-gutter:added-sign " ")
+                      ;'(git-gutter:deleted-sign " "))
+;(set-face-background 'git-gutter:modified "purple")
+;(set-face-background 'git-gutter:added "green")
+;(set-face-background 'git-gutter:deleted "red")
+
+(global-set-key (kbd "C-x k") 'kill-current-buffer)
+
 (setq magit-view-git-manual-method 'man
       transient-history-file null-device
       magit-save-repository-buffers 'dontask
@@ -65,13 +105,20 @@
       server-client-instructions nil)
 ;; Autocomplete ;;
 (global-flycheck-mode)
+
+
+;; Buffer settings
 (setq use-short-answers t
       confirm-kill-processes nil
       kill-buffer-query-functions nil
       auth-source-save-behavior nil
       enable-local-variables :safe
       disabled-command-function nil)
+
+;; Kill buffer command
 (global-set-key (kbd "C-x k") 'kill-current-buffer)
+;; Indent region command
+(global-set-key (kbd "C-c i") 'indent-region)
 ;; Save minibuffer history
 (savehist-mode)
 ;; Increase undo history
@@ -91,6 +138,8 @@
               require-final-newline t)
 (setq indent-line-function 'insert-tab)
 (setq sentence-end-double-space nil)
+;; New formatting engine from doom, see https://editorconfig.org
+(editorconfig-mode 1)
 ;; Scrolling
 (setq scroll-conservatively 101
       scroll-margin 0
@@ -113,6 +162,40 @@
 ;; Allows redo functionality in evil
 ;; Only works in emacs 28 and later
 (evil-set-undo-system 'undo-redo)
+(require 'evil-mc)
+(evil-define-local-var evil-mc-custom-paused nil
+  "Paused functionality when there are multiple cursors active.")
+(defun evil-mc-pause-smartchr-for-mode (mode)
+  "Temporarily disable the smartchr keys for MODE."
+  (let ((m-mode (if (atom mode) mode (car mode)))
+        (s-mode (if (atom mode) mode (cdr mode))))
+    (let ((init (intern (concat "smartchr/init-" (symbol-name s-mode))))
+          (undo (intern (concat "smartchr/undo-" (symbol-name s-mode)))))
+      (when (eq major-mode m-mode)
+        (funcall undo)
+        (push `(lambda () (,init)) evil-mc-custom-paused)))))
+(defun evil-mc-before-cursors-setup-hook ()
+  "Hook to run before any cursor is created.
+Can be used to temporarily disable any functionality that doesn't
+play well with `evil-mc'."
+  (mapc 'evil-mc-pause-smartchr-for-mode
+        '(web-mode js2-mode java-mode (enh-ruby-mode . ruby-mode) css-mode))
+  (when (boundp 'whitespace-cleanup-disabled)
+    (setq whitespace-cleanup-disabled t)
+    (push (lambda () (setq whitespace-cleanup-disabled nil)) evil-mc-custom-paused)))
+(defun evil-mc-after-cursors-teardown-hook ()
+  "Hook to run after all cursors are deleted."
+  (dolist (fn evil-mc-custom-paused) (funcall fn))
+  (setq evil-mc-custom-paused nil))
+(add-hook 'evil-mc-before-cursors-created 'evil-mc-before-cursors-setup-hook)
+(add-hook 'evil-mc-after-cursors-deleted 'evil-mc-after-cursors-teardown-hook)
+;(defvar evil-mc-mode-line-prefix "mc"
+  ;"Override of the default mode line string for `evil-mc-mode'.")
+(global-evil-mc-mode 1)
+(evil-define-key 'visual evil-mc-key-map
+  "A" #'evil-mc-make-cursor-in-visual-selection-end
+  "I" #'evil-mc-make-cursor-in-visual-selection-beg)
+
 ;; Which key
 (require 'which-key)
 (which-key-mode)
@@ -122,7 +205,21 @@
 (projectile-mode +1)
 (diminish 'projectile-mode)
 (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
-;; Virtico, Corfu, cape, orderless, consult, eglot, embark, marginalia
+
+;; ctags setup (citre)
+(require 'citre)
+(require 'citre-config)
+(setq citre-default-create-tags-file-location 'global-cache
+      citre-project-root-function #'projectile-project-root
+      citre-prompt-language-for-ctags-command t
+      citre-use-project-root-when-creating-tags t
+      citre-auto-enable-citre-mode-modes '(prog-mode))
+(global-set-key (kbd "C-c t j") 'citre-jump)
+(global-set-key (kbd "C-c t J") 'citre-jump-back)
+(global-set-key (kbd "C-c t p") 'citre-ace-peek)
+(global-set-key (kbd "C-c t u") 'citre-update-this-tags-file)
+
+;; Virtico, Corfu, cape, orderless, consult, embark, marginalia
 ;;(require 'kind-icon)
 (setq read-extended-command-predicate #'command-completion-default-include-p
       completion-styles '(orderless basic)
@@ -131,7 +228,8 @@
       orderless-component-separator #'orderless-escapable-split-on-space
       completion-at-point-functions (list #'cape-file
                                           (cape-super-capf #'cape-dabbrev
-                                                           #'cape-ispell))
+                                                           #'cape-ispell
+                                                           #'citre-completion-at-point))
       cape-dabbrev-min-length 3
       corfu-auto t
       corfu-auto-prefix 1
@@ -140,46 +238,84 @@
       ;; kind-icon-blend-background nil
       ;; kind-icon-default-style (plist-put kind-icon-default-style ':height 0.75)
       )
+(add-hook 'corfu-mode-hook #'corfu-popupinfo-mode)
 (vertico-mode)
 (marginalia-mode)
 (global-corfu-mode)
 (require 'embark)
-(add-hook 'corfu-mode-hook #'corfu-doc-mode)
 (define-key corfu-map (kbd "RET") nil)
 (define-key corfu-map (kbd "M-p") #'corfu-doc-scroll-down)
 (define-key corfu-map (kbd "M-n") #'corfu-doc-scroll-up)
 
 ;; eglot
-(setq eglot-stay-out-of '(eldoc-documentation-strategy)
-      eglot-autoshutdown t)
-(advice-add #'eglot-completion-at-point
-            :before-until #'inside-program-text-p)
-(defun setup-eglot ()
-  "Enable eglot and its dependencies."
-  (require 'eglot)
-  (add-hook 'hack-local-variables-hook #'eglot-ensure nil t))
+;(setq eglot-stay-out-of '(eldoc-documentation-strategy)
+      ;eglot-autoshutdown t)
+;(advice-add #'eglot-completion-at-point
+            ;:before-until #'inside-program-text-p)
+;(defun setup-eglot ()
+  ;"Enable eglot and its dependencies."
+  ;(require 'eglot)
+  ;(add-hook 'hack-local-variables-hook #'eglot-ensure nil t))
+
+;; Fancier syntax highlights
+(require 'tree-sitter)
+(require 'tree-sitter-langs)
+(global-tree-sitter-mode)
+(diminish 'tree-sitter-mode)
+(add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode)
+
+;; Snippets
+(require 'yasnippet)
+(yas-global-mode 1)
+(diminish 'yas-minor-mode)
+
+;; lsp-mode
+(require 'lsp-mode)
+; Use consult for lsp completions
+(define-key lsp-mode-map [remap xref-find-apropos] #'consult-lsp-symbols)
+(setq lsp-keymap-prefix "C-c l")
+;(setq lsp-completion-provider :none)
+(defun corfu-lsp-setup ()
+  "Enable lsp and its dependencies."
+  (setq-local completion-styles '(orderless)
+              completion-category-defaults nil))
+;(add-hook 'lsp-mode-hook #'corfu-lsp-setup)
+
+;; HTML
+(add-to-list 'auto-mode-alist '("\\.html$" . html-mode))
+(add-to-list 'auto-mode-alist '("\\.html\\'" . html-mode))
+
+;; java
+(defun java-setup-lsp ()
+  "Set up java lsp."
+  (require 'lsp-java)
+  (lsp))
+; Not working?
+;(add-hook 'java-mode-hook #'java-setup-lsp)
+(add-to-list 'auto-mode-alist '("\\.jsp\\'" . java-mode))
+
+;; js
+(add-hook 'js-mode-hook #'lsp)
 
 ;; python
-(add-hook 'python-mode-hook #'setup-eglot)
-(defun ipython ()
-  "Run ipython in vterm."
-  (interactive)
-  (defvar vterm-shell)
-  (let ((vterm-shell "ipython"))
-    (vterm-other-window)))
+(add-hook 'python-mode-hook #'lsp)
+
 ;; rust
 (setq rust-format-on-save nil)
-(with-eval-after-load 'eglot
-  (setf (alist-get 'rust-mode eglot-server-programs) '("rust-analyzer"))
-  (push-default '(rust-analyzer (checkOnSave (command . "clippy")))
-                eglot-workspace-configuration))
-(add-hook 'rust-mode-hook #'setup-eglot)
+;(with-eval-after-load 'eglot
+  ;(setf (alist-get 'rust-mode eglot-server-programs) '("rust-analyzer"))
+  ;(push-default '(rust-analyzer (checkOnSave (command . "clippy")))
+                ;eglot-workspace-configuration))
+;(add-hook 'rust-mode-hook #'setup-eglot)
 (add-hook 'rust-mode-hook #'cargo-minor-mode)
 (add-hook 'toml-mode-hook #'cargo-minor-mode)
 (with-eval-after-load 'cargo
   (hide-minor-mode 'cargo-minor-mode))
 (dolist (sym '(rust-enable-format-on-save rust-disable-format-on-save))
   (put sym 'completion-predicate #'ignore))
+
+;; pascal, innosetup
+(add-to-list 'auto-mode-alist '("\\.iss\\'" . pascal-mode))
 
 ;; Diary config
 (setq view-diary-entries-initially t
@@ -244,38 +380,71 @@
       org-default-notes-file (concat org-directory "/inbox.org")
       org-work-file (concat org-directory "/work.org")
       org-home-file (concat org-directory "/home.org")
+      org-app-file (concat org-directory "/dnd-app.org")
       org-agenda-files (seq-filter
                         (lambda(x)
                           (not (string-match "/archive/"(file-name-directory x))))
                         (directory-files-recursively org-directory "\\.org$"))
       org-archive-location (concat "%s_archive::" org-directory "/archive"))
-; Load org-journal so that it is globally accessible
+; Load org extensions
 (require 'org-journal)
 (require 'org-checklist)
+(require 'evil-org)
+(evil-org-set-key-theme '(navigation insert textobjects additional calendar))
+(require 'evil-org-agenda)
+(evil-org-agenda-set-keys)
+; Diminish org minor modes
+(diminish 'evil-org-mode)
+(diminish 'org-indent-mode)
 ; Enable word wrap and org indenting
 (add-hook 'org-mode-hook 'toggle-truncate-lines)
 (add-hook 'org-mode-hook 'org-indent-mode)
+(add-hook 'org-mode-hook 'evil-org-mode)
 ; Org capture templates
 (setq org-capture-templates
       '(("t" "Inbox" entry (file+headline org-default-notes-file "Inbox")
-         "* TODO %?\n:PROPERTIES:\n:DEADLINE: \n:CREATION: %U\n:END:\n")
+         "* TODO %?\nDEADLINE: \n:PROPERTIES:\n:CREATION: %U\n:END:\n")
         ("i" "Work Issue" entry (file+headline org-work-file "Inbox")
-        "* TODO %?\n:PROPERTIES:\n:DEADLINE: \n:CREATION: %U\n:END:\n")
+        "* TODO %?\nDEADLINE: \n:PROPERTIES:\n:CREATION: %U\n:TRACKZILLA: N/A\n:END:\n")
         ("h" "Home Task" entry (file+headline org-home-file "Tasks")
-        "* TODO %?\n:PROPERTIES:\n:DEADLINE: \n:CREATION: %U\n:END:\n")
+        "* TODO %?\nDEADLINE: \n:PROPERTIES:\n:CREATION: %U\n:END:\n")
+        ("a" "App Task" entry (file+headline org-app-file "Inbox")
+        "* TODO %?\nDEADLINE: \n:PROPERTIES:\n:CREATION: %U\n:END:\n")
         ("j" "Journal" entry (file+datetree org-default-notes-file)
          "* %?\n%U\n%a")
         ("n" "Link Inbox" entry (file+headline org-default-notes-file "Inbox")
-         "* TODO %?\n:PROPERTIES:\n:DEADLINE: \n:CREATION: %U\n:END:\n%a")
+         "* TODO %?\nDEADLINE: \n:PROPERTIES:\n:CREATION: %U\n:END:\n%a")
         ("o" "Link Work Issue" entry (file+headline org-work-file "Inbox")
-        "* TODO %?\n:PROPERTIES:\n:DEADLINE: \n:CREATION: %U\n:END:\n%a")
+        "* TODO %?\nDEADLINE: \n:PROPERTIES:\n:CREATION: %U\n:END:\n%a")
         ("m" "Link Home Task" entry (file+headline org-home-file "Tasks")
-        "* TODO %?\n:PROPERTIES:\n:DEADLINE: \n:CREATION: %U\n:END:\n%a")))
+        "* TODO %?\nDEADLINE: \n:PROPERTIES:\n:CREATION: %U\n:END:\n%a")))
 ;; Org keybinds
+(define-key org-mode-map (kbd "C-c ,") 'org-time-stamp-inactive)
+(define-key org-mode-map (kbd "C-c x") 'org-cut-subtree)
 (global-set-key (kbd "C-c l") #'org-store-link)
 (global-set-key (kbd "C-c a") #'org-agenda)
 (global-set-key (kbd "C-c c") #'org-capture)
 (global-set-key (kbd "C-c j") 'org-journal-new-entry)
+
+;; Obsidian
+(require 'obsidian)
+(setq
+ obsidian-inbox-directory "Inbox"
+ obsidian-path (if (or (eq system-type 'ms-dos) (eq system-type 'windows-nt))
+            "C:/Users/dillona/Documents/projects/0notes/Notes/Notes"
+            "~/Documents/Obsidian/notes"))
+(obsidian-specify-path obsidian-path)
+(define-key obsidian-mode-map (kbd "C-c C-l") 'obsidian-insert-wikilink)
+(define-key obsidian-mode-map (kbd "C-<return>") 'obsidian-follow-link-at-point)
+(global-set-key (kbd "C-c o") 'obsidian-search)
+(global-obsidian-mode t)
+
+;; SQL
+(setq sql-mysql-options '("--prompt=mysql> " "-C" "-t" "-f" "-n"))
+(add-hook 'sql-mode-hook (lambda ()
+                           (require 'sql)
+                           (sql-highlight-mariadb-keywords)))
+(add-hook 'sql-interactive-mode-hook (lambda () (toggle-truncate-lines t)))
 
 ;; eshell
 (global-set-key (kbd "C-x e") #'eshell)
@@ -291,15 +460,17 @@
     (eshell/alias "ff" "find-file $1")
     (eshell/alias "emacs" "find-file $1")
     (eshell/alias "ee" "find-file-other-window $1")
+    ; Open in explorer
+    (eshell/alias "ex" "explorer .")
     ; Git
     (eshell/alias "gd" "magit-diff-unstaged")
     (eshell/alias "gds" "magit-diff-staged")
     ; Dired
-    (eshell/alias "d" "dired $1")
+    (eshell/alias "d" "dired .")
     ; The 'ls' executable requires the Gnu version on the Mac
     (let ((ls (if (file-exists-p "/usr/local/bin/gls")
                   "/usr/local/bin/gls"
-                "/bin/ls")))
+                "ls")))
       (eshell/alias "ll" (concat ls " -AlohG --color=always")))))
 
 
@@ -315,7 +486,7 @@
     (load-file local-settings)))
 
 ;; Display this week's agenda
-(org-agenda-list)
+;(org-agenda-list)
 
 ;; Garbage collection
 (setq gcmh-idle-delay 'auto
