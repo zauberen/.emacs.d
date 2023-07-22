@@ -1,4 +1,4 @@
-;;; init.el --- EMACS config v08262022
+;;; basic-init.el --- EMACS config v08262022
 ;;; Commentary:
 ;;; Building basics still
 ;;; Code:
@@ -137,4 +137,4 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  )
-;;; init.el ends here
+;;; basic-init.el ends here

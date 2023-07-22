@@ -228,11 +228,7 @@ play well with `evil-mc'."
       completion-category-overrides nil
       completion-in-region-function #'consult-completion-in-region
       orderless-component-separator #'orderless-escapable-split-on-space
-      completion-at-point-functions (list #'cape-file
-                                          (cape-super-capf #'cape-dabbrev
-                                                           #'cape-ispell
-                                                           #'citre-completion-at-point))
-      cape-dabbrev-min-length 3
+      cape-dabbrev-min-length 2
       corfu-auto t
       corfu-auto-prefix 1
       ;; corfu-margin-formatters '(kind-icon-margin-formatter)
@@ -240,6 +236,20 @@ play well with `evil-mc'."
       ;; kind-icon-blend-background nil
       ;; kind-icon-default-style (plist-put kind-icon-default-style ':height 0.75)
       )
+
+;; For some reason cape doesn't have ispell on macos?
+(if (eq system-type 'darwin)
+    (setq completion-at-point-functions (list #'cape-file
+                                        (cape-super-capf #'cape-keyword
+                                                         #'cape-dabbrev
+                                                         #'citre-completion-at-point
+                                                         #'cape-dict)))
+    (setq completion-at-point-functions (list #'cape-file
+                                        (cape-super-capf #'cape-keyword
+                                                         #'cape-dabbrev
+                                                         #'cape-ispell
+                                                         #'citre-completion-at-point
+                                                         #'cape-dict))))
 (add-hook 'corfu-mode-hook #'corfu-popupinfo-mode)
 (vertico-mode)
 (marginalia-mode)
@@ -462,6 +472,10 @@ play well with `evil-mc'."
     (eshell/alias "ff" "find-file $1")
     (eshell/alias "emacs" "find-file $1")
     (eshell/alias "ee" "find-file-other-window $1")
+    ; Just in case an oopsie occurs
+    (eshell/alias "vim" "find-file-other-window $1")
+    (eshell/alias "vi" "find-file-other-window $1")
+    (eshell/alias "less" "find-file-other-window $1")
     ; Open in explorer
     (eshell/alias "ex" "explorer .")
     ; Git
@@ -489,7 +503,7 @@ play well with `evil-mc'."
 (set-register ?e (find-file (or user-init-file "")))
 
 ;; Display this week's agenda
-;(org-agenda-list)
+(org-agenda-list)
 
 ;; Garbage collection
 (setq gcmh-idle-delay 'auto

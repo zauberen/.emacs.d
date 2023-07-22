@@ -1,1 +1,17 @@
+.DS_Store
+.lsp-session-v1
+*.init.el
+auto-save-list/*
+auto-save/*
+bookmarks
+elgrep-data.*
+*.elc
 local.el
+/work-local.el
+/package-quickstart.el
+/eshell/
+/elpa/
+history
+projectile-bookmarks.eld
+network-security.data
+projectile.cache
