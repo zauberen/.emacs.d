@@ -386,6 +386,8 @@ play well with `evil-mc'."
       org-agenda-include-diary t
       ;; Journal settings
       org-journal-dir (concat org-directory "/journal")
+      org-journal-prefix-key "C-c j "
+      org-journal-enable-agenda-integration t
       org-journal-file-format "%Y-%m.org"
       org-journal-file-type 'monthly
       ;; Set default directories, files
@@ -436,15 +438,14 @@ play well with `evil-mc'."
 (global-set-key (kbd "C-c l") #'org-store-link)
 (global-set-key (kbd "C-c a") #'org-agenda)
 (global-set-key (kbd "C-c c") #'org-capture)
-(global-set-key (kbd "C-c j") 'org-journal-new-entry)
+(global-set-key (kbd "C-c j j") 'org-journal-new-entry)
 
 ;; Obsidian
 (require 'obsidian)
-(setq
- obsidian-inbox-directory "Inbox"
- obsidian-path (if (or (eq system-type 'ms-dos) (eq system-type 'windows-nt))
-            "C:/Users/dillona/Documents/projects/0notes/Notes/Notes"
-            "~/Documents/Obsidian/notes"))
+(setq obsidian-inbox-directory "Inbox"
+      obsidian-path (if (or (eq system-type 'ms-dos) (eq system-type 'windows-nt))
+                        "C:/Users/dillona/Documents/projects/0notes/Notes/Notes"
+                        "~/Documents/Obsidian/notes"))
 (obsidian-specify-path obsidian-path)
 (define-key obsidian-mode-map (kbd "C-c C-l") 'obsidian-insert-wikilink)
 (define-key obsidian-mode-map (kbd "C-<return>") 'obsidian-follow-link-at-point)
@@ -501,6 +502,9 @@ play well with `evil-mc'."
 
 ;; Open init.el on opening
 (set-register ?e (find-file (or user-init-file "")))
+
+;; Open journal
+(org-journal-new-entry)
 
 ;; Display this week's agenda
 (org-agenda-list)
