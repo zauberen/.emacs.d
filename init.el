@@ -51,6 +51,7 @@
 (setq display-line-numbers-type 'relative)
 (global-display-line-numbers-mode)
 (column-number-mode)
+(global-visual-line-mode)
 (setq adaptive-wrap-prefix-mode t)
 ;; Mac font sizing is unusually small
 (if (eq system-type 'darwin)
@@ -375,6 +376,7 @@ play well with `evil-mc'."
 ; Make list completion make sense
 (setq org-enforce-todo-dependencies t
       org-enfocre-todo-checkbox-dependencies t
+      org-hide-emphasis-markers t
       ;; Follow links on RET
       ;; Instead use gx
       ; org-return-follows-link t
@@ -496,15 +498,12 @@ play well with `evil-mc'."
   (when (file-exists-p local-settings)
     (load-file local-settings)))
 
-;; Open org index if it's on this system
-(when (file-exists-p org-default-notes-file)
-  (set-register ?f (find-file (or org-default-notes-file ""))))
-
 ;; Open init.el on opening
 (set-register ?e (find-file (or user-init-file "")))
 
-;; Open journal
-(org-journal-new-entry)
+;; Open org index if it's on this system
+(when (file-exists-p org-default-notes-file)
+  (set-register ?f (find-file (or org-default-notes-file ""))))
 
 ;; Display this week's agenda
 (org-agenda-list)
