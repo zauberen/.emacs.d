@@ -4,10 +4,11 @@ My emacs configuration
 ## Install instructions
 1. Install emacs on system
 2. Install dependencies
-   - ispell (non-macos) (causes completion errors without it)
-   - Universal ctags (tested with 6.0) (provides completion and seek when lsp is not available)
-   - python 3(.11+ preferred) (python lsp) pip3 install "python-lsp-server[all]" (python lsp)
-   - node (tested with 20.3) (lsp)
+   - `ispell` (non-macos) (causes completion errors without it)
+   - Universal `ctags` (tested with 6.0) (provides completion and seek when lsp is not available)
+   - `python3`(.11+ preferred) (python lsp) pip3 install "python-lsp-server[all]" (python lsp)
+   - `node` (tested with 20.3) (lsp)
+   - `ag` or `the_silver_searcher` (project searching)
 3. Create .emacs.d folder (varies) and dump this repo into it
 4. Move root.editorconfig to ~/.editorconfig
 5. Create .emacs.d/auto-save

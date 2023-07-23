@@ -34,7 +34,7 @@
          magit magit-todos hl-todo vterm git-gutter
          csv-mode markdown-mode clang-format cmake-mode rust-mode cargo
          flycheck consult-flycheck
-         projectile gcmh diminish
+         projectile gcmh diminish ag wgrep-ag
          jabber
          gnu-elpa-keyring-update
          monokai-theme))
