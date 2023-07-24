@@ -80,6 +80,9 @@
 (add-hook 'smartparens-enabled-hook #'evil-smartparens-mode)
 (global-set-key (kbd "C-c (") 'sp-wrap-round)
 (global-set-key (kbd "C-c {") 'sp-wrap-curly)
+;; avy
+(global-set-key (kbd "C-c w") 'evil-avy-goto-word-0)
+(global-set-key (kbd "C-c s") 'evil-avy-goto-char-timer)
 ;; magit
 (global-git-gutter-mode t)
 (custom-set-variables '(git-gutter:update-interval 2))
@@ -249,8 +252,7 @@ play well with `evil-mc'."
                                         (cape-super-capf #'cape-keyword
                                                          #'cape-dabbrev
                                                          #'cape-ispell
-                                                         #'citre-completion-at-point
-                                                         #'cape-dict))))
+                                                         #'citre-completion-at-point))))
 (add-hook 'corfu-mode-hook #'corfu-popupinfo-mode)
 (vertico-mode)
 (marginalia-mode)
