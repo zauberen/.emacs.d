@@ -16,3 +16,7 @@ projectile-bookmarks.eld
 network-security.data
 projectile.cache
 /projects
+.cache/
+.dap-breakpoints
+eclipse.jdt.ls/
+server/

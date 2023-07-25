@@ -80,9 +80,6 @@
 (add-hook 'smartparens-enabled-hook #'evil-smartparens-mode)
 (global-set-key (kbd "C-c (") 'sp-wrap-round)
 (global-set-key (kbd "C-c {") 'sp-wrap-curly)
-;; avy
-(global-set-key (kbd "C-c w") 'evil-avy-goto-word-0)
-(global-set-key (kbd "C-c s") 'evil-avy-goto-char-timer)
 ;; magit
 (global-git-gutter-mode t)
 (custom-set-variables '(git-gutter:update-interval 2))
@@ -164,6 +161,11 @@
     (evil-collection-init))
 (evil-mode 1)
 (diminish 'evil-collection-unimpaired-mode)
+;; avy bindings
+(evil-define-key 'normal 'global
+  (kbd "SPC s") 'evil-avy-goto-word-or-subword-1)
+(evil-define-key 'normal 'global
+  (kbd "SPC f") 'evil-avy-goto-char-timer)
 ;; Allows redo functionality in evil
 ;; Only works in emacs 28 and later
 (evil-set-undo-system 'undo-redo)
@@ -385,7 +387,7 @@ play well with `evil-mc'."
       ;; Make org look better
       org-hide-leading-stars t
       ;; When a todo is set to done, add the completion time
-      org-log-done 'time
+      org-log-done 'note
       ;; Include diary stuff in the org agenda
       org-agenda-include-diary t
       ;; Journal settings
@@ -424,7 +426,7 @@ play well with `evil-mc'."
          "* TODO %?\nDEADLINE: \n:PROPERTIES:\n:CREATION: %U\n:END:\n")
         ("i" "Work Issue" entry (file+headline org-work-file "Inbox")
         "* TODO %?\nDEADLINE: \n:PROPERTIES:\n:CREATION: %U\n:TRACKZILLA: N/A\n:END:\n")
-        ("h" "Home Task" entry (file+headline org-home-file "Tasks")
+        ("h" "Home Task" entry (file+headline org-home-file "Inbox")
         "* TODO %?\nDEADLINE: \n:PROPERTIES:\n:CREATION: %U\n:END:\n")
         ("a" "App Task" entry (file+headline org-app-file "Inbox")
         "* TODO %?\nDEADLINE: \n:PROPERTIES:\n:CREATION: %U\n:END:\n")
