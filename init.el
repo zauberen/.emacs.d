@@ -163,9 +163,9 @@
 (diminish 'evil-collection-unimpaired-mode)
 ;; avy bindings
 (evil-define-key 'normal 'global
-  (kbd "SPC s") 'evil-avy-goto-word-or-subword-1)
+  (kbd "SPC SPC") 'evil-avy-goto-word-or-subword-1)
 (evil-define-key 'normal 'global
-  (kbd "SPC f") 'evil-avy-goto-char-timer)
+  (kbd "SPC s") 'evil-avy-goto-char-timer)
 ;; Allows redo functionality in evil
 ;; Only works in emacs 28 and later
 (evil-set-undo-system 'undo-redo)
@@ -253,8 +253,8 @@ play well with `evil-mc'."
     (setq completion-at-point-functions (list #'cape-file
                                         (cape-super-capf #'cape-keyword
                                                          #'cape-dabbrev
-                                                         #'cape-ispell
-                                                         #'citre-completion-at-point))))
+                                                         #'citre-completion-at-point
+                                                         #'cape-ispell))))
 (add-hook 'corfu-mode-hook #'corfu-popupinfo-mode)
 (vertico-mode)
 (marginalia-mode)
@@ -441,6 +441,10 @@ play well with `evil-mc'."
 ;; Org keybinds
 (define-key org-mode-map (kbd "C-c ,") 'org-time-stamp-inactive)
 (define-key org-mode-map (kbd "C-c x") 'org-cut-subtree)
+(evil-define-key 'normal 'org-mode-map
+  (kbd "SPC i") 'org-clock-in)
+(evil-define-key 'normal 'org-mode-map
+  (kbd "SPC o") 'org-clock-out)
 (global-set-key (kbd "C-c l") #'org-store-link)
 (global-set-key (kbd "C-c a") #'org-agenda)
 (global-set-key (kbd "C-c c") #'org-capture)
