@@ -161,6 +161,9 @@
     (evil-collection-init))
 (evil-mode 1)
 (diminish 'evil-collection-unimpaired-mode)
+;; Some quick keybinds
+(evil-define-key 'normal 'global
+  (kbd "SPC b") #'switch-to-buffer)
 ;; avy bindings
 (evil-define-key 'normal 'global
   (kbd "SPC SPC") #'evil-avy-goto-word-or-subword-1
@@ -211,6 +214,12 @@ play well with `evil-mc'."
 (projectile-mode +1)
 (diminish 'projectile-mode)
 (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
+; Bind the most useful projectile commands to easier keys
+(evil-define-key 'normal 'global
+  (kbd "SPC f") #'projectile-find-file
+  (kbd "SPC a") #'projectile-ag
+  (kbd "SPC p") #'projectile-switch-project
+  (kbd "SPC e") #'projectile-run-eshell)
 
 ;; ctags setup (citre)
 (require 'citre)
@@ -218,8 +227,8 @@ play well with `evil-mc'."
 (setq citre-default-create-tags-file-location 'global-cache
       citre-project-root-function #'projectile-project-root
       citre-prompt-language-for-ctags-command t
-      citre-use-project-root-when-creating-tags t
-      citre-auto-enable-citre-mode-modes '(prog-mode))
+      citre-use-project-root-when-creating-tags t)
+      ;citre-auto-enable-citre-mode-modes '(prog-mode)) ; Commented because it is not needed?
 (global-set-key (kbd "C-c t j") 'citre-jump)
 (global-set-key (kbd "C-c t J") 'citre-jump-back)
 (global-set-key (kbd "C-c t p") 'citre-ace-peek)
@@ -227,6 +236,9 @@ play well with `evil-mc'."
 
 ;; Virtico, Corfu, cape, orderless, consult, embark, marginalia
 ;;(require 'kind-icon)
+(require 'consult)
+(evil-define-key 'normal 'global
+  (kbd "SPC j") #'evil-collection-consult-jump-list)
 (setq read-extended-command-predicate #'command-completion-default-include-p
       completion-styles '(orderless partial-completion basic)
       completion-category-defaults nil
@@ -381,9 +393,8 @@ play well with `evil-mc'."
 (setq org-enforce-todo-dependencies t
       org-enfocre-todo-checkbox-dependencies t
       org-hide-emphasis-markers t
-      ;; Follow links on RET
-      ;; Instead use gx
-      ; org-return-follows-link t
+      ;; Follow links on RET (cannot always use gx)
+      org-return-follows-link t
       ;; Make org look better
       org-hide-leading-stars t
       ;; When a todo is set to done, add the completion time
