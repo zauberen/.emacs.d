@@ -23,12 +23,12 @@
          corfu corfu-terminal cape savehist vertico orderless marginalia consult
          tree-sitter tree-sitter-langs
          lsp-mode lsp-ui consult-lsp
-         citre citre-config
+         citre citre-config avy
          yasnippet yasnippet-snippets smartparens evil-smartparens
          embark embark-consult
          ;; Requires svg support in emacs
          ;; svg-lib kind-icon
-         org org-contrib org-plus-contrib org-journal evil-org
+         org org-contrib org-plus-contrib org-journal evil-org denote
          obsidian
          doom-modeline doom-themes adaptive-wrap editorconfig
          magit magit-todos hl-todo vterm git-gutter
@@ -163,9 +163,8 @@
 (diminish 'evil-collection-unimpaired-mode)
 ;; avy bindings
 (evil-define-key 'normal 'global
-  (kbd "SPC SPC") 'evil-avy-goto-word-or-subword-1)
-(evil-define-key 'normal 'global
-  (kbd "SPC s") 'evil-avy-goto-char-timer)
+  (kbd "SPC SPC") #'evil-avy-goto-word-or-subword-1
+  (kbd "SPC s") #'evil-avy-goto-char-timer)
 ;; Allows redo functionality in evil
 ;; Only works in emacs 28 and later
 (evil-set-undo-system 'undo-redo)
@@ -348,9 +347,10 @@ play well with `evil-mc'."
 (global-set-key (kbd "C-x c") #'calendar)
 (global-set-key (kbd "C-x y") #'diary)
 
-;; Org mode config
+;; Org mode config x denote config
 (transient-mark-mode 1)
 (require 'org)
+;(require 'denote)
 ;; Diminish org minor modes
 (diminish 'org-indent-mode)
 (diminish 'eldoc-mode)
@@ -398,14 +398,24 @@ play well with `evil-mc'."
       org-journal-file-type 'monthly
       ;; Set default directories, files
       org-default-notes-file (concat org-directory "/inbox.org")
-      org-work-file (concat org-directory "/work.org")
+      org-work-file (concat org-directory "/org-private/work.org")
       org-home-file (concat org-directory "/home.org")
-      org-app-file (concat org-directory "/dnd-app.org")
+      org-app-file (concat org-directory "/org-private/dnd-app.org")
       org-agenda-files (seq-filter
                         (lambda(x)
                           (not (string-match "/archive/"(file-name-directory x))))
                         (directory-files-recursively org-directory "\\.org$"))
       org-archive-location (concat "%s_archive::" org-directory "/archive"))
+; Denote settings
+(setq denote-directory (expand-file-name "denote" org-directory)
+      denote-prompts '(title keywords)
+      denote-file-type 'org
+      denote-known-keywords '("emacs" "work" "reflection" "denote" "politics" "philosophy" "recipe")
+      denote-date-prompt-use-org-read-date t)
+(evil-define-key 'normal 'global
+  (kbd "SPC n n") 'denote
+  (kbd "SPC n r") 'denote-rename-file
+  (kbd "SPC n l") 'denote-link)
 ; Load org extensions
 (require 'org-journal)
 (require 'org-checklist)
@@ -420,6 +430,8 @@ play well with `evil-mc'."
 (add-hook 'org-mode-hook 'toggle-truncate-lines)
 (add-hook 'org-mode-hook 'org-indent-mode)
 (add-hook 'org-mode-hook 'evil-org-mode)
+; Denote formatting for files in dired
+(add-hook 'dired-mode-hook #'denote-dired-mode)
 ; Org capture templates
 (setq org-capture-templates
       '(("t" "Inbox" entry (file+headline org-default-notes-file "Inbox")
@@ -441,6 +453,7 @@ play well with `evil-mc'."
 ;; Org keybinds
 (define-key org-mode-map (kbd "C-c ,") 'org-time-stamp-inactive)
 (define-key org-mode-map (kbd "C-c x") 'org-cut-subtree)
+(define-key org-mode-map (kbd "S-<return>") 'evil-org-open-below)
 (evil-define-key 'normal 'org-mode-map
   (kbd "SPC i") 'org-clock-in)
 (evil-define-key 'normal 'org-mode-map
