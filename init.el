@@ -233,6 +233,12 @@ play well with `evil-mc'."
 (global-set-key (kbd "C-c t J") 'citre-jump-back)
 (global-set-key (kbd "C-c t p") 'citre-ace-peek)
 (global-set-key (kbd "C-c t u") 'citre-update-this-tags-file)
+(evil-define-key 'normal 'citre-mode-map
+  (kbd "g d") 'citre-jump
+  (kbd "g D") 'citre-jump-back
+  (kbd "g p") 'citre-peek
+  (kbd "g P") 'citre-ace-peek
+  (kbd "SPC u") 'citre-update-this-tags-file)
 
 ;; Virtico, Corfu, cape, orderless, consult, embark, marginalia
 ;;(require 'kind-icon)
@@ -322,11 +328,16 @@ play well with `evil-mc'."
 ;(add-hook 'java-mode-hook #'java-setup-lsp)
 (add-to-list 'auto-mode-alist '("\\.jsp\\'" . java-mode))
 
-;; js
-(add-hook 'js-mode-hook #'lsp)
+;; js (removing auto lsp because its slow af on windows)
+(if (not (or (eq system-type 'ms-dos) (eq system-type 'windows-nt)))
+    (add-hook 'js-mode-hook #'lsp))
 
-;; python
-(add-hook 'python-mode-hook #'lsp)
+;; python (removing auto lsp because its slow af on windows)
+(if (not (or (eq system-type 'ms-dos) (eq system-type 'windows-nt)))
+    (add-hook 'python-mode-hook #'lsp))
+
+(require 'csv-mode)
+(add-hook 'csv-mode-hook #'csv-align-mode)
 
 ;; rust
 (setq rust-format-on-save nil)
