@@ -1,6 +1,6 @@
 ;;; init.el --- EMACS config v01302023
 ;;; Commentary:
-;;; Updates for corfu doc references
+;;; My Emacs configuration!
 ;;; Code:
 
 ;; Package signatures are broken in Windows
