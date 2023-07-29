@@ -453,7 +453,7 @@ play well with `evil-mc'."
   :ensure t)
 (use-package org
   :ensure t
-  :after evil org-contrib
+  :after evil evil-org org-contrib
   :demand t
   :diminish org-indent-mode eldoc-mode auto-revert-mode
   ; Enable word wrap and org indenting
@@ -495,7 +495,7 @@ play well with `evil-mc'."
         org-app-file (concat org-directory "/org-private/dnd-app.org")
         org-agenda-files (seq-filter
                           (lambda(x)
-                            (not (string-match "/archive/"(file-name-directory x))))
+                            (and (not (string-match "/archive/"(file-name-directory x))) (not (string-match "/denote/"(file-name-directory x)))))
                           (directory-files-recursively org-directory "\\.org$"))
         org-archive-location (concat "%s_archive::" org-directory "/archive")
         org-todo-keywords '((sequence "TODO" "IN-PROGRESS" "WAITING" "|" "DONE" "CLOSED"))
@@ -586,7 +586,7 @@ play well with `evil-mc'."
         org-journal-file-type 'monthly))
 (use-package evil-org
   :ensure t
-  :after org org-contrib
+  :demand t
   :diminish evil-org-mode
   :hook (org-mode . evil-org-mode)
   :config
