@@ -127,23 +127,10 @@
 
 (use-package adaptive-wrap
   :ensure t
+  :demand t
   :config
   (setq adaptive-wrap-prefix-mode t))
 
-
-;; Smart parens (select and use keybinds to place parens)
-(use-package smartparens
-  :ensure t
-  :demand t
-  :bind (("C-c (" . sp-wrap-round)
-         ("C-c {" . sp-wrap-curly)))
-(use-package evil-smartparens
-  :ensure t
-  :after smartparens
-  :hook (smartparens-enabled . evil-smartparens-mode)
-  :config
-  (smartparens-global-mode 1)
-  (smartparens-strict-mode 1))
 
 ;; Git config
 (use-package magit-todos
@@ -163,6 +150,7 @@
     (magit-todos-mode)))
 (use-package git-gutter
   :ensure t
+  :demand t
   :config
   (custom-set-variables '(git-gutter:update-interval 2))
   (custom-set-variables '(git-gutter:modified-sign " ")
@@ -176,6 +164,7 @@
 
 ;; Basic error checking with flycheck
 (use-package flycheck
+  :demand t
   :ensure t
   :config
   (global-flycheck-mode))
@@ -183,6 +172,7 @@
 ;; New formatting engine copied from doom, see https://editorconfig.org
 (use-package editorconfig
   :ensure t
+  :demand t
   :config
   (editorconfig-mode 1))
 
@@ -203,14 +193,14 @@
   :demand t
   :after evil-collection avy
   :config
-  (evil-mode 1)
   ;; Allows redo functionality in evil
   ;; Only works in emacs 28 and later
   (evil-set-undo-system 'undo-redo)
   (evil-define-key 'normal 'global
     (kbd "SPC b") #'switch-to-buffer
     (kbd "SPC SPC") #'evil-avy-goto-word-or-subword-1
-    (kbd "SPC s") #'evil-avy-goto-char-timer))
+    (kbd "SPC s") #'evil-avy-goto-char-timer)
+  (evil-mode 1))
 (use-package evil-mc
   :ensure t
   :demand t
@@ -248,6 +238,21 @@ play well with `evil-mc'."
     "I" #'evil-mc-make-cursor-in-visual-selection-beg))
 ;(defvar evil-mc-mode-line-prefix "mc"
   ;"Override of the default mode line string for `evil-mc-mode'.")
+
+;; Smart parens (select and use keybinds to place parens)
+(use-package smartparens
+  :ensure t
+  :demand t
+  :bind (("C-c (" . sp-wrap-round)
+         ("C-c {" . sp-wrap-curly)))
+(use-package evil-smartparens
+  :ensure t
+  :demand t
+  :after smartparens evil
+  :hook (smartparens-enabled . evil-smartparens-mode)
+  :config
+  (smartparens-global-mode 1)
+  (smartparens-strict-mode 1))
 
 ;; Which key
 (use-package which-key
@@ -310,6 +315,7 @@ play well with `evil-mc'."
     (kbd "SPC j") #'evil-collection-consult-jump-list))
 (use-package consult-flycheck
   :ensure t
+  :demand t
   :after consult flycheck)
 (use-package cape
   :ensure t
@@ -340,10 +346,12 @@ play well with `evil-mc'."
         completion-styles '(orderless partial-completion basic)))
 (use-package vertico
   :ensure t
+  :demand t
   :config
   (vertico-mode))
 (use-package marginalia
   :ensure t
+  :demand t
   :config
   (marginalia-mode))
 (use-package embark
@@ -366,12 +374,14 @@ play well with `evil-mc'."
         read-extended-command-predicate #'command-completion-default-include-p)
   :config
   ;; Terminal specific settings for corfu
-  (unless (display-graphic-p)
-    (use-package corfu-terminal
-      :ensure t
-      :config
-      (corfu-terminal-mode +1)))
   (global-corfu-mode))
+(use-package corfu-terminal
+  :ensure t
+  :demand t
+  :after corfu
+  :config
+  (unless (display-graphic-p)
+    (corfu-terminal-mode +1)))
 
 ;; Tree sitter
 (use-package tree-sitter
@@ -389,10 +399,14 @@ play well with `evil-mc'."
   :ensure t)
 (use-package yasnippet
   :ensure t
+  :demand t
   :after yasnippet-snippets
   :diminish yas-minor-mode
   :config
+  (evil-define-key 'normal 'global
+    (kbd "SPC y") #'yas-insert-snippet)
   (yas-global-mode 1))
+
 (use-package lsp-mode
   :ensure t
   :autoload lsp
