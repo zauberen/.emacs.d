@@ -244,7 +244,8 @@ play well with `evil-mc'."
   :ensure t
   :demand t
   :bind (("C-c (" . sp-wrap-round)
-         ("C-c {" . sp-wrap-curly)))
+         ("C-c {" . sp-wrap-curly)
+         ("C-c [" . sp-wrap-square)))
 (use-package evil-smartparens
   :ensure t
   :demand t
@@ -409,8 +410,8 @@ play well with `evil-mc'."
 
 (use-package lsp-mode
   :ensure t
-  :autoload lsp
-  :after consult corfu python-mode js-mode
+  :demand t
+  :after consult corfu
   :init
   (setq lsp-completion-provider :none
         lsp-keymap-prefix "C-c l")
@@ -427,6 +428,7 @@ play well with `evil-mc'."
         (lsp)))
   (add-hook 'lsp-completion-mode #'corfu-lsp-setup)
   (add-hook 'python-mode-hook #'my/dont-launch-lsp-on-windows)
+  (add-hook 'html-mode-hook #'my/dont-launch-lsp-on-windows)
   (add-hook 'js-mode-hook #'my/dont-launch-lsp-on-windows))
 (use-package lsp-ui
   :ensure t
@@ -547,10 +549,15 @@ play well with `evil-mc'."
   ; Denote formatting for files in dired
   :hook (dired-mode . denote-dired-mode)
   :init
-  (setq denote-directory (expand-file-name "denote" org-directory)
-        denote-prompts '(title keywords)
+  ; Copied from org settings
+  (if (or (eq system-type 'ms-dos) (eq system-type 'windows-nt))
+      (setq org-directory '"C:/org/org-notes")
+      (setq org-directory '"~/Documents/GitHub/org-notes"))
+  (setq denote-directory (concat org-directory "/denote")
+        ; Eventually I want template added here, need to define denote-templates
+        denote-prompts '(subdirectory title keywords)
         denote-file-type 'org
-        denote-known-keywords '("emacs" "work" "reflection" "denote" "politics" "philosophy" "recipe")
+        denote-known-keywords '("emacs" "work" "reflection" "denote" "politics" "philosophy" "recipe" "discussion")
         denote-date-prompt-use-org-read-date t)
   :config
   (evil-define-key 'normal 'global
