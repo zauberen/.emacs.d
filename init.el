@@ -67,6 +67,8 @@
 (setq global-auto-revert-non-file-buffers t)
 ;; Default to utf-8
 (set-default-coding-systems 'utf-8)
+; fixes some auto save issues with encoding
+(setq x-select-request-type '(UTF8_STRING COMPOUND_TEXT TEXT STRING))
 ;; Formatting
 (setq-default fill-column 80
               indent-tabs-mode nil
@@ -92,6 +94,8 @@
 (add-to-list 'auto-mode-alist '("\\.jsp\\'" . java-mode))
 ;; pascal, innosetup
 (add-to-list 'auto-mode-alist '("\\.iss\\'" . pascal-mode))
+;; csv
+(add-to-list 'auto-mode-alist '("\\.csv\\'" . csv-mode))
 
 
 (use-package use-package-ensure-system-package
@@ -272,6 +276,8 @@ play well with `evil-mc'."
   :bind (:map projectile-mode-map
          ("C-c p" . projectile-command-map))
   :init
+  (if (or (eq system-type 'ms-dos) (eq system-type 'windows-nt))
+      (setq projectile-globally-ignored-directories '("C:/Users/dillona/")))
   (setq projectile-project-search-path '("~/.emacs.d"
                                         ("~/Documents/GitHub" . 1)))
   :config
@@ -334,8 +340,7 @@ play well with `evil-mc'."
       (setq completion-at-point-functions (list #'cape-file
                                                 (cape-super-capf #'cape-keyword
                                                                  #'cape-dabbrev
-                                                                 #'citre-completion-at-point
-                                                                 #'cape-ispell)))))
+                                                                 #'citre-completion-at-point)))))
 (use-package orderless
   :ensure t
   :init
@@ -356,9 +361,18 @@ play well with `evil-mc'."
   :config
   (marginalia-mode))
 (use-package embark
-  :ensure t)
+  :ensure t
+  :demand t
+  :after evil
+  ; Bind both C-c e (better pneumonics) and C-c v (matches evil better)
+  :bind (("C-c e" . embark-act)
+         ("C-c v" . embark-act))
+  :config
+  (evil-define-key 'normal 'global
+    (kbd "SPC v") #'embark-act))
 (use-package embark-consult
   :ensure t
+  :demand t
   :after embark consult)
 (use-package corfu
   :ensure t
@@ -374,6 +388,14 @@ play well with `evil-mc'."
         corfu-auto-prefix 1
         read-extended-command-predicate #'command-completion-default-include-p)
   :config
+  (defun corfu-move-to-minibuffer ()
+    (interactive)
+    (when completion-in-region--data
+      (let ((completion-extra-properties corfu--extra)
+            completion-cycle-threshold completion-cycling)
+        (apply #'consult-completion-in-region completion-in-region--data))))
+  (define-key corfu-map (kbd "C-c m") #'corfu-move-to-minibuffer)
+  (add-to-list 'corfu-continue-commands #'corfu-move-to-minibuffer)
   ;; Terminal specific settings for corfu
   (global-corfu-mode))
 (use-package corfu-terminal
@@ -514,6 +536,18 @@ play well with `evil-mc'."
                             (and (not (string-match "/archive/"(file-name-directory x))) (not (string-match "/denote/"(file-name-directory x)))))
                           (directory-files-recursively org-directory "\\.org$"))
         org-archive-location (concat "%s_archive::" org-directory "/archive")
+        org-tag-persistent-alist '((:startgroup . nil)
+                                   ("important" . ?i)
+                                   ("backlog" . ?b)
+                                   (:endgroup . nil)
+                                   (:startgroup . nil)
+                                   ("@Work" . ?w)
+                                   ("@Home" . ?h)
+                                   (:endgroup . nil)
+                                   ("nd" . ?n)
+                                   ("sd" . ?s)
+                                   ("ks" . ?k)
+                                   ("nj" . ?j))
         org-todo-keywords '((sequence "TODO" "IN-PROGRESS" "WAITING" "|" "DONE" "CLOSED"))
         org-capture-templates '(("t" "Inbox" entry (file+headline org-default-notes-file "Inbox")
                                  "* TODO %?\nDEADLINE: \n:PROPERTIES:\n:CREATION: %U\n:END:\n")
@@ -532,10 +566,6 @@ play well with `evil-mc'."
                                 ("m" "Link Home Task" entry (file+headline org-home-file "Tasks")
                                  "* TODO %?\nDEADLINE: \n:PROPERTIES:\n:CREATION: %U\n:END:\n%a")))
   :config
-  (evil-define-key 'normal 'org-mode-map
-    (kbd "SPC i") 'org-clock-in)
-  (evil-define-key 'normal 'org-mode-map
-    (kbd "SPC o") 'org-clock-out)
   (appt-activate 1)
   (require 'org-checklist)
   ;; Use org mode in org files
@@ -642,32 +672,32 @@ play well with `evil-mc'."
 (use-package eshell
   :bind ("C-x e" . eshell)
   :hook (eshell-mode . (lambda ()
-    ; Quick switch to org
-    (eshell/alias "so"
-        (if (or (eq system-type 'ms-dos) (eq system-type 'windows-nt))
-            "cd C:/org/org-notes"
-            "cd ~/Documents/GitHub/org-notes"))
-    ; Opening files
-    (eshell/alias "e" "find-file $1")
-    (eshell/alias "ff" "find-file $1")
-    (eshell/alias "emacs" "find-file $1")
-    (eshell/alias "ee" "find-file-other-window $1")
-    ; Just in case an oopsie occurs
-    (eshell/alias "vim" "find-file-other-window $1")
-    (eshell/alias "vi" "find-file-other-window $1")
-    (eshell/alias "less" "find-file-other-window $1")
-    ; Open in explorer
-    (eshell/alias "ex" "explorer .")
-    ; Git
-    (eshell/alias "gd" "magit-diff-unstaged")
-    (eshell/alias "gds" "magit-diff-staged")
-    ; Dired
-    (eshell/alias "d" "dired .")
-    ; The 'ls' executable requires the Gnu version on the Mac
-    (let ((ls (if (file-exists-p "/usr/local/bin/gls")
-                  "/usr/local/bin/gls"
-                "ls")))
-      (eshell/alias "ll" (concat ls " -AlohG --color=always"))))))
+                                        ; Quick switch to org
+                         (eshell/alias "so"
+                                       (if (or (eq system-type 'ms-dos) (eq system-type 'windows-nt))
+                                           "cd C:/org/org-notes"
+                                         "cd ~/Documents/GitHub/org-notes"))
+                                        ; Opening files
+                         (eshell/alias "e" "find-file $1")
+                         (eshell/alias "ff" "find-file $1")
+                         (eshell/alias "emacs" "find-file $1")
+                         (eshell/alias "ee" "find-file-other-window $1")
+                                        ; Just in case an oopsie occurs
+                         (eshell/alias "vim" "find-file-other-window $1")
+                         (eshell/alias "vi" "find-file-other-window $1")
+                         (eshell/alias "less" "find-file-other-window $1")
+                                        ; Open in explorer
+                         (eshell/alias "ex" "explorer .")
+                                        ; Git
+                         (eshell/alias "gd" "magit-diff-unstaged")
+                         (eshell/alias "gds" "magit-diff-staged")
+                                        ; Dired
+                         (eshell/alias "d" "dired .")
+                                        ; The 'ls' executable requires the Gnu version on the Mac
+                         (let ((ls (if (file-exists-p "/usr/local/bin/gls")
+                                       "/usr/local/bin/gls"
+                                     "ls")))
+                           (eshell/alias "ll" (concat ls " -AlohG --color=always"))))))
 
 ;; Garbage collection
 (use-package gcmh
