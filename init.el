@@ -94,8 +94,6 @@
 (add-to-list 'auto-mode-alist '("\\.jsp\\'" . java-mode))
 ;; pascal, innosetup
 (add-to-list 'auto-mode-alist '("\\.iss\\'" . pascal-mode))
-;; csv
-(add-to-list 'auto-mode-alist '("\\.csv\\'" . csv-mode))
 
 
 (use-package use-package-ensure-system-package
@@ -366,7 +364,8 @@ play well with `evil-mc'."
   :after evil
   ; Bind both C-c e (better pneumonics) and C-c v (matches evil better)
   :bind (("C-c e" . embark-act)
-         ("C-c v" . embark-act))
+         ("C-c v" . embark-act)
+         ("C-;" . embark-act))
   :config
   (evil-define-key 'normal 'global
     (kbd "SPC v") #'embark-act))
@@ -461,10 +460,15 @@ play well with `evil-mc'."
 
 (use-package csv-mode
   :ensure t
-  :hook (csv-mode . csv-align-mode))
+  :hook (csv-mode . csv-align-mode)
+  :mode "\\.csv\\'")
 
 (use-package markdown-mode
-  :ensure t)
+  :ensure t
+  :mode (("README\\.md\\'". gfm-mode)
+         ("\\.\\(?:md\\|markdown\\|mkd\\|mdown\\|mkdn\\|mdwn\\)\\'" . markdown-mode))
+  :init
+  (setq markdown-command "multimarkdown"))
 
 (use-package clang-format
   :ensure t)
@@ -540,9 +544,11 @@ play well with `evil-mc'."
                                    ("important" . ?i)
                                    ("backlog" . ?b)
                                    (:endgroup . nil)
+                                   ("ARCHIVE" . ?a)
                                    (:startgroup . nil)
                                    ("@Work" . ?w)
                                    ("@Home" . ?h)
+                                   ("@Runescape" . ?r)
                                    (:endgroup . nil)
                                    ("nd" . ?n)
                                    ("sd" . ?s)
@@ -576,8 +582,10 @@ play well with `evil-mc'."
   :ensure t
   :after evil org
   :demand t
-  ; Denote formatting for files in dired
-  :hook (dired-mode . denote-dired-mode)
+  ; Make denote links work
+  :hook ((find-file . denote-link-buttonize-buffer)
+         ; Denote formatting for files in dired
+         (dired-mode . denote-dired-mode))
   :bind (("C-c n n" . denote)
          ("C-c n r" . denote-rename-file)
          ("C-c n l" . denote-link)
