@@ -578,6 +578,11 @@ play well with `evil-mc'."
   :demand t
   ; Denote formatting for files in dired
   :hook (dired-mode . denote-dired-mode)
+  :bind (("C-c n n" . denote)
+         ("C-c n r" . denote-rename-file)
+         ("C-c n l" . denote-link)
+         ("C-c n t" . denote-type)
+         ("C-c n f" . denote-rename-file-using-front-matter))
   :init
   ; Copied from org settings
   (if (or (eq system-type 'ms-dos) (eq system-type 'windows-nt))
@@ -593,7 +598,9 @@ play well with `evil-mc'."
   (evil-define-key 'normal 'global
     (kbd "SPC n n") 'denote
     (kbd "SPC n r") 'denote-rename-file
-    (kbd "SPC n l") 'denote-link))
+    (kbd "SPC n l") 'denote-link
+    (kbd "SPC n t") 'denote-type
+    (kbd "SPC n f") 'denote-rename-file-using-front-matter))
 ;; Diary and calendar
 (use-package calendar
   :ensure t
