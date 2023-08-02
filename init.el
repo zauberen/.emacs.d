@@ -92,8 +92,6 @@
 (add-to-list 'auto-mode-alist '("\\.html\\'" . html-mode))
 ;; Java
 (add-to-list 'auto-mode-alist '("\\.jsp\\'" . java-mode))
-;; pascal, innosetup
-(add-to-list 'auto-mode-alist '("\\.iss\\'" . pascal-mode))
 
 
 (use-package use-package-ensure-system-package
@@ -328,7 +326,6 @@ play well with `evil-mc'."
   :init
   (setq cape-dabbrev-min-length 2)
   :config
-  ;; For some reason cape doesn't have ispell on macos?
   (if (eq system-type 'darwin)
       (setq completion-at-point-functions (list #'cape-file
                                                 (cape-super-capf #'cape-keyword
@@ -462,6 +459,13 @@ play well with `evil-mc'."
   :ensure t
   :hook (csv-mode . csv-align-mode)
   :mode "\\.csv\\'")
+
+;; pascal, innosetup
+(use-package pascal-mode
+  :mode ("\\.iss\\'" . pascal-mode)
+  ;:hook (pascal-mode . (remove-hook 'completion-at-point-functions 'pascal-completions-at-point t))
+  :init
+  (setq pascal-indent-level 4))
 
 (use-package markdown-mode
   :ensure t
