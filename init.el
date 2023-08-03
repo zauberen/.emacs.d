@@ -1,4 +1,4 @@
-;;; init.el --- EMACS config v01302023
+;;; init.el --- EMACS config
 ;;; Commentary:
 ;;; My Emacs configuration!
 ;;; Code:
@@ -105,18 +105,29 @@
   :config
   (savehist-mode))
 
+;; ag, the silver searcher
 (use-package ag
   :ensure t
-  :ensure-system-package ag
-  :config
-  (use-package wgrep-ag
-    :ensure t))
+  :ensure-system-package ag)
+(use-package wgrep-ag
+    :ensure t)
 
 ;; Theming ;;
-(use-package doom-themes
-  :ensure t
+; I really like ef-elea-dark
+(use-package ef-themes
   :config
-  (load-theme 'doom-molokai t))
+  (load-theme 'ef-elea-dark t)
+  :ensure t)
+; My original emacs theme
+(use-package molokai-theme
+  :config
+  ;(load-theme 'molokai-theme t)
+  :ensure t)
+; Doom themes, I like doom-molokai
+(use-package doom-themes
+  :config
+  ;(load-theme 'doom-molokai t)
+  :ensure t)
 (use-package doom-modeline
   :ensure t
   :init
@@ -272,8 +283,6 @@ play well with `evil-mc'."
   :bind (:map projectile-mode-map
          ("C-c p" . projectile-command-map))
   :init
-  (if (or (eq system-type 'ms-dos) (eq system-type 'windows-nt))
-      (setq projectile-globally-ignored-directories '("C:/Users/dillona/")))
   (setq projectile-project-search-path '("~/.emacs.d"
                                         ("~/Documents/GitHub" . 1)))
   :config
@@ -496,7 +505,8 @@ play well with `evil-mc'."
 
 ;; Org mode config x denote config
 (use-package org-contrib
-  :ensure t)
+  :ensure t
+  :demand t)
 (use-package org
   :ensure t
   :after evil evil-org org-contrib
@@ -505,7 +515,6 @@ play well with `evil-mc'."
   ; Enable word wrap and org indenting
   :hook ((org-mode . toggle-truncate-lines)
          (org-mode . org-indent-mode))
-  ;; Org keybinds
   :bind (("C-c l" . org-store-link)
          ("C-c a" . org-agenda)
          ("C-c c" . org-capture)
@@ -514,6 +523,8 @@ play well with `evil-mc'."
          ("C-c ." . org-time-stamp)
          ("C-c x" . org-cut-subtree)
          ("S-<return>" . evil-org-open-below))
+  :mode (("\\.org\\'" . org-mode)
+         ("\\.org$" . org-mode))
   :init
   ;; Set org directory
   (if (or (eq system-type 'ms-dos) (eq system-type 'windows-nt))
@@ -525,7 +536,15 @@ play well with `evil-mc'."
         appt-display-diary nil
         ;; Archive when closed
         org-todo-state-tags-triggers '(("CLOSED" ("ARCHIVE" . t)))
+        ;; Theming
         org-hide-emphasis-markers t
+        org-pretty-entities t
+        org-tags-column 0
+        org-auto-align-tags nil
+        org-agenda-tags-column 0
+        org-catch-invisible-edits 'show-and-error
+        org-special-ctrl-a/e t
+        org-insert-heading-respect-content t
         ;; Follow links on RET (cannot always use gx)
         org-return-follows-link t
         ;; Make org look better
@@ -546,41 +565,59 @@ play well with `evil-mc'."
         org-archive-location (concat "%s_archive::" org-directory "/archive")
         org-tag-persistent-alist '((:startgroup . nil)
                                    ("important" . ?i)
-                                   ("backlog" . ?b)
+                                   ("backlog" . ?x)
                                    (:endgroup . nil)
-                                   ("ARCHIVE" . ?a)
+                                   ("ARCHIVE" . ?A)
                                    (:startgroup . nil)
                                    ("@Work" . ?w)
                                    ("@Home" . ?h)
                                    ("@Runescape" . ?r)
-                                   (:endgroup . nil)
-                                   ("nd" . ?n)
-                                   ("sd" . ?s)
-                                   ("ks" . ?k)
-                                   ("nj" . ?j))
+                                   (:endgroup . nil))
         org-todo-keywords '((sequence "TODO" "IN-PROGRESS" "WAITING" "|" "DONE" "CLOSED"))
         org-capture-templates '(("t" "Inbox" entry (file+headline org-default-notes-file "Inbox")
-                                 "* TODO %?\nDEADLINE: \n:PROPERTIES:\n:CREATION: %U\n:END:\n")
+                                 "* TODO %?\n:PROPERTIES:\n:CREATION: %U\n:END:\n")
+                                ("w" "Work Task" entry (file+headline org-work-file "Inbox")
+                                 "* TODO %?\n:PROPERTIES:\n:CREATION: %U\n:TRACKZILLA: N/A\n:END:\n")
                                 ("i" "Work Issue" entry (file+headline org-work-file "Inbox")
-                                 "* TODO %?\nDEADLINE: \n:PROPERTIES:\n:CREATION: %U\n:TRACKZILLA: N/A\n:END:\n")
+                                 (concat "* TODO %?\n"
+                                         ":PROPERTIES:\n:CREATION: %U\n:TRACKZILLA: N/A\n:END:\n"
+                                         "#+TITLE: Issue comment\n"
+                                         "#+BEGIN_SRC markdown :hidden\n"
+                                         "#+END_SRC\n"))
                                 ("h" "Home Task" entry (file+headline org-home-file "Inbox")
-                                 "* TODO %?\nDEADLINE: \n:PROPERTIES:\n:CREATION: %U\n:END:\n")
+                                 "* TODO %?\n:PROPERTIES:\n:CREATION: %U\n:END:\n")
                                 ("a" "App Task" entry (file+headline org-app-file "Inbox")
-                                 "* TODO %?\nDEADLINE: \n:PROPERTIES:\n:CREATION: %U\n:END:\n")
+                                 "* TODO %?\n:PROPERTIES:\n:CREATION: %U\n:END:\n")
                                 ("j" "Journal" entry (file+datetree org-default-notes-file)
                                  "* %?\n%U\n%a")
                                 ("n" "Link Inbox" entry (file+headline org-default-notes-file "Inbox")
-                                 "* TODO %?\nDEADLINE: \n:PROPERTIES:\n:CREATION: %U\n:END:\n%a")
+                                 "* TODO %?\n:PROPERTIES:\n:CREATION: %U\n:END:\n%a")
                                 ("o" "Link Work Issue" entry (file+headline org-work-file "Inbox")
-                                 "* TODO %?\nDEADLINE: \n:PROPERTIES:\n:CREATION: %U\n:END:\n%a")
+                                 "* TODO %?\n:PROPERTIES:\n:CREATION: %U\n:END:\n%a")
                                 ("m" "Link Home Task" entry (file+headline org-home-file "Tasks")
-                                 "* TODO %?\nDEADLINE: \n:PROPERTIES:\n:CREATION: %U\n:END:\n%a")))
+                                 "* TODO %?\n:PROPERTIES:\n:CREATION: %U\n:END:\n%a")))
   :config
+  ; Shamelessly stolen from https://emacs.stackexchange.com/questions/44914/choose-individual-startup-visibility-of-org-modes-source-blocks
+  (defun individual-visibility-source-blocks ()
+    "Fold some blocks in the current buffer."
+    (interactive)
+    (org-show-block-all)
+    (org-block-map
+     (lambda ()
+       (let ((case-fold-search t))
+         (when (and
+                (save-excursion
+                  (beginning-of-line 1)
+                  (looking-at org-block-regexp))
+                (cl-assoc
+                 ':hidden
+                 (cl-third
+                  (org-babel-get-src-block-info))))
+           (org-hide-block-toggle))))))
+  (add-hook 'org-mode-hook (function individual-visibility-source-blocks))
   (appt-activate 1)
-  (require 'org-checklist)
-  ;; Use org mode in org files
-  (add-to-list 'auto-mode-alist '("\\.org$" . org-mode))
-  (add-to-list 'auto-mode-alist '("\\.org\\'" . org-mode)))
+  (require 'org-checklist))
+
 ; Denote settings
 (use-package denote
   :ensure t
@@ -681,41 +718,43 @@ play well with `evil-mc'."
   (global-obsidian-mode t))
 
 ;; SQL
-(setq sql-mysql-options '("--prompt=mysql> " "-C" "-t" "-f" "-n"))
-(add-hook 'sql-mode-hook (lambda ()
-                           (require 'sql)
-                           (sql-highlight-mariadb-keywords)))
-(add-hook 'sql-interactive-mode-hook (lambda () (toggle-truncate-lines t)))
+(use-package sql
+  :hook ((sql-mode . sql-highlight-mariadb-keywords)
+         (sql-interactive-mode . (lambda () (toggle-truncate-lines t))))
+  :init
+  (setq sql-mysql-options '("--prompt=mysql> " "-C" "-t" "-f" "-n")))
 
 ;; eshell
 (use-package eshell
   :bind ("C-x e" . eshell)
   :hook (eshell-mode . (lambda ()
-                                        ; Quick switch to org
+                         ; Quick switch to org
                          (eshell/alias "so"
                                        (if (or (eq system-type 'ms-dos) (eq system-type 'windows-nt))
                                            "cd C:/org/org-notes"
-                                         "cd ~/Documents/GitHub/org-notes"))
-                                        ; Opening files
+                                           "cd ~/Documents/GitHub/org-notes"))
+                         ; Opening files, these open in-frame
                          (eshell/alias "e" "find-file $1")
                          (eshell/alias "ff" "find-file $1")
                          (eshell/alias "emacs" "find-file $1")
+                         ; These open files in a separate frame
                          (eshell/alias "ee" "find-file-other-window $1")
-                                        ; Just in case an oopsie occurs
+                         ; Just in case an oopsie occurs
                          (eshell/alias "vim" "find-file-other-window $1")
                          (eshell/alias "vi" "find-file-other-window $1")
                          (eshell/alias "less" "find-file-other-window $1")
-                                        ; Open in explorer
+                         ; Open in explorer
                          (eshell/alias "ex" "explorer .")
-                                        ; Git
+                         ; Git
                          (eshell/alias "gd" "magit-diff-unstaged")
                          (eshell/alias "gds" "magit-diff-staged")
-                                        ; Dired
+                         ; Dired
                          (eshell/alias "d" "dired .")
-                                        ; The 'ls' executable requires the Gnu version on the Mac
+                         ; The 'ls' executable requires the Gnu version on the Mac
                          (let ((ls (if (file-exists-p "/usr/local/bin/gls")
                                        "/usr/local/bin/gls"
-                                     "ls")))
+                                       "ls")))
+                           ; This is here because it uses the ls variable set above
                            (eshell/alias "ll" (concat ls " -AlohG --color=always"))))))
 
 ;; Garbage collection
