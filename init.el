@@ -16,8 +16,7 @@
 (require 'package)
 (setq package-selected-packages
       '( use-package use-package-ensure-system-package
-         gnu-elpa-keyring-update
-         monokai-theme))
+         gnu-elpa-keyring-update))
 (setq package-native-compile t
       native-comp-async-report-warnings-errors nil
       package-quickstart t)
@@ -67,7 +66,7 @@
 (setq global-auto-revert-non-file-buffers t)
 ;; Default to utf-8
 (set-default-coding-systems 'utf-8)
-; fixes some auto save issues with encoding
+; Fixes some auto save issues with encoding
 (setq x-select-request-type '(UTF8_STRING COMPOUND_TEXT TEXT STRING))
 ;; Formatting
 (setq-default fill-column 80
@@ -87,11 +86,6 @@
       make-backup-files nil
       create-lockfiles nil
       custom-file null-device)
-;; HTML
-(add-to-list 'auto-mode-alist '("\\.html$" . html-mode))
-(add-to-list 'auto-mode-alist '("\\.html\\'" . html-mode))
-;; Java
-(add-to-list 'auto-mode-alist '("\\.jsp\\'" . java-mode))
 
 
 (use-package use-package-ensure-system-package
@@ -110,12 +104,13 @@
   :ensure t
   :ensure-system-package ag)
 (use-package wgrep-ag
-    :ensure t)
+  :ensure t)
 
 ;; Theming ;;
 ; I really like ef-elea-dark
 (use-package ef-themes
   :config
+  ;(when (not (eq system-type 'darwin))
   (load-theme 'ef-elea-dark t)
   :ensure t)
 ; My original emacs theme
@@ -126,7 +121,8 @@
 ; Doom themes, I like doom-molokai
 (use-package doom-themes
   :config
-  ;(load-theme 'doom-molokai t)
+  ;(when (eq system-type 'darwin)
+    ;(load-theme 'doom-molokai t))
   :ensure t)
 (use-package doom-modeline
   :ensure t
@@ -430,6 +426,7 @@ play well with `evil-mc'."
   :demand t
   :after yasnippet-snippets
   :diminish yas-minor-mode
+  :bind ("C-c y" . yas-insert-snippet)
   :config
   (evil-define-key 'normal 'global
     (kbd "SPC y") #'yas-insert-snippet)
@@ -463,6 +460,13 @@ play well with `evil-mc'."
 (use-package consult-lsp
   :ensure t
   :after consult lsp-mode)
+
+(use-package html-mode
+  :mode (("\\.html$" . html-mode)
+         ("\\.html\\'" . html-mode)))
+
+(use-package java-mode
+  :mode ("\\.jsp\\'" . java-mode))
 
 (use-package csv-mode
   :ensure t
@@ -572,6 +576,7 @@ play well with `evil-mc'."
                                    ("@Work" . ?w)
                                    ("@Home" . ?h)
                                    ("@Runescape" . ?r)
+                                   ("@Personal" . ?p)
                                    (:endgroup . nil))
         org-todo-keywords '((sequence "TODO" "IN-PROGRESS" "WAITING" "|" "DONE" "CLOSED"))
         org-capture-templates '(("t" "Inbox" entry (file+headline org-default-notes-file "Inbox")
@@ -598,6 +603,7 @@ play well with `evil-mc'."
                                  "* TODO %?\n:PROPERTIES:\n:CREATION: %U\n:END:\n%a")))
   :config
   ; Shamelessly stolen from https://emacs.stackexchange.com/questions/44914/choose-individual-startup-visibility-of-org-modes-source-blocks
+  ; This code lets you put :hidden on an org code block to hide it by default
   (defun individual-visibility-source-blocks ()
     "Fold some blocks in the current buffer."
     (interactive)
@@ -691,6 +697,33 @@ play well with `evil-mc'."
         org-journal-enable-agenda-integration t
         org-journal-file-format "%Y-%m.org"
         org-journal-file-type 'monthly))
+(use-package org-super-agenda
+  :ensure t
+  :demand t
+  :after org
+  :init
+  (setq org-super-agenda-groups
+        '((:name "Personal Tasks"
+                 :tag "@Home"
+                 :tag "@Runescape"
+                 :tag "@Personal"
+                 :order 3)
+          (:name "Schedule"
+                 :time-grid t
+                 :todo "IN-PROGRESS"
+                 :order 0)
+          (:name "Important"
+                 :tag "important"
+                 :priority "A"
+                 :order 1)
+          (:name "High-Priority"
+                 :priority "B"
+                 :order 2)
+          (:name "Medium-Priority"
+                 :priority "C"
+                 :order 4)))
+  :config
+  (org-super-agenda-mode))
 (use-package evil-org
   :ensure t
   :demand t
