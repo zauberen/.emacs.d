@@ -184,7 +184,9 @@
   (editorconfig-mode 1))
 
 (use-package avy
-  :ensure t)
+  :ensure t
+  :demand t
+  :bind ("C-a" . avy-goto-subword-1))
 ;; Evil
 (use-package evil-collection
   :ensure t
