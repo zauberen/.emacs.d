@@ -4,11 +4,9 @@
 ;;; Code:
 (use-package org-contrib
   :ensure t
-  :pin melpa
   :demand t)
 (use-package org
   :ensure t
-  :pin melpa
   :after evil evil-org org-contrib
   :demand t
   :diminish org-indent-mode eldoc-mode auto-revert-mode
@@ -60,7 +58,9 @@
         org-app-file (concat org-directory "/org-private/dnd-app.org")
         org-agenda-files (seq-filter
                           (lambda(x)
-                            (and (not (string-match "/archive/"(file-name-directory x))) (not (string-match "/denote/"(file-name-directory x)))))
+                            (and (not (string-match "/archive/"(file-name-directory x)))
+                                 (not (string-match "/denote/"(file-name-directory x)))
+                                 (not (string-match "/journal/"(file-name-directory x)))))
                           (directory-files-recursively org-directory "\\.org$"))
         org-archive-location (concat "%s_archive::" org-directory "/archive")
         org-tag-persistent-alist '((:startgroup . nil)
@@ -122,7 +122,6 @@
 ; Denote settings
 (use-package denote
   :ensure t
-  :pin melpa
   :after evil org
   :demand t
   ; Make denote links work

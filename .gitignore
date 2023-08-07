@@ -3,6 +3,8 @@
 *.init.el
 auto-save-list/*
 auto-save/*
+tmp*
+recentf
 bookmarks
 elgrep-data.*
 *.elc
