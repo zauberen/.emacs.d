@@ -53,4 +53,15 @@
   :config
   (unless (display-graphic-p)
     (corfu-terminal-mode +1)))
+(use-package svg-lib
+  :ensure t
+  :pin melpa)
+(use-package kind-icon
+  :ensure t
+  :pin melpa
+  :after corfu
+  :custom
+  (kind-icon-default-face 'corfu-default)
+  :config
+  (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter))
 ;;; corfu.el ends here

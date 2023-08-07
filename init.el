@@ -79,8 +79,8 @@
 ; I really like ef-elea-dark
 (use-package ef-themes
   :config
-  (when (not (eq system-type 'darwin))
-  (load-theme 'ef-elea-dark t))
+  ;(when (not (eq system-type 'darwin))
+  (load-theme 'ef-elea-dark t)
   :ensure t)
 ; My original emacs theme
 (use-package molokai-theme
@@ -90,8 +90,8 @@
 ; Doom themes, I like doom-molokai
 (use-package doom-themes
   :config
-  (when (eq system-type 'darwin)
-    (load-theme 'doom-molokai t))
+  ;(when (eq system-type 'darwin)
+    ;(load-theme 'doom-molokai t))
   :ensure t)
 (use-package doom-modeline
   :ensure t

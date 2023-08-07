@@ -71,7 +71,6 @@
                                    (:startgroup . nil)
                                    ("@Work" . ?w)
                                    ("@Home" . ?h)
-                                   ("@Runescape" . ?r)
                                    ("@Personal" . ?p)
                                    (:endgroup . nil))
         org-todo-keywords '((sequence "TODO" "IN-PROGRESS" "WAITING" "|" "DONE" "CLOSED"))
