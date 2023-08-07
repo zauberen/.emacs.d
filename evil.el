@@ -24,7 +24,8 @@
   (evil-define-key 'normal 'global
     (kbd "SPC b") #'switch-to-buffer
     (kbd "SPC SPC") #'evil-avy-goto-word-or-subword-1
-    (kbd "SPC s") #'evil-avy-goto-char-timer)
+    (kbd "SPC s") #'evil-avy-goto-char-timer
+    (kbd "'") #'evil-goto-mark)
   (evil-mode 1))
 (use-package evil-mc
   :ensure t

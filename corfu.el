@@ -22,7 +22,6 @@
 
 (use-package corfu
   :ensure t
-  :pin melpa
   :demand t
   :bind (:map corfu-map
               ("RET" . nil)
@@ -47,18 +46,15 @@
   (global-corfu-mode))
 (use-package corfu-terminal
   :ensure t
-  :pin melpa
   :demand t
   :after corfu
   :config
   (unless (display-graphic-p)
     (corfu-terminal-mode +1)))
 (use-package svg-lib
-  :ensure t
-  :pin melpa)
+  :ensure t)
 (use-package kind-icon
   :ensure t
-  :pin melpa
   :after corfu
   :custom
   (kind-icon-default-face 'corfu-default)

@@ -6,7 +6,7 @@
 ;; Package signatures are broken in Windows
 (if (or (eq system-type 'ms-dos) (eq system-type 'windows-nt))
     (setq package-check-signature nil
-          gnutls-algorithm-priority "NORMAL")
+          gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3")
     (setq network-security-level 'high
           gnutls-verify-error t
           gnutls-min-prime-bits 3072
