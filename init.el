@@ -71,8 +71,10 @@
 ;; ag, the silver searcher
 (use-package ag
   :ensure t
+  :demand t
   :ensure-system-package ag)
 (use-package wgrep-ag
+  :demand t
   :ensure t)
 
 ;; Theming ;;
@@ -156,10 +158,13 @@
   (projectile-mode +1)
   ; Bind the most useful projectile commands to easier keys
   (evil-define-key 'normal 'global
+    ; Note that f is overridden if minibuffer.el is included to use consult-projectile
     (kbd "SPC f") #'projectile-find-file
-    (kbd "SPC a") #'projectile-ag
     (kbd "SPC p") #'projectile-switch-project
-    (kbd "SPC e") #'projectile-run-eshell))
+    (kbd "SPC e") #'projectile-run-eshell
+    ; Also bind ag
+    (kbd "SPC a a") #'ag
+    (kbd "SPC a p") #'projectile-ag))
 
 ;; Virtico, Corfu, cape, orderless, consult, embark, marginalia
 (use-package orderless

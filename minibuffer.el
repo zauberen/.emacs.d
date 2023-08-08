@@ -10,6 +10,7 @@
   :bind (("C-s" . consult-git-grep)
          ("C-c s" . consult-org-agenda)
          ("C-c b" . consult-bookmark)
+         ("C-c h" . consult-history)
          ("C-," . consult-yank-from-kill-ring)
          ("C-l" . consult-line-multi)
          ("C-x b" . consult-buffer))
@@ -26,6 +27,14 @@
     (kbd "SPC b") #'consult-buffer
     (kbd "/") #'consult-line
     (kbd "g m") #'evil-collection-consult-mark))
+(use-package consult-projectile
+  :ensure t
+  :after projectile evil
+  :demand t
+  :config
+  ; Rebind SPC f to use consult
+  (evil-define-key 'normal 'global
+    (kbd "SPC f") #'consult-projectile))
 (use-package consult-flycheck
   :ensure t
   :after consult flycheck
