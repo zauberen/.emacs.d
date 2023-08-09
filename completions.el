@@ -5,18 +5,21 @@
 ;; ctags setup (citre)
 (use-package citre
   :ensure t
-  :demand t
+  :pin melpa
+  :defer t
   :after projectile evil
   :bind (("C-c t j" . citre-jump)
          ("C-c t J" . citre-jump-back)
+         ("C-c t r" . citre-peek-reference)
          ("C-c t p" . citre-ace-peek)
          ("C-c t u" . citre-update-this-tags-file))
-  :config
+  :init
   (require 'citre-config)
   (setq citre-default-create-tags-file-location 'global-cache
         citre-project-root-function #'projectile-project-root
         citre-prompt-language-for-ctags-command t
-        citre-use-project-root-when-creating-tags t)
+        citre-use-project-root-when-creating-tags t
+        citre-gtags-args '("--compact"))
   (evil-define-key 'normal 'citre-mode-map
     (kbd "g d") 'citre-jump
     (kbd "g D") 'citre-jump-back
