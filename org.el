@@ -7,7 +7,7 @@
   :demand t)
 (use-package org
   :ensure t
-  :after evil evil-org org-contrib
+  :after evil evil-org org-contrib consult
   :demand t
   :diminish org-indent-mode eldoc-mode auto-revert-mode
   ; Enable word wrap and org indenting
@@ -17,6 +17,10 @@
          ("C-c a" . org-agenda)
          ("C-c c" . org-capture)
          :map org-mode-map
+         ; Ensure consult gets it's bindings in org
+         ("C-," . consult-yank-from-kill-ring)
+         ("C-'" . consult-bookmark)
+         ; Custom org bindings
          ("C-c ," . org-time-stamp-inactive)
          ("C-c ." . org-time-stamp)
          ("C-c x" . org-cut-subtree)

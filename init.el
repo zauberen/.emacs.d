@@ -66,6 +66,7 @@
 (use-package savehist
   :ensure t
   :config
+  (add-to-list 'savehist-additional-variables 'vertico-repeat-history)
   (savehist-mode))
 
 ;; ag, the silver searcher
@@ -215,7 +216,7 @@
     (load-file local-settings)))
 
 ;; Open init.el on opening
-(set-register ?e (find-file (or user-init-file "")))
+(find-file (or user-init-file ""))
 
 ;; Editor package management section
 (custom-set-variables

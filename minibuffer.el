@@ -9,12 +9,25 @@
   :demand t
   :bind (("C-s" . consult-git-grep)
          ("C-c s" . consult-org-agenda)
-         ("C-c b" . consult-bookmark)
+         ("C-'" . consult-bookmark)
+         ("C-c m" . bookmark-set)
+         ("C-c b d" . bookmark-delete)
+         ("C-c b m" . bookmark-set)
+         ("C-c b l" . consult-bookmark)
+         ("C-x r l" . consult-bookmark) ; Replace the existing bookmark list with consult, not that I'd use it
          ("C-c h" . consult-history)
          ("C-," . consult-yank-from-kill-ring)
          ("C-l" . consult-line-multi)
          ("C-x b" . consult-buffer))
   :config
+  ;; Add a slight waiting period before a preview
+  (consult-customize
+   consult-ripgrep consult-git-grep consult-grep
+   consult-bookmark consult-recent-file consult-xref
+   consult-projectile
+   consult--source-bookmark consult--source-file-register
+   consult--source-recent-file consult--source-project-recent-file
+   :preview-key '(:debounce 0.5 any))
   ; Set minibuffer completion default to consult
   (setq completion-in-region-function #'consult-completion-in-region
         xref-show-xrefs-function #'consult-xref
@@ -43,8 +56,15 @@
 (use-package vertico
   :ensure t
   :demand t
+  :hook (minibuffer-setup . vertico-repeat-save)
+  :bind (("C-." . vertico-repeat)
+         :map vertico-map
+              ("C-q" . vertico-quick-insert)
+              ("M-q" . vertico-quick-exit))
   :config
-  (vertico-mode))
+  (vertico-mode)
+  (evil-define-key 'normal 'global
+    (kbd "C-.") #'vertico-repeat))
 (use-package marginalia
   :ensure t
   :pin melpa
