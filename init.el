@@ -82,8 +82,8 @@
 ; I really like ef-elea-dark
 (use-package ef-themes
   :config
-  ;(when (not (eq system-type 'darwin))
-  (load-theme 'ef-elea-dark t)
+  (when (not (or (eq system-type 'ms-dos) (eq system-type 'windows-nt)))
+    (load-theme 'ef-elea-dark t))
   :ensure t)
 ; My original emacs theme
 (use-package molokai-theme
@@ -94,14 +94,23 @@
 (use-package doom-themes
   :config
   ;(when (eq system-type 'darwin)
-    ;(load-theme 'doom-molokai t))
+  (when (or (eq system-type 'ms-dos) (eq system-type 'windows-nt))
+    ; A selection of good light themes: doom-flatwhite, also doom-miramare, and the light gruvbox
+    ; While I like the idea, they give me a headache
+    (load-theme 'doom-molokai t)
+    (doom-themes-visual-bell-config)
+    (doom-themes-org-config))
   :ensure t)
 (use-package doom-modeline
   :ensure t
   :init
-  (setq doom-modeline-icon nil
-        doom-modeline-height 17)
+  (setq doom-modeline-icon nil                 ; Don't use icons
+        doom-modeline-unicode-fallback t       ; Do use unicode
+        doom-modeline-time t                   ; Show the time
+        doom-modeline-height 17                ; Reasonable modeline height
+        display-time-default-load-average nil) ; Don't show CPU with system time
   :config
+  ;(display-time-mode)
   (doom-modeline-mode 1))
 
 (use-package adaptive-wrap
