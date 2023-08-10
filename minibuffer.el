@@ -47,7 +47,8 @@
   :config
   ; Rebind SPC f to use consult
   (evil-define-key 'normal 'global
-    (kbd "SPC f") #'consult-projectile))
+    (kbd "SPC f") #'consult-projectile
+    (kbd "SPC p") #'consult-projectile-switch-project))
 (use-package consult-flycheck
   :ensure t
   :after consult flycheck
