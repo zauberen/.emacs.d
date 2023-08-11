@@ -12,20 +12,27 @@
          ("C-c t J" . citre-jump-back)
          ("C-c t r" . citre-peek-reference)
          ("C-c t p" . citre-ace-peek)
-         ("C-c t u" . citre-update-this-tags-file))
+         ("C-c t u" . citre-update-this-tags-file)
+         ("C-c t U" . citre-global-update-database))
   :init
   (require 'citre-config)
   (setq citre-default-create-tags-file-location 'global-cache
         citre-project-root-function #'projectile-project-root
         citre-prompt-language-for-ctags-command t
         citre-use-project-root-when-creating-tags t
+        citre-tags-completion-case-sensitive nil
         citre-gtags-args '("--compact"))
+  (defun citre-use-global-windows ()
+    (interactive)
+    (setq-local citre-gtags-program "~/Global_669/bin/gtags.exe"
+                citre-global-program "~/Global_669/bin/global.exe"))
   (evil-define-key 'normal 'citre-mode-map
-    (kbd "g d") 'citre-jump
-    (kbd "g D") 'citre-jump-back
+    (kbd "g j") 'citre-jump
+    (kbd "g J") 'citre-jump-back
     (kbd "g p") 'citre-peek
     (kbd "g P") 'citre-ace-peek
-    (kbd "SPC u") 'citre-update-this-tags-file))
+    (kbd "SPC u") 'citre-update-this-tags-file
+    (kbd "SPC U") 'citre-global-update-database))
 
 ;; LSP setup with lsp-mode
 (use-package lsp-mode
@@ -44,7 +51,7 @@
           '(orderless)))
   (defun my/dont-launch-lsp-on-windows ()
     "Don't launch lsp on windows by default"
-    (if (not (or (eq system-type 'ms-dos) (eq system-type 'windows-nt)))
+    (when (not (or (eq system-type 'ms-dos) (eq system-type 'windows-nt)))
         (lsp)))
   (add-hook 'lsp-completion-mode #'corfu-lsp-setup)
   (add-hook 'python-mode-hook #'my/dont-launch-lsp-on-windows)
@@ -60,11 +67,13 @@
 ;; Tree sitter
 (use-package tree-sitter
   :ensure t
+  :pin melpa
   :diminish tree-sitter-mode
   :config
   (global-tree-sitter-mode))
 (use-package tree-sitter-langs
   :ensure t
+  :pin melpa
   :hook (tree-sitter-after-on . tree-sitter-hl-mode)
   :after tree-sitter)
 ;;; completions.el ends here

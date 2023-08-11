@@ -24,12 +24,20 @@
   :pin melpa
   :demand t
   :config
-  (custom-set-variables '(git-gutter:update-interval 2))
-  (custom-set-variables '(git-gutter:modified-sign " ")
-                        '(git-gutter:added-sign " ")
-                        '(git-gutter:deleted-sign " "))
-  (set-face-background 'git-gutter:modified "purple")
-  (set-face-background 'git-gutter:added "green")
-  (set-face-background 'git-gutter:deleted "red")
+  (custom-set-variables '(git-gutter:update-interval 2)))
+; Old config for git gutter
+; Need to test the existing config on a terminal
+  ;(custom-set-variables '(git-gutter:modified-sign " ")
+                        ;'(git-gutter:added-sign " ")
+                        ;'(git-gutter:deleted-sign " "))
+  ;(set-face-background 'git-gutter:modified "purple")
+  ;(set-face-background 'git-gutter:added "green")
+  ;(set-face-background 'git-gutter:deleted "red")
+(use-package git-gutter-fringe
+  :ensure t
+  :config
+  (define-fringe-bitmap 'git-gutter-fr:added [224] nil nil '(center repeated))
+  (define-fringe-bitmap 'git-gutter-fr:modified [224] nil nil '(center repeated))
+  (define-fringe-bitmap 'git-gutter-fr:deleted [128 192 224 240] nil nil 'bottom)
   (global-git-gutter-mode t))
 ;;; git.el ends here

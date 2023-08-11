@@ -73,7 +73,26 @@ play well with `evil-mc'."
   :demand t
   :bind (("C-c (" . sp-wrap-round)
          ("C-c {" . sp-wrap-curly)
-         ("C-c [" . sp-wrap-square)))
+         ("C-c [" . sp-wrap-square)
+         ("C-c u" . sp-unwrap-sexp)
+         ("C-c w w" . sp-rewrap-sexp)
+         ("C-c w r" . sp-wrap-round)
+         ("C-c w c" . sp-wrap-curly)
+         ("C-c w s" . sp-wrap-square)
+         ("C-c w u" . sp-unwrap-sexp))
+  :config
+  (defun sp-wrap-quote ()
+    "Wrap text with a single quote"
+    (interactive)
+    (sp-wrap-with-pair "'"))
+  (defun sp-wrap-double-quote ()
+    "Wrap text with a double quote"
+    (interactive)
+    (sp-wrap-with-pair "\""))
+  (define-key global-map (kbd "C-c \"") #'sp-wrap-double-quote)
+  (define-key global-map (kbd "C-c '") #'sp-wrap-quote)
+  (define-key global-map (kbd "C-c w d") #'sp-wrap-double-quote)
+  (define-key global-map (kbd "C-c w q") #'sp-wrap-quote))
 (use-package evil-smartparens
   :ensure t
   :pin melpa
