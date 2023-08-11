@@ -83,11 +83,7 @@
                                 ("w" "Work Task" entry (file+headline org-work-file "Inbox")
                                  "* TODO %?\n:PROPERTIES:\n:CREATION: %U\n:TRACKZILLA: N/A\n:END:\n")
                                 ("i" "Work Issue" entry (file+headline org-work-file "Inbox")
-                                 (concat "* TODO %?\n"
-                                         ":PROPERTIES:\n:CREATION: %U\n:TRACKZILLA: N/A\n:END:\n"
-                                         "#+TITLE: Issue comment\n"
-                                         "#+BEGIN_SRC markdown :hidden\n"
-                                         "#+END_SRC\n"))
+                                 "* TODO %?\n:PROPERTIES:\n:CREATION: %U\n:TRACKZILLA: N/A\n:END:\n#+TITLE: Issue comment\n#+BEGIN_SRC markdown :hidden\n#+END_SRC\n")
                                 ("h" "Home Task" entry (file+headline org-home-file "Inbox")
                                  "* TODO %?\n:PROPERTIES:\n:CREATION: %U\n:END:\n")
                                 ("a" "App Task" entry (file+headline org-app-file "Inbox")

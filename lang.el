@@ -4,6 +4,11 @@
 ;;; Code:
 ;; Java for jsp files
 (use-package java-mode
+  :after citre
+  ; Use global to get reference jumping on java projects
+  :hook (java-mode . (lambda ()
+                       (when (or (eq system-type 'ms-dos) (eq system-type 'windows-nt))
+                         (citre-use-global-windows))))
   :mode ("\\.jsp\\'" . java-mode))
 
 ;; CSV editing mode
