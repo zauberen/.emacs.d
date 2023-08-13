@@ -20,14 +20,15 @@
          ("C-l" . consult-line-multi)
          ("C-x b" . consult-buffer))
   :config
-  ;; Add a slight waiting period before a preview
-  (consult-customize
-   consult-ripgrep consult-git-grep consult-grep
-   consult-bookmark consult-recent-file consult-xref
-   consult-projectile
-   consult--source-bookmark consult--source-file-register
-   consult--source-recent-file consult--source-project-recent-file
-   :preview-key '(:debounce 0.5 any))
+  ;; Add a slight waiting period before a preview on windows
+  (when (or (eq system-type 'ms-dos) (eq system-type 'windows-nt))
+    (consult-customize
+     consult-ripgrep consult-git-grep consult-grep
+     consult-bookmark consult-recent-file consult-xref
+     consult-projectile
+     consult--source-bookmark consult--source-file-register
+     consult--source-recent-file consult--source-project-recent-file
+     :preview-key '(:debounce 0.5 any)))
   ; Set minibuffer completion default to consult
   (setq completion-in-region-function #'consult-completion-in-region
         xref-show-xrefs-function #'consult-xref

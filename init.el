@@ -82,8 +82,8 @@
 ; I really like ef-elea-dark
 (use-package ef-themes
   :config
-  (when (not (or (eq system-type 'ms-dos) (eq system-type 'windows-nt)))
-    (load-theme 'ef-elea-dark t))
+  ;(when (not (or (eq system-type 'ms-dos) (eq system-type 'windows-nt)))
+    ;(load-theme 'ef-elea-dark t))
   :ensure t)
 ; My original emacs theme
 (use-package molokai-theme
@@ -94,21 +94,26 @@
 (use-package doom-themes
   :config
   ;(when (eq system-type 'darwin)
-  (when (or (eq system-type 'ms-dos) (eq system-type 'windows-nt))
+  (doom-themes-visual-bell-config)
+  (doom-themes-org-config)
+  (if (or (eq system-type 'ms-dos) (eq system-type 'windows-nt))
     ; A selection of good light themes: doom-flatwhite, also doom-miramare, and the light gruvbox
+    ; Dark themes: doom-gruvbox, doom-molokai, doom-tomorrow-night
     ; While I like the idea, they give me a headache
     (load-theme 'doom-molokai t)
-    (doom-themes-visual-bell-config)
-    (doom-themes-org-config))
+    ; Use gruvbox at home since it's close but just different enough to give a different context
+    (load-theme 'doom-gruvbox t))
   :ensure t)
 (use-package doom-modeline
   :ensure t
   :init
   (setq doom-modeline-icon nil                 ; Don't use icons
-        doom-modeline-unicode-fallback t       ; Do use unicode
         doom-modeline-time t                   ; Show the time
         doom-modeline-height 17                ; Reasonable modeline height
         display-time-default-load-average nil) ; Don't show CPU with system time
+  ; Unicode fallback looks pretty bad on MacOS
+  (when (not (eq system-type 'darwin))
+        (setq doom-modeline-unicode-fallback t))
   :config
   ;(display-time-mode)
   (doom-modeline-mode 1))
