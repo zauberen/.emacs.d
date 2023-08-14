@@ -38,6 +38,7 @@
 (use-package lsp-mode
   :ensure t
   :demand t
+  :pin melpa
   :after consult corfu
   :init
   (setq lsp-completion-provider :none
@@ -47,7 +48,8 @@
   (define-key lsp-mode-map [remap xref-find-apropos] #'consult-lsp-symbols)
   (defun corfu-lsp-setup ()
     "Enable lsp and its dependencies."
-    (setf (alist-get 'styles (alist-get 'lsp-capf completion-category-defaults))
+    (setf (alist-get 'styles
+                     (alist-get 'lsp-capf completion-category-defaults))
           '(orderless)))
   (defun my/dont-launch-lsp-on-windows ()
     "Don't launch lsp on windows by default"
@@ -59,9 +61,11 @@
   (add-hook 'js-mode-hook #'my/dont-launch-lsp-on-windows))
 (use-package lsp-ui
   :ensure t
+  :pin melpa
   :after lsp-mode)
 (use-package consult-lsp
   :ensure t
+  :pin melpa
   :after consult lsp-mode)
 
 ;; Tree sitter
