@@ -151,6 +151,21 @@
     (kbd "SPC n l") 'denote-link
     (kbd "SPC n t") 'denote-type
     (kbd "SPC n f") 'denote-rename-file-using-front-matter))
+(use-package consult-notes
+  :ensure t
+  :pin melpa
+  :after denote consult
+  :bind ("C-c ;" . consult-notes)
+  :init
+  ;; Ensure the org directory is available here, needs to change if org dir ever does
+  (if (or (eq system-type 'ms-dos) (eq system-type 'windows-nt))
+      (setq consult-notes-file-dir-sources '(("Org" ?o "C:/org/org-notes")
+                                             ("Org Private/Work" ?p "C:/org/org-notes/org-private")))
+      (setq consult-notes-file-dir-sources '(("Org" ?o "~/Documents/GitHub/org-notes")
+                                             ("Org Private/Work" ?p "~/Documents/GitHub/org-notes/org-private"))))
+  :config
+  (consult-notes-denote-mode))
+
 ;; Diary and calendar
 (use-package calendar
   :ensure t
