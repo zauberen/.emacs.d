@@ -154,8 +154,8 @@
 (use-package consult-notes
   :ensure t
   :pin melpa
-  :after denote consult
-  :bind ("C-c ;" . consult-notes)
+  :after denote consult evil org
+  :bind (("C-c s" . consult-notes))
   :init
   ;; Ensure the org directory is available here, needs to change if org dir ever does
   (if (or (eq system-type 'ms-dos) (eq system-type 'windows-nt))
@@ -163,8 +163,11 @@
                                              ("Org Private/Work" ?p "C:/org/org-notes/org-private")))
       (setq consult-notes-file-dir-sources '(("Org" ?o "~/Documents/GitHub/org-notes")
                                              ("Org Private/Work" ?p "~/Documents/GitHub/org-notes/org-private"))))
+  (evil-define-key 'normal 'global
+    (kbd "SPC o") 'consult-notes)
   :config
-  (consult-notes-denote-mode))
+  (consult-notes-denote-mode t)
+  (consult-notes-org-headings-mode t))
 
 ;; Diary and calendar
 (use-package calendar
