@@ -5,7 +5,7 @@
 (use-package obsidian
   :ensure t
   :pin melpa
-  :bind (("C-c o" . obsidian-search)
+  :bind (("C-c o o" . obsidian-search)
          :map obsidian-mode-map
          ("C-c C-l" . obsidian-insert-wikilink)
          ("C-<return>" . obsidian-follow-link-at-point))

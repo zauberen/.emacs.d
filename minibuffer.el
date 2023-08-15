@@ -8,7 +8,7 @@
   :after evil evil-collection
   :demand t
   :bind (("C-s" . consult-git-grep)
-         ("C-c s" . consult-org-agenda)
+         ("C-c o a" . consult-org-agenda)
          ("C-'" . consult-bookmark)
          ("C-c m" . bookmark-set)
          ("C-c b d" . bookmark-delete)
