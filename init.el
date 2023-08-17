@@ -192,6 +192,7 @@
         ; I had this nil before
         completion-category-overrides '((file (styles . (partial-completion))))
         completion-styles '(orderless partial-completion basic)))
+
 (load-file "~/.emacs.d/completions.el")
 (load-file "~/.emacs.d/minibuffer.el")
 (load-file "~/.emacs.d/corfu.el")

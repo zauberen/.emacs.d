@@ -5,20 +5,27 @@
 (use-package cape
   :ensure t
   :pin melpa
-  :after citre
+  :hook (org-mode . (lambda () (setq-local completion-at-point-functions
+                                           (list #'cape-file
+                                                 (cape-super-capf
+                                                  #'cape-keyword
+                                                  #'cape-dabbrev)))))
   :init
   (setq cape-dabbrev-min-length 2)
-  :config
   (if (eq system-type 'darwin)
-      (setq completion-at-point-functions (list #'cape-file
-                                                (cape-super-capf #'cape-keyword
-                                                                 #'cape-dabbrev
-                                                                 #'citre-completion-at-point
-                                                                 #'cape-dict)))
-      (setq completion-at-point-functions (list #'cape-file
-                                                (cape-super-capf #'cape-keyword
-                                                                 #'cape-dabbrev
-                                                                 #'citre-completion-at-point)))))
+      (setq completion-at-point-functions
+            (list #'cape-file
+                  (cape-super-capf
+                   #'cape-keyword
+                   #'cape-dabbrev
+                   #'citre-completion-at-point
+                   #'cape-dict)))
+      (setq completion-at-point-functions
+            (list #'cape-file
+                  (cape-super-capf
+                   #'cape-keyword
+                   #'cape-dabbrev
+                   #'citre-completion-at-point)))))
 
 (use-package corfu
   :ensure t
