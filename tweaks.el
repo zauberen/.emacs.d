@@ -21,8 +21,6 @@
       kill-do-not-save-duplicates t)
 ;; Update files modified on disk
 (setq global-auto-revert-non-file-buffers t)
-;; Default to utf-8
-(set-default-coding-systems 'utf-8)
 ; Fixes some auto save issues with encoding
 (setq x-select-request-type '(UTF8_STRING COMPOUND_TEXT TEXT STRING))
 ;; Formatting

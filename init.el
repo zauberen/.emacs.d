@@ -3,6 +3,9 @@
 ;;; My Emacs configuration!
 ;;; Code:
 
+;; Default to utf-8
+(set-default-coding-systems 'utf-8)
+
 ;; Package signatures are broken in Windows
 (if (or (eq system-type 'ms-dos) (eq system-type 'windows-nt))
     (setq package-check-signature nil
@@ -27,6 +30,10 @@
                                    ("melpa" . 30)
                                    ("melpa-stable" . 40)))
 (package-initialize)
+;; Adds the :vc option to use-package, does not work on windows though
+;; Will need to wrap any use-package blocks in windows checks
+(unless (package-installed-p 'vc-use-package)
+  (package-vc-install "https://github.com/slotThe/vc-use-package"))
 (eval-when-compile
   (package-install-selected-packages t)
   (require 'use-package))
@@ -193,10 +200,10 @@
         completion-category-overrides '((file (styles . (partial-completion))))
         completion-styles '(orderless partial-completion basic)))
 
+(load-file "~/.emacs.d/snippets.el")
 (load-file "~/.emacs.d/completions.el")
 (load-file "~/.emacs.d/minibuffer.el")
 (load-file "~/.emacs.d/corfu.el")
-(load-file "~/.emacs.d/snippets.el")
 
 
 ;; Language configuration
