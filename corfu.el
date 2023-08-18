@@ -8,6 +8,7 @@
   :hook (org-mode . (lambda () (setq-local completion-at-point-functions
                                            (list #'cape-file
                                                  (cape-super-capf
+                                                  #'tempel-complete
                                                   #'cape-keyword
                                                   #'cape-dabbrev)))))
   :init
@@ -16,6 +17,7 @@
       (setq completion-at-point-functions
             (list #'cape-file
                   (cape-super-capf
+                   #'tempel-complete
                    #'cape-keyword
                    #'cape-dabbrev
                    #'citre-completion-at-point
@@ -23,9 +25,16 @@
       (setq completion-at-point-functions
             (list #'cape-file
                   (cape-super-capf
+                   #'tempel-complete
                    #'cape-keyword
                    #'cape-dabbrev
                    #'citre-completion-at-point)))))
+;; VC doesn't work on windows for now
+;(use-package yasnippet-capf
+  ;:vc (:fetcher github :repo elken/yasnippet-capf)
+  ;:after cape
+  ;:config
+  ;(add-to-list 'completion-at-point-functions #'yasnippet-capf))
 
 (use-package corfu
   :ensure t

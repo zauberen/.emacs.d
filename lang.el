@@ -5,10 +5,12 @@
 ;; Java for jsp files
 (use-package java-mode
   :after citre
-  ; Use global to get reference jumping on java projects
+  ; Use global to get reference jumping on java projects, also no auto saves or git gutter to avoid encoding popups
   :hook (java-mode . (lambda ()
                        (when (or (eq system-type 'ms-dos) (eq system-type 'windows-nt))
-                         (citre-use-global-windows))))
+                         (citre-use-global-windows)
+                         (setq-local auto-save-default nil)
+                         (git-gutter-mode nil))))
   :mode ("\\.jsp\\'" . java-mode))
 
 ;; CSV editing mode
