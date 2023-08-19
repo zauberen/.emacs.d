@@ -4,7 +4,8 @@
 ;;; Code:
 ;; Git config
 (use-package magit-todos
-  :ensure t)
+  :ensure t
+  :pin melpa)
 (use-package magit
   :ensure t
   :pin melpa
