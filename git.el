@@ -3,9 +3,9 @@
 ;;; magit, magit-todos, git-gutter
 ;;; Code:
 ;; Git config
-(use-package magit-todos
-  :ensure t
-  :pin melpa)
+;(use-package magit-todos
+  ;:ensure t
+  ;:pin melpa)
 (use-package magit
   :ensure t
   :pin melpa
