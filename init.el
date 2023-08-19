@@ -25,15 +25,15 @@
       package-quickstart t)
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
 (add-to-list 'package-archives '("melpa-stable" . "https://stable.melpa.org/packages/") t)
-(setq package-archive-priorities '(("gnu" . 20)
-                                   ("nongnu" . 10)
-                                   ("melpa" . 30)
-                                   ("melpa-stable" . 40)))
+;(setq package-archive-priorities '(("gnu" . 20)
+                                   ;("nongnu" . 10)
+                                   ;("melpa" . 50)
+                                   ;("melpa-stable" . 40)))
 (package-initialize)
 ;; Adds the :vc option to use-package, does not work on windows though
 ;; Will need to wrap any use-package blocks in windows checks
-(unless (package-installed-p 'vc-use-package)
-  (package-vc-install "https://github.com/slotThe/vc-use-package"))
+;(unless (package-installed-p 'vc-use-package)
+  ;(package-vc-install "https://github.com/slotThe/vc-use-package"))
 (eval-when-compile
   (package-install-selected-packages t)
   (require 'use-package))
@@ -68,13 +68,6 @@
   :ensure t)
 (use-package diminish
   :ensure t)
-
-;; Save minibuffer history
-(use-package savehist
-  :ensure t
-  :config
-  (add-to-list 'savehist-additional-variables 'vertico-repeat-history)
-  (savehist-mode))
 
 ;; ag, the silver searcher
 (use-package ag
@@ -219,6 +212,13 @@
 
 ;; Eshell configuration
 (load-file "~/.emacs.d/eshell.el")
+
+;; Save minibuffer history
+(use-package savehist
+  :ensure t
+  :config
+  (add-to-list 'savehist-additional-variables 'vertico-repeat-history)
+  (savehist-mode))
 
 ;; Garbage collection
 (use-package gcmh

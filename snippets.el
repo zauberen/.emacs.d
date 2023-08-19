@@ -12,19 +12,20 @@
   :after yasnippet-snippets
   :diminish yas-minor-mode
   :bind ("C-c y" . yas-insert-snippet)
-  :hook ((prog-mode . tempel-abbrev-mode))
   :config
   (evil-define-key 'normal 'global
     (kbd "SPC y") #'yas-insert-snippet)
   (yas-global-mode 1))
 (use-package tempel
   :ensure t
+  :pin melpa
+  :demand t
   :bind (("M-+" . tempel-complete)
          ("M-*" . tempel-insert)
          :map tempel-map
          ("M-n" . tempel-next)
          ("M-p" . tempel-previous))
-  :init
+  :config
   ;; Setup completion at point
   (defun tempel-setup-capf ()
     ;; Add the Tempel Capf to `completion-at-point-functions'.
@@ -40,10 +41,10 @@
   (add-hook 'conf-mode-hook 'tempel-setup-capf)
   (add-hook 'prog-mode-hook 'tempel-setup-capf)
   (add-hook 'text-mode-hook 'tempel-setup-capf)
-
   ;; Make the Tempel templates available to Abbrev,
   ;; either locally or globally. `expand-abbrev' is bound to C-x '.
   (global-tempel-abbrev-mode))
 (use-package tempel-collection
-  :ensure t)
+  :ensure t
+  :pin melpa)
 ;;; snippets.el ends here
