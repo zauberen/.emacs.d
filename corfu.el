@@ -5,12 +5,20 @@
 (use-package cape
   :ensure t
   :pin melpa
-  :hook (org-mode . (lambda () (setq-local completion-at-point-functions
-                                           (list #'cape-file
-                                                 (cape-super-capf
-                                                  #'tempel-complete
-                                                  #'cape-keyword
-                                                  #'cape-dabbrev)))))
+  :hook (org-mode . (lambda () (if (eq system-type 'darwin)
+                                   (setq-local completion-at-point-functions
+                                               (list #'cape-file
+                                                     (cape-super-capf
+                                                      #'tempel-complete
+                                                      #'cape-keyword
+                                                      #'cape-dabbrev
+                                                      #'cape-dict)))
+                                   (setq-local completion-at-point-functions
+                                               (list #'cape-file
+                                                     (cape-super-capf
+                                                      #'tempel-complete
+                                                      #'cape-keyword
+                                                      #'cape-dabbrev))))))
   :init
   (setq cape-dabbrev-min-length 2)
   (if (eq system-type 'darwin)
