@@ -37,7 +37,6 @@
 (eval-when-compile
   (package-install-selected-packages t)
   (require 'use-package))
-;(setq use-package-always-pin '"melpa-stable")
 
 ;;; Non-use-package configuration
 ;; Line numbering and word wrap
