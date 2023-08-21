@@ -193,6 +193,7 @@
         completion-styles '(orderless partial-completion basic)))
 
 (load-file "~/.emacs.d/snippets.el")
+(load-file "~/.emacs.d/hydra.el")
 (load-file "~/.emacs.d/completions.el")
 (load-file "~/.emacs.d/minibuffer.el")
 (load-file "~/.emacs.d/corfu.el")
