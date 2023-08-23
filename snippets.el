@@ -26,6 +26,7 @@
          ("M-n" . tempel-next)
          ("M-p" . tempel-previous))
   :config
+  (setq tempel-trigger-prefix ";;")
   ;; Setup completion at point
   (defun tempel-setup-capf ()
     ;; Add the Tempel Capf to `completion-at-point-functions'.
@@ -40,10 +41,13 @@
                       completion-at-point-functions)))
   (add-hook 'conf-mode-hook 'tempel-setup-capf)
   (add-hook 'prog-mode-hook 'tempel-setup-capf)
-  (add-hook 'text-mode-hook 'tempel-setup-capf)
+  (add-hook 'text-mode-hook 'tempel-setup-capf))
   ;; Make the Tempel templates available to Abbrev,
   ;; either locally or globally. `expand-abbrev' is bound to C-x '.
-  (global-tempel-abbrev-mode))
+  ;; This makes it so if you type an abbrev and any character after,
+  ;; it will print the abbreviation, so in java typing if dumps the if abbrev
+  ;; that was too annoying so I turned it off
+  ;(global-tempel-abbrev-mode))
 (use-package tempel-collection
   :ensure t
   :pin melpa)
