@@ -5,38 +5,97 @@
 (use-package cape
   :ensure t
   :pin melpa
-  :hook (org-mode . (lambda () (if (eq system-type 'darwin)
-                                   (setq-local completion-at-point-functions
-                                               (list #'cape-file
-                                                     (cape-super-capf
-                                                      #'tempel-complete
-                                                      #'cape-keyword
-                                                      #'cape-dabbrev
-                                                      #'cape-dict)))
-                                   (setq-local completion-at-point-functions
-                                               (list #'cape-file
-                                                     (cape-super-capf
-                                                      #'tempel-complete
-                                                      #'cape-keyword
-                                                      #'cape-dabbrev))))))
+  :hook ((conf-mode . (lambda ()
+                        (if (eq system-type 'darwin)
+                            (setq-local completion-at-point-functions
+                                        (cons
+                                         #'cape-file
+                                         (cons
+                                          (cape-super-capf
+                                           #'cape-keyword
+                                           #'cape-dabbrev
+                                           #'cape-dict)
+                                          completion-at-point-functions)))
+                            (setq-local completion-at-point-functions
+                                        (cons
+                                         #'cape-file
+                                         (cons
+                                          (cape-super-capf
+                                           #'cape-keyword
+                                           #'cape-dabbrev)
+                                          completion-at-point-functions))))))
+         (text-mode . (lambda ()
+                        (if (eq system-type 'darwin)
+                            (setq-local completion-at-point-functions
+                                        (cons
+                                         #'cape-file
+                                         (cons
+                                          (cape-super-capf
+                                           #'cape-keyword
+                                           #'cape-dabbrev
+                                           #'cape-dict)
+                                          completion-at-point-functions)))
+                            (setq-local completion-at-point-functions
+                                        (cons
+                                         #'cape-file
+                                         (cons
+                                          (cape-super-capf
+                                           #'cape-keyword
+                                           #'cape-dabbrev)
+                                   completion-at-point-functions))))))
+         (prog-mode . (lambda ()
+                        (if (eq system-type 'darwin)
+                            (setq-local completion-at-point-functions
+                                        (cons
+                                         #'cape-file
+                                         (cons
+                                          (cape-super-capf
+                                           #'cape-keyword
+                                           #'citre-completion-at-point
+                                           #'cape-dabbrev
+                                           #'cape-dict)
+                                          completion-at-point-functions)))
+                            (setq-local completion-at-point-functions
+                                        (cons
+                                         #'cape-file
+                                         (cons
+                                          (cape-super-capf
+                                           #'cape-keyword
+                                           #'citre-completion-at-point
+                                           #'cape-dabbrev)
+                                          completion-at-point-functions))))))
+         (org-mode . (lambda ()
+                       (if (eq system-type 'darwin)
+                           (setq-local completion-at-point-functions
+                                       (list #'cape-file
+                                             (cape-super-capf
+                                              #'cape-keyword
+                                              #'cape-dabbrev
+                                              #'cape-dict)))
+                           (setq-local completion-at-point-functions
+                                       (list #'cape-file
+                                             (cape-super-capf
+                                              #'cape-keyword
+                                              #'cape-dabbrev)))))))
   :init
   (setq cape-dabbrev-min-length 2)
-  (if (eq system-type 'darwin)
-      (setq completion-at-point-functions
-            (list #'cape-file
-                  (cape-super-capf
-                   #'tempel-complete
-                   #'cape-keyword
-                   #'cape-dabbrev
-                   #'citre-completion-at-point
-                   #'cape-dict)))
-      (setq completion-at-point-functions
-            (list #'cape-file
-                  (cape-super-capf
-                   #'tempel-complete
-                   #'cape-keyword
-                   #'cape-dabbrev
-                   #'citre-completion-at-point)))))
+  ;; (if (eq system-type 'darwin)
+  ;;     (setq completion-at-point-functions
+  ;;           (list #'cape-file
+  ;;                 (cape-super-capf
+  ;;                  #'tempel-complete
+  ;;                  #'cape-keyword
+  ;;                  #'cape-dabbrev
+  ;;                  #'citre-completion-at-point
+  ;;                  #'cape-dict)))
+  ;;     (setq completion-at-point-functions
+  ;;           (list #'cape-file
+  ;;                 (cape-super-capf
+  ;;                  #'tempel-complete
+  ;;                  #'cape-keyword
+  ;;                  #'cape-dabbrev
+  ;;                  #'citre-completion-at-point))))
+  )
 ;; VC doesn't work on windows for now
 ;(use-package yasnippet-capf
   ;:vc (:fetcher github :repo elken/yasnippet-capf)

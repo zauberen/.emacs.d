@@ -16,11 +16,17 @@
          ("C-c t U" . citre-global-update-database))
   :init
   (require 'citre-config)
+  ; Ctags config
   (setq citre-default-create-tags-file-location 'global-cache
         citre-project-root-function #'projectile-project-root
         citre-prompt-language-for-ctags-command t
         citre-use-project-root-when-creating-tags t
+        ; Make completions easier to find
         citre-tags-completion-case-sensitive nil
+        citre-capf-substr-completion t
+        ; Disable capf integration since I handle it manually
+        citre-enable-capf-integration nil
+        ; Global configuration
         citre-gtags-args '("--compact"))
   (defun citre-use-global-windows ()
     (interactive)
