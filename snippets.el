@@ -38,10 +38,10 @@
     ;; that it will be tried first.
     (setq-local completion-at-point-functions
                 (cons #'tempel-complete
-                      completion-at-point-functions)))
-  (add-hook 'conf-mode-hook 'tempel-setup-capf)
-  (add-hook 'prog-mode-hook 'tempel-setup-capf)
-  (add-hook 'text-mode-hook 'tempel-setup-capf))
+                      completion-at-point-functions))))
+  ;(add-hook 'conf-mode-hook 'tempel-setup-capf)
+  ;(add-hook 'prog-mode-hook 'tempel-setup-capf)
+  ;(add-hook 'text-mode-hook 'tempel-setup-capf))
   ;; Make the Tempel templates available to Abbrev,
   ;; either locally or globally. `expand-abbrev' is bound to C-x '.
   ;; This makes it so if you type an abbrev and any character after,
