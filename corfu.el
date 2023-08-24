@@ -12,6 +12,7 @@
                                          #'cape-file
                                          (cons
                                           (cape-super-capf
+                                           #'tempel-complete
                                            #'cape-keyword
                                            #'cape-dabbrev
                                            #'cape-dict)
@@ -21,6 +22,7 @@
                                          #'cape-file
                                          (cons
                                           (cape-super-capf
+                                           #'tempel-complete
                                            #'cape-keyword
                                            #'cape-dabbrev)
                                           completion-at-point-functions))))))
@@ -31,6 +33,7 @@
                                          #'cape-file
                                          (cons
                                           (cape-super-capf
+                                           #'tempel-complete
                                            #'cape-keyword
                                            #'cape-dabbrev
                                            #'cape-dict)
@@ -40,6 +43,7 @@
                                          #'cape-file
                                          (cons
                                           (cape-super-capf
+                                           #'tempel-complete
                                            #'cape-keyword
                                            #'cape-dabbrev)
                                    completion-at-point-functions))))))
@@ -50,6 +54,7 @@
                                          #'cape-file
                                          (cons
                                           (cape-super-capf
+                                           #'tempel-complete
                                            #'cape-keyword
                                            #'citre-completion-at-point
                                            #'cape-dabbrev
@@ -60,6 +65,7 @@
                                          #'cape-file
                                          (cons
                                           (cape-super-capf
+                                           #'tempel-complete
                                            #'cape-keyword
                                            #'citre-completion-at-point
                                            #'cape-dabbrev)
@@ -69,12 +75,14 @@
                            (setq-local completion-at-point-functions
                                        (list #'cape-file
                                              (cape-super-capf
+                                              #'tempel-complete
                                               #'cape-keyword
                                               #'cape-dabbrev
                                               #'cape-dict)))
                            (setq-local completion-at-point-functions
                                        (list #'cape-file
                                              (cape-super-capf
+                                              #'tempel-complete
                                               #'cape-keyword
                                               #'cape-dabbrev)))))))
   :init
