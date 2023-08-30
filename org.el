@@ -24,6 +24,7 @@
          ("C-c ," . org-time-stamp-inactive)
          ("C-c ." . org-time-stamp)
          ("C-c x" . org-cut-subtree)
+         ("C-c t t" . org-toggle-timestamp-type)
          ("S-<return>" . evil-org-open-below))
   :mode (("\\.org\\'" . org-mode)
          ("\\.org$" . org-mode))

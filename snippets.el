@@ -29,7 +29,6 @@
          ("M-n" . tempel-next)
          ("M-p" . tempel-previous))
   :config
-  (setq tempel-trigger-prefix ";;")
   ;; Setup completion at point
   (defun tempel-setup-capf ()
     ;; Add the Tempel Capf to `completion-at-point-functions'.
