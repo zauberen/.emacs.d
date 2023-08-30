@@ -16,6 +16,9 @@
   (evil-define-key 'normal 'global
     (kbd "SPC y") #'yas-insert-snippet)
   (yas-global-mode 1))
+(use-package yasnippet-capf
+  :ensure t
+  :pin melpa)
 (use-package tempel
   :ensure t
   :pin melpa
