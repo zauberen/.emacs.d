@@ -12,6 +12,22 @@
                          (setq-local auto-save-default nil)
                          (git-gutter-mode nil))))
   :mode ("\\.jsp\\'" . java-mode))
+;; (use-package lsp-java
+;;   :ensure t
+;;   :init
+;;   (setq lsp-java-configuration-runtimes '[(:name "JavaSE-1.8"
+;;                                                  :path "C:/Program Files/Java/jdk1.8.0_202"
+;;                                                  :default t)
+;;                                           (:name "JavaSE-17"
+;;                                                  :path "C:/Program Files/Eclipse Adoptium/jdk-17.0.7.7-hotspot")])
+;;   ;; current VSCode defaults
+;;   (setq lsp-java-vmargs '("-XX:+UseParallelGC" "-XX:GCTimeRatio=4" "-XX:AdaptiveSizePolicyWeight=90" "-Dsun.zip.disableMemoryMapping=true" "-Xmx2G" "-Xms100m")))
+;; (use-package dap-mode
+;;   :ensure t
+;;   :after lsp-mode
+;;   :config
+;;   (dap-auto-configure-mode))
+;; (use-package dap-java)
 
 ;; CSV editing mode
 (use-package csv-mode
