@@ -56,6 +56,8 @@
         org-log-done 'note
         ;; Include diary stuff in the org agenda
         org-agenda-include-diary t
+        ;; set default to day
+        org-agenda-span 'day
         ;; Set default directories, files
         org-default-notes-file (concat org-directory "/inbox.org")
         org-work-file (concat org-directory "/org-private/work.org")
