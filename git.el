@@ -9,17 +9,19 @@
 (use-package magit
   :ensure t
   :pin melpa
-  :after magit-todos
   :init
   (setq magit-view-git-manual-method 'man
         transient-history-file null-device
         magit-save-repository-buffers 'dontask
-        magit-delete-by-moving-to-trash nil)
-  :config
-  ;; TODO convert this to use-package
-  (with-eval-after-load 'magit
-    (remove-hook 'server-switch-hook #'magit-commit-diff)
-    (magit-todos-mode)))
+        magit-delete-by-moving-to-trash nil
+        magit-define-global-key-bindings 'recommended
+        magit-blame-styles '((msg-only (show-message . t))
+                             (margin
+                              (margin-format " %s%f" " %C %a")
+                              (margin-width . 42)
+                              (margin-face . magit-blame-margin)
+                              (margin-body-face magit-blame-dimmed)))
+        magit-blame-echo-style 'msg-only))
 (use-package git-gutter
   :ensure t
   :pin melpa
