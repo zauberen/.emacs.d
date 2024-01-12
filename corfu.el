@@ -11,7 +11,7 @@
                                         (cons
                                          #'cape-file
                                          (cons
-                                          (cape-super-capf
+                                          (cape-capf-super
                                            #'yasnippet-capf
                                            #'tempel-complete
                                            #'cape-keyword
@@ -22,7 +22,7 @@
                                         (cons
                                          #'cape-file
                                          (cons
-                                          (cape-super-capf
+                                          (cape-capf-super
                                            #'yasnippet-capf
                                            #'tempel-complete
                                            #'cape-keyword
@@ -34,7 +34,7 @@
                                         (cons
                                          #'cape-file
                                          (cons
-                                          (cape-super-capf
+                                          (cape-capf-super
                                            #'yasnippet-capf
                                            #'tempel-complete
                                            #'cape-keyword
@@ -45,7 +45,7 @@
                                         (cons
                                          #'cape-file
                                          (cons
-                                          (cape-super-capf
+                                          (cape-capf-super
                                            #'yasnippet-capf
                                            #'tempel-complete
                                            #'cape-keyword
@@ -57,7 +57,7 @@
                                         (cons
                                          #'cape-file
                                          (cons
-                                          (cape-super-capf
+                                          (cape-capf-super
                                            #'yasnippet-capf
                                            #'tempel-complete
                                            #'cape-keyword
@@ -69,7 +69,7 @@
                                         (cons
                                          #'cape-file
                                          (cons
-                                          (cape-super-capf
+                                          (cape-capf-super
                                            #'yasnippet-capf
                                            #'tempel-complete
                                            #'cape-keyword
@@ -80,7 +80,7 @@
                        (if (eq system-type 'darwin)
                            (setq-local completion-at-point-functions
                                        (list #'cape-file
-                                             (cape-super-capf
+                                             (cape-capf-super
                                               #'yasnippet-capf
                                               #'tempel-complete
                                               #'cape-keyword
@@ -88,7 +88,7 @@
                                               #'cape-dict)))
                            (setq-local completion-at-point-functions
                                        (list #'cape-file
-                                             (cape-super-capf
+                                             (cape-capf-super
                                               #'yasnippet-capf
                                               #'tempel-complete
                                               #'cape-keyword
@@ -98,7 +98,7 @@
   ;; (if (eq system-type 'darwin)
   ;;     (setq completion-at-point-functions
   ;;           (list #'cape-file
-  ;;                 (cape-super-capf
+  ;;                 (cape-capf-super
   ;;                  #'tempel-complete
   ;;                  #'cape-keyword
   ;;                  #'cape-dabbrev
@@ -106,7 +106,7 @@
   ;;                  #'cape-dict)))
   ;;     (setq completion-at-point-functions
   ;;           (list #'cape-file
-  ;;                 (cape-super-capf
+  ;;                 (cape-capf-super
   ;;                  #'tempel-complete
   ;;                  #'cape-keyword
   ;;                  #'cape-dabbrev
