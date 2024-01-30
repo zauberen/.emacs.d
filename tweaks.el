@@ -27,7 +27,7 @@
 (setq-default fill-column 80
               indent-tabs-mode nil
               tab-width 4
-              tab-always-indent nil
+              tab-always-indent 'complete
               require-final-newline t)
 ;(setq indent-line-function 'insert-tab)
 (setq sentence-end-double-space nil)

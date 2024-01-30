@@ -58,7 +58,7 @@
                                          #'cape-file
                                          (cons
                                           (cape-capf-super
-                                           #'yasnippet-capf
+                                           ;#'yasnippet-capf
                                            #'tempel-complete
                                            #'cape-keyword
                                            #'citre-completion-at-point
@@ -66,22 +66,23 @@
                                            #'cape-dict)
                                           completion-at-point-functions)))
                             (setq-local completion-at-point-functions
-                                        (cons
-                                         #'cape-file
-                                         (cons
-                                          (cape-capf-super
-                                           #'yasnippet-capf
-                                           #'tempel-complete
+                                        (append
+                                         (list #'cape-file
+                                               #'tempel-complete)
+                                         completion-at-point-functions
+                                         (list (cape-capf-super
+                                           ;#'yasnippet-capf
                                            #'cape-keyword
-                                           #'citre-completion-at-point
                                            #'cape-dabbrev)
-                                          completion-at-point-functions))))))
+                                           ;#'citre-completion-at-point
+                                           ))
+                                          ))))
          (org-mode . (lambda ()
                        (if (eq system-type 'darwin)
                            (setq-local completion-at-point-functions
                                        (list #'cape-file
                                              (cape-capf-super
-                                              #'yasnippet-capf
+                                              ;#'yasnippet-capf
                                               #'tempel-complete
                                               #'cape-keyword
                                               #'cape-dabbrev
@@ -89,7 +90,7 @@
                            (setq-local completion-at-point-functions
                                        (list #'cape-file
                                              (cape-capf-super
-                                              #'yasnippet-capf
+                                              ;#'yasnippet-capf
                                               #'tempel-complete
                                               #'cape-keyword
                                               #'cape-dabbrev)))))))
@@ -130,19 +131,13 @@
   :hook (corfu-mode . corfu-popupinfo-mode)
   :init
   (setq corfu-auto t
-        corfu-auto-prefix 1
-        read-extended-command-predicate #'command-completion-default-include-p)
+        corfu-auto-delay 0
+        corfu-auto-prefix 3
+        completion-cycle-threshold 5)
+        ;read-extended-command-predicate #'command-completion-default-include-p)
   :config
-  (defun corfu-move-to-minibuffer ()
-    (interactive)
-    (when completion-in-region--data
-      (let ((completion-extra-properties corfu--extra)
-            completion-cycle-threshold completion-cycling)
-        (apply #'consult-completion-in-region completion-in-region--data))))
-  (define-key corfu-map (kbd "C-c m") #'corfu-move-to-minibuffer)
-  (add-to-list 'corfu-continue-commands #'corfu-move-to-minibuffer)
-  ;; Terminal specific settings for corfu
   (global-corfu-mode))
+;; Terminal specific settings for corfu
 (use-package corfu-terminal
   :ensure t
   :demand t

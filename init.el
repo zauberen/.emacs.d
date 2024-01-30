@@ -100,6 +100,8 @@
     ; Dark themes: doom-gruvbox, doom-molokai, doom-tomorrow-night
     ; While I like the idea, they give me a headache
     (load-theme 'doom-molokai t)
+    ; The comments on gruvbox are too good, I need them at work
+    ;(load-theme 'doom-gruvbox t)
     ; Use gruvbox at home since it's close but just different enough to give a different context
     (load-theme 'doom-gruvbox t))
   :ensure t)
