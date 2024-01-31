@@ -54,17 +54,16 @@
          (prog-mode . (lambda ()
                         (if (eq system-type 'darwin)
                             (setq-local completion-at-point-functions
-                                        (cons
-                                         #'cape-file
-                                         (cons
-                                          (cape-capf-super
-                                           ;#'yasnippet-capf
-                                           #'tempel-complete
-                                           #'cape-keyword
-                                           #'citre-completion-at-point
-                                           #'cape-dabbrev
-                                           #'cape-dict)
-                                          completion-at-point-functions)))
+                                        (append
+                                         (list #'cape-file)
+                                         completion-at-point-functions
+                                         (list (cape-capf-super
+                                                ;#'yasnippet-capf
+                                                #'tempel-complete
+                                                #'cape-keyword
+                                                #'citre-completion-at-point
+                                                #'cape-dabbrev
+                                                #'cape-dict))))
                             (setq-local completion-at-point-functions
                                         (append
                                          (list #'cape-file
