@@ -45,11 +45,12 @@
   :ensure t
   :demand t
   :pin melpa
-  :after consult corfu
+  :after consult corfu cape
   :init
   (setq lsp-completion-provider :none
         lsp-keymap-prefix "C-c l")
   :config
+  (advice-add #'lsp-completion-at-point :around #'cape-wrap-noninterruptible)
   ; Use consult for lsp completions
   (define-key lsp-mode-map [remap xref-find-apropos] #'consult-lsp-symbols)
   (defun corfu-lsp-setup ()
