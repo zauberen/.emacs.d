@@ -76,6 +76,16 @@
 (use-package wgrep-ag
   :demand t
   :ensure t)
+(use-package substitute
+  :ensure t
+  :demand t
+  :after evil
+  :bind (("C-c r" . substitute-target-in-buffer))
+  :config
+  (evil-define-key 'normal 'global
+    (kbd "SPC r") #'substitute-target-in-buffer)
+  (evil-define-key 'visual 'global
+    (kbd "SPC r") #'substitute-target-in-buffer))
 
 ;; Theming ;;
 ; I really like ef-elea-dark
