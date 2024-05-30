@@ -119,6 +119,11 @@
   ;(display-time-mode)
   (doom-modeline-mode 1))
 
+;; Prism, theme enhancement to show depth
+;; prism-mode for C like langs (parens/curls) prism-whitespace-mode for python like langs
+(use-package prism
+  :ensure t)
+
 (use-package adaptive-wrap
   :ensure t
   :demand t
@@ -145,6 +150,18 @@
   :ensure t
   :demand t
   :bind ("C-a" . avy-goto-subword-1))
+
+;; Workspaces with persp-mode
+;; Removed because it doesn't actually work, it's more of a stash of buffers
+;(use-package persp-mode
+  ;:ensure t
+  ;;:hook (window-setup . #'(lambda () (persp-mode 1)))
+  ;:init
+  ;(setq persp-keymap-prefix (kbd "C-c d"))
+  ;:config
+  ;(setq wg-morph-on nil)
+  ;(setq persp-autokill-buffer-on-remove 'kill-weak)
+  ;(persp-mode 1))
 
 ;; Magit and other git plugins
 (load-file "~/.emacs.d/git.el")

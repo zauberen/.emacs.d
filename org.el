@@ -37,6 +37,8 @@
         org-enfocre-todo-checkbox-dependencies t
         diary-file (concat org-directory "/diary")
         appt-display-diary nil
+        ;; Open links in the same window
+        org-link-frame-setup '((file . find-file))
         ;; Archive when closed
         org-todo-state-tags-triggers '(("CLOSED" ("ARCHIVE" . t)))
         ;; Theming
@@ -102,6 +104,8 @@
                                 ("m" "Link Home Task" entry (file+headline org-home-file "Tasks")
                                  "* TODO %?\n:PROPERTIES:\n:CREATION: %U\n:END:\n%a")))
   :config
+  (evil-define-key 'normal 'org-mode-map
+    (kbd "g d") 'org-open-at-point)
   ; Shamelessly stolen from https://emacs.stackexchange.com/questions/44914/choose-individual-startup-visibility-of-org-modes-source-blocks
   ; This code lets you put :hidden on an org code block to hide it by default
   (defun individual-visibility-source-blocks ()
@@ -121,7 +125,6 @@
                   (org-babel-get-src-block-info))))
            (org-hide-block-toggle))))))
   (add-hook 'org-mode-hook (function individual-visibility-source-blocks))
-  (appt-activate 1)
   (require 'org-checklist))
 
 ; Denote settings
