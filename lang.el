@@ -53,7 +53,9 @@
   :mode (("README\\.md\\'". gfm-mode)
          ("\\.\\(?:md\\|markdown\\|mkd\\|mdown\\|mkdn\\|mdwn\\)\\'" . markdown-mode))
   :init
-  (setq markdown-command "multimarkdown"))
+  (setq markdown-command "multimarkdown")
+  :config
+  (setq markdown-open-command 'find-file))
 
 (use-package clang-format
   :ensure t)

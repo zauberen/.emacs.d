@@ -105,7 +105,7 @@
                                  "* TODO %?\n:PROPERTIES:\n:CREATION: %U\n:END:\n%a")))
   :config
   (evil-define-key 'normal 'org-mode-map
-    (kbd "g d") 'org-open-at-point)
+    (kbd "RET") 'org-open-at-point)
   ; Shamelessly stolen from https://emacs.stackexchange.com/questions/44914/choose-individual-startup-visibility-of-org-modes-source-blocks
   ; This code lets you put :hidden on an org code block to hide it by default
   (defun individual-visibility-source-blocks ()
@@ -140,6 +140,7 @@
          ("C-c n r" . denote-rename-file)
          ("C-c n l" . denote-link)
          ("C-c n t" . denote-type)
+         ("C-c n b" . denote-org-extras-dblock-insert-files)
          ("C-c n f" . denote-rename-file-using-front-matter))
   :init
   ; Copied from org settings
@@ -151,6 +152,7 @@
         denote-prompts '(subdirectory title keywords)
         denote-file-type 'org
         denote-known-keywords '("emacs" "work" "reflection" "denote" "politics" "philosophy" "recipe" "discussion")
+        denote-link-button-action #'find-file
         denote-date-prompt-use-org-read-date t)
   :config
   (evil-define-key 'normal 'global
