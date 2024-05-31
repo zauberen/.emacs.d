@@ -80,12 +80,15 @@
   :ensure t
   :demand t
   :after evil
-  :bind (("C-c r" . substitute-target-in-buffer))
+  :bind (("C-d" . substitute-target-in-buffer)
+         ("C-c r f" . substitute-target-in-defun)
+         ("C-c r a" . substitute-target-above-point)
+         ("C-c r b" . substitute-target-below-point))
   :config
   (evil-define-key 'normal 'global
-    (kbd "SPC r") #'substitute-target-in-buffer)
+    (kbd "C-d") #'substitute-target-in-buffer)
   (evil-define-key 'visual 'global
-    (kbd "SPC r") #'substitute-target-in-buffer))
+    (kbd "C-d") #'substitute-target-in-buffer))
 
 ;; Theming ;;
 ; I really like ef-elea-dark
