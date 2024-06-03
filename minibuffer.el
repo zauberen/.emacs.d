@@ -51,7 +51,7 @@ This only works with orderless and for the first component of the search."
   (advice-add #'consult-line :after #'consult-line-evil-history)
   ; Use consult for xref
   (evil-define-key 'normal 'global
-    (kbd "SPC j") #'evil-collection-consult-jump-list
+    (kbd "SPC l") #'evil-collection-consult-jump-list
     (kbd "SPC b") #'consult-buffer
     (kbd "/") #'consult-line
     (kbd "g m") #'evil-collection-consult-mark))

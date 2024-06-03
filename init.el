@@ -18,8 +18,7 @@
 ;; Package management ;;
 (require 'package)
 (setq package-selected-packages
-      '( use-package use-package-ensure-system-package
-         gnu-elpa-keyring-update))
+      '( use-package use-package-ensure-system-package))
 (setq package-native-compile t
       native-comp-async-report-warnings-errors nil
       package-quickstart t)

@@ -48,7 +48,8 @@
   :after consult corfu cape
   :init
   (setq lsp-completion-provider :none
-        lsp-keymap-prefix "C-c l")
+        lsp-keymap-prefix "C-c l"
+        lsp-pylsp-plugins-ruff-line-length 300)
   :config
   (advice-add #'lsp-completion-at-point :around #'cape-wrap-noninterruptible)
   ; Use consult for lsp completions
