@@ -61,6 +61,11 @@ play well with `evil-mc'."
   (add-hook 'evil-mc-before-cursors-created 'evil-mc-before-cursors-setup-hook)
   (add-hook 'evil-mc-after-cursors-deleted 'evil-mc-after-cursors-teardown-hook)
   (global-evil-mc-mode 1)
+
+  (evil-define-key 'normal 'global
+    (kbd "SPC q") #'evil-mc-undo-all-cursors
+    (kbd "SPC j") #'evil-mc-make-cursor-move-next-line
+    (kbd "SPC k") #'evil-mc-make-cursor-move-prev-line)
   (evil-define-key 'visual evil-mc-key-map
     "A" #'evil-mc-make-cursor-in-visual-selection-end
     "I" #'evil-mc-make-cursor-in-visual-selection-beg))
