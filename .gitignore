@@ -22,3 +22,9 @@ projectile.cache
 .dap-breakpoints
 eclipse.jdt.ls/
 server/
+/desktop/
+/elpabackup/
+/persp-confs/
+/tramp
+/transient/
+/workspace/
