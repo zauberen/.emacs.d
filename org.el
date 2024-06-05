@@ -52,6 +52,8 @@
         org-insert-heading-respect-content t
         ;; Follow links on RET (cannot always use gx)
         org-return-follows-link t
+        ;; Use ID links instead of file position links
+        org-id-link-to-org-use-id t
         ;; Make org look better
         org-hide-leading-stars t
         ;; When a todo is set to done, add the completion time
