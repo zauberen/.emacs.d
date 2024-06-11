@@ -75,6 +75,8 @@
 (use-package wgrep-ag
   :demand t
   :ensure t)
+;; Used to replace all instances of the word or selection under the cursor
+;; C-c r contains context limited replace all functions (function scope, below or above cursor)
 (use-package substitute
   :ensure t
   :demand t
