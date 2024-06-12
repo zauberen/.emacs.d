@@ -109,7 +109,7 @@
   ;(when (eq system-type 'darwin)
   (doom-themes-visual-bell-config)
   (doom-themes-org-config)
-  (if (or (eq system-type 'ms-dos) (eq system-type 'windows-nt))
+  (if (not (eq system-type 'darwin))
     ; A selection of good light themes: doom-flatwhite, also doom-miramare, and the light gruvbox
     ; Dark themes: doom-gruvbox, doom-molokai, doom-tomorrow-night
     ; While I like the idea, they give me a headache
@@ -127,8 +127,9 @@
         doom-modeline-height 17                ; Reasonable modeline height
         display-time-default-load-average nil) ; Don't show CPU with system time
   ; Unicode fallback looks pretty bad on MacOS
-  (when (not (eq system-type 'darwin))
-        (setq doom-modeline-unicode-fallback t))
+  ; Also bad on wsl, just getting rid of this for now
+  ;(when (not (eq system-type 'darwin))
+        ;(setq doom-modeline-unicode-fallback t))
   :config
   ;(display-time-mode)
   (doom-modeline-mode 1))
