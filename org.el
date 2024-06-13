@@ -107,7 +107,7 @@
                                  "* TODO %?\n:PROPERTIES:\n:CREATION: %U\n:END:\n%a")))
   :config
   ; For some reason, this assignment leaks into inappropriate maps
-  ;(evil-define-key 'normal 'org-mode-map (kbd "RET") 'org-open-at-point)
+  (evil-define-key 'normal org-mode-map (kbd "RET") 'org-open-at-point)
   (evil-define-key 'normal org-mode-map (kbd "TAB") 'org-cycle)
   ; Shamelessly stolen from https://emacs.stackexchange.com/questions/44914/choose-individual-startup-visibility-of-org-modes-source-blocks
   ; This code lets you put :hidden on an org code block to hide it by default
