@@ -46,6 +46,8 @@
   :demand t
   :pin melpa
   :after consult corfu cape
+  :bind (:map lsp-mode-map
+         ("C-c C-." . lsp-execute-code-action))
   :init
   (setq lsp-completion-provider :none
         lsp-keymap-prefix "C-c l"
