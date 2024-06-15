@@ -24,12 +24,12 @@
                             (?? aw-show-dispatch-help))))
 
 ;; Useful dictionary/thesaurus program (requires internet)
-(use-package powerthesaurus
-  :after hydra evil
-  :ensure t
-  :config
-  (evil-define-key 'normal 'global
-    (kbd "SPC d") #'powerthesaurus-hydra/body)
-  (evil-define-key 'visual 'global
-    (kbd "SPC d") #'powerthesaurus-hydra/body))
+;(use-package powerthesaurus
+  ;:after hydra evil
+  ;:ensure t
+  ;:config
+  ;(evil-define-key 'normal 'global
+    ;(kbd "SPC d") #'powerthesaurus-hydra/body)
+  ;(evil-define-key 'visual 'global
+    ;(kbd "SPC d") #'powerthesaurus-hydra/body))
 ;;; hydra.el ends here
