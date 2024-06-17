@@ -83,4 +83,14 @@
          (sql-interactive-mode . (lambda () (toggle-truncate-lines t))))
   :init
   (setq sql-mysql-options '("--prompt=mysql> " "-C" "-t" "-f" "-n")))
+
+;; YAML
+; Basic syntax highlighting in yaml
+(use-package yaml-mode
+  :ensure t
+  :mode ("\\.yml\\'" . yaml-mode))
+; Adds some additional functionality to yaml-mode
+(use-package yaml-pro
+  :ensure t
+  :hook (yaml-mode . yaml-pro-mode))
 ;;; lang.el ends here
