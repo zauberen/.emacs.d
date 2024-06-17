@@ -70,8 +70,7 @@
 ;; ag, the silver searcher
 (use-package ag
   :ensure t
-  :demand t
-  :ensure-system-package ag)
+  :demand t)
 (use-package wgrep-ag
   :demand t
   :ensure t)
