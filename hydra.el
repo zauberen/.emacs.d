@@ -22,16 +22,4 @@
                             (?w aw-swap-window "Swap")
                             (?o delete-other-windows "Delete other windows")
                             (?? aw-show-dispatch-help))))
-
-;; Does not work on unix, either this or some required dependency
-;; Useful dictionary/thesaurus program (requires internet)
-(if (or (eq system-type 'ms-dos) (eq system-type 'windows-nt))
-    (use-package powerthesaurus
-      :after hydra evil
-      :ensure t
-      :config
-      (evil-define-key 'normal 'global
-        (kbd "SPC d") #'powerthesaurus-hydra/body)
-      (evil-define-key 'visual 'global
-        (kbd "SPC d") #'powerthesaurus-hydra/body)))
 ;;; hydra.el ends here
