@@ -242,6 +242,8 @@
 ;; Obsidian in Emacs configuration
 (load-file "~/.emacs.d/obsidian.el")
 
+;; Text editor functionality (bibliography, etc)
+(load-file "~/.emacs.d/editor.el")
 
 ;; Eshell configuration
 (load-file "~/.emacs.d/eshell.el")

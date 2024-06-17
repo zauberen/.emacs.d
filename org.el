@@ -293,36 +293,4 @@
   (require 'evil-org-agenda)
   (evil-org-set-key-theme '(navigation insert textobjects additional calendar))
   (evil-org-agenda-set-keys))
-
-;; Citations and paper storage
-(use-package citar
-  :ensure t
-  :no-require
-  :after org
-  :bind (:map org-mode-map
-         :package org ("C-c C-c" . #'org-cite-insert))
-  :config
-  (if (or (eq system-type 'ms-dos) (eq system-type 'windows-nt))
-      (setq org-cite-global-bibliography '("C:/org/org-notes/references.bib"))
-      (setq org-cite-global-bibliography '("~/Documents/GitHub/org-notes/references.bib")))
-  (setq citar-bibliography org-cite-global-bibliography)
-  :custom
-  (org-cite-insert-processor 'citar)
-  (org-cite-follow-processor 'citar)
-  (org-cite-activate-processor 'citar))
-(use-package citar-embark
-  :after citar embark
-  :ensure t
-  :no-require
-  :config (citar-embark-mode))
-(use-package citar-denote
-  :ensure t
-  :after citar denote
-  :config (citar-denote-mode))
-(use-package bibtex
-  :custom
-  (bibtex-user-optional-fields
-   '(("keywords" "Keywords to describe the entry" "")
-     ("file"     "Relative or absolute path to attachments" "" )))
-  (bibtex-align-at-equal-sign t))
 ;;; org.el ends here
