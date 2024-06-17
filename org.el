@@ -164,6 +164,36 @@
     (kbd "SPC n l") 'denote-link
     (kbd "SPC n t") 'denote-type
     (kbd "SPC n f") 'denote-rename-file-using-front-matter))
+;; Denote explore, config stolen from ews
+;; https://github.com/pprevos/emacs-writing-studio
+(use-package denote-explore
+  :ensure t
+  :after denote
+  :bind
+  (;; Statistics
+   ("C-c n x c" . denote-explore-count-notes)
+   ("C-c n x C" . denote-explore-count-keywords)
+   ("C-c n x b" . denote-explore-keywords-barchart)
+   ("C-c n x x" . denote-explore-extensions-barchart)
+   ;; Random walks
+   ("C-c n x r" . denote-explore-random-note)
+   ("C-c n x l" . denote-explore-random-link)
+   ("C-c n x k" . denote-explore-random-keyword)
+   ;; Denote Janitor
+   ("C-c n x d" . denote-explore-identify-duplicate-notes)
+   ("C-c n x z" . denote-explore-zero-keywords)
+   ("C-c n x s" . denote-explore-single-keywords)
+   ("C-c n x o" . denote-explore-sort-keywords)
+   ("C-c n x w" . denote-explore-rename-keyword)
+   ;; Visualise denote
+   ("C-c n x n" . denote-explore-network)
+   ("C-c n x v" . denote-explore-network-regenerate)
+   ("C-c n x D" . denote-explore-degree-barchart)))
+(use-package org-fragtog
+  :ensure t
+  :after org
+  :hook (org-mode . org-fragtog-mode))
+;; Consult extension to search all org and denote files
 (use-package consult-notes
   :ensure t
   :pin melpa
@@ -263,4 +293,36 @@
   (require 'evil-org-agenda)
   (evil-org-set-key-theme '(navigation insert textobjects additional calendar))
   (evil-org-agenda-set-keys))
+
+;; Citations and paper storage
+(use-package citar
+  :ensure t
+  :no-require
+  :after org
+  :bind (:map org-mode-map
+         :package org ("C-c C-c" . #'org-cite-insert))
+  :config
+  (if (or (eq system-type 'ms-dos) (eq system-type 'windows-nt))
+      (setq org-cite-global-bibliography '("C:/org/org-notes/references.bib"))
+      (setq org-cite-global-bibliography '("~/Documents/GitHub/org-notes/references.bib")))
+  (setq citar-bibliography org-cite-global-bibliography)
+  :custom
+  (org-cite-insert-processor 'citar)
+  (org-cite-follow-processor 'citar)
+  (org-cite-activate-processor 'citar))
+(use-package citar-embark
+  :after citar embark
+  :ensure t
+  :no-require
+  :config (citar-embark-mode))
+(use-package citar-denote
+  :ensure t
+  :after citar denote
+  :config (citar-denote-mode))
+(use-package bibtex
+  :custom
+  (bibtex-user-optional-fields
+   '(("keywords" "Keywords to describe the entry" "")
+     ("file"     "Relative or absolute path to attachments" "" )))
+  (bibtex-align-at-equal-sign t))
 ;;; org.el ends here

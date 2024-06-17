@@ -10,6 +10,7 @@ My emacs configuration
    - `node` (tested with 20.3) (lsp)
    - `ag` or `the_silver_searcher`(macos) or `silversearcher-ag`(ubuntu) (project searching)
    - `fonts-hack-ttf`(ubuntu) or `homebrew/cask-fonts/font-hack`(macos) Hack font
+   - Some LaTeX distribution (recommend `texlive`)
 3. Create .emacs.d folder (varies) and dump this repo into it
 4. Move root.editorconfig to ~/.editorconfig
 5. Create .emacs.d/auto-save

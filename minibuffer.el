@@ -72,15 +72,31 @@ This only works with orderless and for the first component of the search."
 (use-package vertico
   :ensure t
   :demand t
-  :hook (minibuffer-setup . vertico-repeat-save)
+  :hook ((minibuffer-setup . vertico-repeat-save)
+         (rfn-eshadow-update-overlay . vertico-directory-tidy))
   :bind (("C-." . vertico-repeat)
          :map vertico-map
-              ("C-q" . vertico-quick-insert)
-              ("M-q" . vertico-quick-exit))
+         ("C-q" . my-vertico-avy-autofill)
+         ("M-q" . my-vertico-avy-run)
+         ("DEL" . vertico-directory-delete-char))
   :config
+  (defun my-vertico-avy-autofill ()
+    "Autofill jump in vertico."
+    (interactive)
+    (vertico-multiform-grid)
+    (vertico-quick-insert))
+  (defun my-vertico-avy-run ()
+    "Jump and run in vertico."
+    (interactive)
+    (vertico-multiform-grid)
+    (vertico-quick-exit))
   (vertico-mode)
   (evil-define-key 'normal 'global
-    (kbd "C-.") #'vertico-repeat))
+    (kbd "C-.") #'vertico-repeat)
+  (setq enable-recursive-minibuffers t)
+  (setq read-file-name-completion-ignore-case t
+        read-buffer-completion-ignore-case t
+        completion-ignore-case t))
 (use-package marginalia
   :ensure t
   :pin melpa
