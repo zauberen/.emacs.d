@@ -11,6 +11,7 @@ My emacs configuration
    - `ag` or `the_silver_searcher`(macos) or `silversearcher-ag`(ubuntu) (project searching)
    - `fonts-hack-ttf`(ubuntu) or `homebrew/cask-fonts/font-hack`(macos) Hack font
    - Some LaTeX distribution (recommend `texlive`)
+   - `pandoc` (optional but recommended) for exporting files
 3. Create .emacs.d folder (varies) and dump this repo into it
 4. Move root.editorconfig to ~/.editorconfig
 5. Create .emacs.d/auto-save
