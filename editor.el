@@ -33,6 +33,9 @@
      ("file"     "Relative or absolute path to attachments" "" )))
   (bibtex-align-at-equal-sign t))
 
+(use-package ox-pandoc
+  :ensure t)
+
 ;; Does not work on unix, either this or some required dependency
 ;; No longer works in windows as well, new theory is that you must install this first, then vertico on top to make it work.
 ;; Last time I installed on windows, I commented out minibuffer.el, loaded, then uncommented and relaunched.
