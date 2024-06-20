@@ -36,9 +36,7 @@
     (kbd "g j") 'citre-jump
     (kbd "g J") 'citre-jump-back
     (kbd "g p") 'citre-peek
-    (kbd "g P") 'citre-ace-peek
-    (kbd "SPC u") 'citre-update-this-tags-file
-    (kbd "SPC U") 'citre-global-update-database))
+    (kbd "g P") 'citre-ace-peek))
 
 ;; LSP setup with lsp-mode
 (use-package lsp-mode

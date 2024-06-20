@@ -206,8 +206,6 @@
                                              ("Org Private/Work" ?p "C:/org/org-notes/org-private")))
       (setq consult-notes-file-dir-sources '(("Org" ?o "~/Documents/GitHub/org-notes")
                                              ("Org Private/Work" ?p "~/Documents/GitHub/org-notes/org-private"))))
-  (evil-define-key 'normal 'global
-    (kbd "SPC o") 'consult-notes)
   :config
   (consult-notes-denote-mode t)
   (consult-notes-org-headings-mode t))
