@@ -17,7 +17,6 @@
          ("C-x r l" . consult-bookmark) ; Replace the existing bookmark list with consult, not that I'd use it
          ("C-c h" . consult-history)
          ("C-," . consult-yank-from-kill-ring)
-         ("C-l" . consult-line-multi)
          ("C-x b" . consult-buffer))
   :config
   ;; Add a slight waiting period before a preview on windows
@@ -51,7 +50,9 @@ This only works with orderless and for the first component of the search."
   (advice-add #'consult-line :after #'consult-line-evil-history)
   ; Use consult for xref
   (evil-define-key 'normal 'global
-    (kbd "SPC l") #'evil-collection-consult-jump-list
+    ; Bind to SPC o because evil-jump-backward is C-o
+    (kbd "SPC o") #'evil-collection-consult-jump-list
+    (kbd "SPC l") #'consult-line-multi
     (kbd "SPC b") #'consult-buffer
     (kbd "/") #'consult-line
     (kbd "g m") #'evil-collection-consult-mark))
