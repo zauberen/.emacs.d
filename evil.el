@@ -27,6 +27,9 @@
     (kbd "SPC s") #'evil-avy-goto-char-timer
     (kbd "C-u") #'evil-scroll-up
     (kbd "'") #'evil-goto-mark)
+  (evil-define-key 'visual 'global
+    ; Bound to a r since evil-org already has a default binding like this bound to a r
+    (kbd "a r") #'mark-defun)
   (evil-mode 1))
 (use-package evil-mc
   :ensure t
