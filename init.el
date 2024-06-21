@@ -75,15 +75,13 @@
   :demand t
   :ensure t)
 ;; Used to replace all instances of the word or selection under the cursor
-;; C-c r contains context limited replace all functions (function scope, below or above cursor)
+;; C-c d contains context limited replace all functions (defun scope, below or above cursor)
 (use-package substitute
   :ensure t
   :demand t
   :after evil
   :bind (("C-d" . substitute-target-in-buffer)
-         ("C-c r f" . substitute-target-in-defun)
-         ("C-c r a" . substitute-target-above-point)
-         ("C-c r b" . substitute-target-below-point))
+         ("C-c d" . #'substitute-prefix-map))
   :config
   (evil-define-key 'normal 'global
     (kbd "C-d") #'substitute-target-in-buffer)
