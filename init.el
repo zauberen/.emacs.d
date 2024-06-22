@@ -128,8 +128,11 @@
   ;(when (not (eq system-type 'darwin))
         ;(setq doom-modeline-unicode-fallback t))
   :config
-  ;(display-time-mode)
   (doom-modeline-mode 1))
+
+;; Load exwm only if it is already installed
+(if (package-installed-p 'exwm)
+   (load-file "~/.emacs.d/exwm.el"))
 
 ;; Prism, theme enhancement to show depth
 ;; prism-mode for C like langs (parens/curls) prism-whitespace-mode for python like langs
