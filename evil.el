@@ -21,13 +21,18 @@
   ;; Allows redo functionality in evil
   ;; Only works in emacs 28 and later
   (evil-set-undo-system 'undo-redo)
+  (evil-define-key 'insert 'global
+    (kbd "C-u") #'universal-argument
+    (kbd "C-e") #'end-of-line)
   (evil-define-key 'normal 'global
     (kbd "SPC b") #'switch-to-buffer
     (kbd "SPC SPC") #'evil-avy-goto-word-or-subword-1
     (kbd "SPC s") #'evil-avy-goto-char-timer
-    (kbd "C-u") #'evil-scroll-up
+    (kbd "C-u") #'universal-argument
+    (kbd "C-e") #'end-of-line
     (kbd "'") #'evil-goto-mark)
   (evil-define-key 'visual 'global
+    (kbd "C-e") #'end-of-line
     ; Bound to a r since evil-org already has a default binding like this bound to a r
     (kbd "a r") #'mark-defun)
   (evil-mode 1))
