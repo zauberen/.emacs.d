@@ -12,7 +12,7 @@
   :bind ("C-x C-o" . ace-window)
   :init
   (evil-define-key 'normal 'global
-    (kbd "SPC w") #'ace-window)
+    (kbd "SPC w") #'ace-swap-window)
   (setq aw-dispatch-always t
         aw-keys '(?h ?j ?k ?l ?a ?s ?d ?f ?g)
         aw-dispatch-alist '((?q aw-delete-window "Delete")

@@ -290,5 +290,17 @@
   :config
   (require 'evil-org-agenda)
   (evil-org-set-key-theme '(navigation insert textobjects additional calendar))
-  (evil-org-agenda-set-keys))
+  (evil-org-agenda-set-keys)
+  (defun my-evil-org-open-below (count)
+    "Insert org item below, fixes issue with lists on evil-org-open-below.
+Argument COUNT number of lines to insert."
+    (interactive "P")
+    ; Using 2 whens because I needed a multiline statement for the else
+    ; and it didn't work putting the else in parens
+    (when (not (org-at-item-p))
+      (evil-org-open-below count))
+    (when (org-at-item-p)
+      (evil-org-open-above count)
+      (org-metadown)))
+  (evil-define-key 'normal 'evil-org-mode (kbd "o") 'my-evil-org-open-below))
 ;;; org.el ends here
