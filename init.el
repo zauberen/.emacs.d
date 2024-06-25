@@ -46,7 +46,7 @@
 (global-visual-line-mode)
 ;; Mac font sizing is unusually small
 (if (eq system-type 'darwin)
-    (setq font-height '120)
+    (setq font-height '130)
     (setq font-height '100))
 (set-face-attribute 'default nil :height font-height :family "Hack")
 (set-face-attribute 'fixed-pitch nil :family "Hack")
