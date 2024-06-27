@@ -21,6 +21,11 @@
   :bind ("C-c C-s" . evil-avy-goto-char-timer)
   :after evil-collection avy
   :config
+  (defun my-mark-defun ()
+    "Marks the defun by moving to the start of the defun then marking it."
+    (interactive)
+    (beginning-of-defun)
+    (mark-defun))
   ;; Allows redo functionality in evil
   ;; Only works in emacs 28 and later
   (evil-set-undo-system 'undo-redo)
@@ -38,7 +43,7 @@
     (kbd "C-a") #'beginning-of-line
     (kbd "C-e") #'end-of-line
     ; Bound to a r since evil-org already has a default binding like this bound to a r
-    (kbd "a r") #'mark-defun)
+    (kbd "a r") #'my-mark-defun)
   (evil-mode 1))
 (use-package evil-mc
   :ensure t

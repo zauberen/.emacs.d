@@ -50,6 +50,7 @@
     ; 130 when using mac screen
     (setq font-height '130)
     (setq font-height '100))
+(setq use-default-font-for-symbols nil)
 (set-face-attribute 'default nil :height font-height :family "Hack")
 (set-face-attribute 'fixed-pitch nil :family "Hack")
 (set-face-attribute 'variable-pitch nil :family "Hack")
