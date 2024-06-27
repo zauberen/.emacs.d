@@ -46,6 +46,8 @@
 (global-visual-line-mode)
 ;; Mac font sizing is unusually small
 (if (eq system-type 'darwin)
+    ; 170 when doing presentations
+    ; 130 when using mac screen
     (setq font-height '130)
     (setq font-height '100))
 (set-face-attribute 'default nil :height font-height :family "Hack")
