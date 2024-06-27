@@ -9,29 +9,33 @@
   :diminish evil-collection-unimpaired-mode
   :init
   (setq evil-want-integration t
-        evil-want-keybinding nil)
+        evil-want-keybinding nil
+        ; Removes default insert bindings
+        evil-disable-insert-state-bindings t)
   :config
   (evil-collection-init))
 (use-package evil
   :ensure t
   :pin melpa
   :demand t
+  :bind ("C-c C-s" . evil-avy-goto-char-timer)
   :after evil-collection avy
   :config
   ;; Allows redo functionality in evil
   ;; Only works in emacs 28 and later
   (evil-set-undo-system 'undo-redo)
+  ;; This is the only insert binding I use, everything else is default emacs bindings
   (evil-define-key 'insert 'global
-    (kbd "C-u") #'universal-argument
-    (kbd "C-e") #'end-of-line)
+    (kbd "C-r") #'evil-paste-from-register)
   (evil-define-key 'normal 'global
     (kbd "SPC b") #'switch-to-buffer
     (kbd "SPC SPC") #'evil-avy-goto-word-or-subword-1
-    (kbd "SPC s") #'evil-avy-goto-char-timer
     (kbd "C-u") #'universal-argument
+    (kbd "C-a") #'beginning-of-line
     (kbd "C-e") #'end-of-line
     (kbd "'") #'evil-goto-mark)
   (evil-define-key 'visual 'global
+    (kbd "C-a") #'beginning-of-line
     (kbd "C-e") #'end-of-line
     ; Bound to a r since evil-org already has a default binding like this bound to a r
     (kbd "a r") #'mark-defun)

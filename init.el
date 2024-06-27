@@ -166,8 +166,7 @@
 (use-package avy
   :ensure t
   :demand t
-  :bind (("C-a" . avy-goto-subword-1)
-         ("C-l" . avy-goto-line)))
+  :bind ("C-l" . avy-goto-line))
 
 ;; Workspaces with persp-mode
 ;; Removed because it doesn't actually work, it's more of a stash of buffers
