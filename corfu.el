@@ -4,7 +4,6 @@
 ;;; Code:
 (use-package cape
   :ensure t
-  :pin melpa
   :hook ((conf-mode . (lambda ()
                         (if (eq system-type 'darwin)
                             (setq-local completion-at-point-functions

@@ -4,7 +4,6 @@
 ;;; Code:
 (use-package evil-collection
   :ensure t
-  :pin melpa
   :demand t
   :diminish evil-collection-unimpaired-mode
   :init
@@ -16,7 +15,6 @@
   (evil-collection-init))
 (use-package evil
   :ensure t
-  :pin melpa
   :demand t
   :bind ("C-c C-s" . evil-avy-goto-char-timer)
   :after evil-collection avy
@@ -47,7 +45,6 @@
   (evil-mode 1))
 (use-package evil-mc
   :ensure t
-  :pin melpa
   :demand t
   :after evil
   :config
@@ -92,7 +89,6 @@ play well with `evil-mc'."
 ;; Smart parens (select and use keybinds to place parens)
 (use-package smartparens
   :ensure t
-  :pin melpa
   :demand t
   :bind (("C-c (" . sp-wrap-round)
          ("C-c {" . sp-wrap-curly)
@@ -118,7 +114,6 @@ play well with `evil-mc'."
   (define-key global-map (kbd "C-c w q") #'sp-wrap-quote))
 (use-package evil-smartparens
   :ensure t
-  :pin melpa
   :demand t
   :after smartparens evil
   :hook (smartparens-enabled . evil-smartparens-mode)

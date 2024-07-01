@@ -6,36 +6,38 @@
 ;; Default to utf-8
 (set-default-coding-systems 'utf-8)
 
-;; Package signatures are broken in Windows
-(if (or (eq system-type 'ms-dos) (eq system-type 'windows-nt))
-    (setq package-check-signature nil
-          gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3")
-    (setq network-security-level 'high
-          gnutls-verify-error t
-          gnutls-min-prime-bits 3072
-          gnutls-algorithm-priority "PFS:-VERS-TLS1.2:-VERS-TLS1.1:-VERS-TLS1.0"))
-
 ;; Package management ;;
-(require 'package)
-(setq package-selected-packages
-      '( use-package use-package-ensure-system-package))
-(setq package-native-compile t
-      native-comp-async-report-warnings-errors nil
-      package-quickstart t)
-(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
-(add-to-list 'package-archives '("melpa-stable" . "https://stable.melpa.org/packages/") t)
-;(setq package-archive-priorities '(("gnu" . 20)
-                                   ;("nongnu" . 10)
-                                   ;("melpa" . 50)
-                                   ;("melpa-stable" . 40)))
-(package-initialize)
-;; Adds the :vc option to use-package, does not work on windows though
-;; Will need to wrap any use-package blocks in windows checks
-;(unless (package-installed-p 'vc-use-package)
-  ;(package-vc-install "https://github.com/slotThe/vc-use-package"))
-(eval-when-compile
-  (package-install-selected-packages t)
-  (require 'use-package))
+(when (eq use-elpaca t)
+  (load-file (expand-file-name "elpaca.el" user-emacs-directory)))
+(when (not (eq use-elpaca t))
+  ;; Package signatures are broken in Windows
+  (if (or (eq system-type 'ms-dos) (eq system-type 'windows-nt))
+      (setq package-check-signature nil
+            gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3")
+      (setq network-security-level 'high
+            gnutls-verify-error t
+            gnutls-min-prime-bits 3072
+            gnutls-algorithm-priority "PFS:-VERS-TLS1.2:-VERS-TLS1.1:-VERS-TLS1.0"))
+  (require 'package)
+  (setq package-selected-packages
+        '( use-package use-package-ensure-system-package))
+  (setq package-native-compile t
+        native-comp-async-report-warnings-errors nil
+        package-quickstart t)
+  (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
+  (add-to-list 'package-archives '("melpa-stable" . "https://stable.melpa.org/packages/") t)
+                                        ;(setq package-archive-priorities '(("gnu" . 20)
+                                        ;("nongnu" . 10)
+                                        ;("melpa" . 50)
+                                        ;("melpa-stable" . 40)))
+  (package-initialize)
+  ;; Adds the :vc option to use-package, does not work on windows though
+  ;; Will need to wrap any use-package blocks in windows checks
+                                        ;(unless (package-installed-p 'vc-use-package)
+                                        ;(package-vc-install "https://github.com/slotThe/vc-use-package"))
+  (eval-when-compile
+    (package-install-selected-packages t)
+    (require 'use-package)))
 
 ;;; Non-use-package configuration
 ;; Line numbering and word wrap
@@ -58,7 +60,7 @@
 (when (and (or (eq system-type 'ms-dos) (eq system-type 'windows-nt)) (display-graphic-p))
   (menu-bar-mode 1))
 
-(load-file "~/.emacs.d/tweaks.el")
+(load-file (expand-file-name "tweaks.el" user-emacs-directory))
 
 ;; Kill buffer command
 (global-set-key (kbd "C-x k") 'kill-current-buffer)
@@ -135,7 +137,7 @@
 
 ;; Load exwm only if it is already installed
 (if (package-installed-p 'exwm)
-   (load-file "~/.emacs.d/exwm.el"))
+   (load-file (expand-file-name "exwm.el" user-emacs-directory)))
 
 ;; Prism, theme enhancement to show depth
 ;; prism-mode for C like langs (parens/curls) prism-whitespace-mode for python like langs
@@ -151,7 +153,6 @@
 ;; Basic error checking with flycheck
 (use-package flycheck
   :ensure t
-  :pin melpa-stable
   :demand t
   :config
   (global-flycheck-mode))
@@ -172,7 +173,6 @@
 ;; Workspaces with persp-mode
 ;; Removed because it doesn't actually work, it's more of a stash of buffers
 ;(use-package persp-mode
-  ;:ensure t
   ;;:hook (window-setup . #'(lambda () (persp-mode 1)))
   ;:init
   ;(setq persp-keymap-prefix (kbd "C-c d"))
@@ -182,9 +182,9 @@
   ;(persp-mode 1))
 
 ;; Magit and other git plugins
-(load-file "~/.emacs.d/git.el")
+(load-file (expand-file-name "git.el" user-emacs-directory))
 
-(load-file "~/.emacs.d/evil.el")
+(load-file (expand-file-name "evil.el" user-emacs-directory))
 
 ;; Which key
 (use-package which-key
@@ -220,7 +220,6 @@
 ;; Virtico, Corfu, cape, orderless, consult, embark, marginalia
 (use-package orderless
   :ensure t
-  :pin melpa
   :init
   (setq orderless-component-separator #'orderless-escapable-split-on-space
         ;orderless-style-dispatchers '(+orderless-dispatch)
@@ -229,28 +228,28 @@
         completion-category-overrides '((file (styles . (partial-completion))))
         completion-styles '(orderless partial-completion basic)))
 
-(load-file "~/.emacs.d/snippets.el")
-(load-file "~/.emacs.d/hydra.el")
-(load-file "~/.emacs.d/completions.el")
-(load-file "~/.emacs.d/minibuffer.el")
-(load-file "~/.emacs.d/corfu.el")
+(load-file (expand-file-name "snippets.el" user-emacs-directory))
+(load-file (expand-file-name "hydra.el" user-emacs-directory))
+(load-file (expand-file-name "completions.el" user-emacs-directory))
+(load-file (expand-file-name "minibuffer.el" user-emacs-directory))
+(load-file (expand-file-name "corfu.el" user-emacs-directory))
 
 
 ;; Language configuration
-(load-file "~/.emacs.d/web.el")
-(load-file "~/.emacs.d/lang.el")
+(load-file (expand-file-name "web.el" user-emacs-directory))
+(load-file (expand-file-name "lang.el" user-emacs-directory))
 
 ;; Org mode
-(load-file "~/.emacs.d/org.el")
+(load-file (expand-file-name "org.el" user-emacs-directory))
 
 ;; Obsidian in Emacs configuration
-(load-file "~/.emacs.d/obsidian.el")
+(load-file (expand-file-name "obsidian.el" user-emacs-directory))
 
 ;; Text editor functionality (bibliography, etc)
-(load-file "~/.emacs.d/editor.el")
+(load-file (expand-file-name "editor.el" user-emacs-directory))
 
 ;; Eshell configuration
-(load-file "~/.emacs.d/eshell.el")
+(load-file (expand-file-name "eshell.el" user-emacs-directory))
 
 ;; Save minibuffer history
 (use-package savehist
@@ -262,7 +261,6 @@
 ;; Garbage collection
 (use-package gcmh
   :ensure t
-  :pin melpa
   :diminish gcmh-mode
   :init
   (setq gcmh-idle-delay 'auto
@@ -272,7 +270,7 @@
   (gcmh-mode 1))
 
 ;; Load custom settings
-(let ((local-settings "~/.emacs.d/local.el"))
+(let ((local-settings (expand-file-name "local.el" user-emacs-directory)))
   (when (file-exists-p local-settings)
     (load-file local-settings)))
 

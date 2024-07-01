@@ -3,11 +3,9 @@
 ;;; yasnippet-snippets, yasnippet, tempel, tempel-collection
 ;;; Code:
 (use-package yasnippet-snippets
-  :ensure t
-  :pin melpa)
+  :ensure t)
 (use-package yasnippet
   :ensure t
-  :pin melpa
   :demand t
   :after yasnippet-snippets
   :diminish yas-minor-mode
@@ -17,11 +15,9 @@
     (kbd "SPC y") #'yas-insert-snippet)
   (yas-global-mode 1))
 (use-package yasnippet-capf
-  :ensure t
-  :pin melpa)
+  :ensure t)
 (use-package tempel
   :ensure t
-  :pin melpa
   :demand t
   :bind (("M-+" . tempel-complete)
          ("M-*" . tempel-insert)
@@ -51,6 +47,5 @@
   ;; that was too annoying so I turned it off
   ;(global-tempel-abbrev-mode))
 (use-package tempel-collection
-  :ensure t
-  :pin melpa)
+  :ensure t)
 ;;; snippets.el ends here
