@@ -3,8 +3,7 @@
 ;;; consult, consult-flycheck, vertico, marginalia, embark, embark-consult
 ;;; Code:
 (use-package consult
-  :ensure t
-  :pin melpa
+  :ensure (:host melpa)
   :after evil evil-collection
   :demand t
   :bind (("C-s" . consult-git-grep)
@@ -58,7 +57,7 @@ This only works with orderless and for the first component of the search."
     (kbd "/") #'consult-line
     (kbd "g m") #'evil-collection-consult-mark))
 (use-package consult-projectile
-  :ensure t
+  :ensure (:host melpa)
   :after projectile evil
   :demand t
   :config
@@ -67,12 +66,12 @@ This only works with orderless and for the first component of the search."
     (kbd "SPC f") #'consult-projectile
     (kbd "SPC p") #'consult-projectile-switch-project))
 (use-package consult-flycheck
-  :ensure t
+  :ensure (:host melpa)
   :after consult flycheck
   :demand t
   :bind ("C-c e" . consult-flycheck))
 (use-package vertico
-  :ensure t
+  :ensure (:host melpa)
   :demand t
   :hook ((minibuffer-setup . vertico-repeat-save)
          (rfn-eshadow-update-overlay . vertico-directory-tidy))
@@ -100,20 +99,17 @@ This only works with orderless and for the first component of the search."
         read-buffer-completion-ignore-case t
         completion-ignore-case t))
 (use-package marginalia
-  :ensure t
-  :pin melpa
+  :ensure (:host melpa)
   :demand t
   :config
   (marginalia-mode))
 (use-package embark
-  :ensure t
-  :pin melpa
+  :ensure (:host melpa)
   :demand t
   :after evil
   :bind ("C-;" . embark-act))
 (use-package embark-consult
-  :ensure t
-  :pin melpa
+  :ensure (:host melpa)
   :demand t
   :after embark consult
   :hook (embark-collect-mode . consult-preview-at-point-mode))

@@ -4,11 +4,8 @@
 ;;; Code:
 ;; Git config
 ;(use-package magit-todos
-  ;:ensure t
-  ;:pin melpa)
 (use-package magit
   :ensure t
-  :pin melpa
   :init
   (setq magit-view-git-manual-method 'man
         transient-history-file null-device
@@ -24,7 +21,6 @@
         magit-blame-echo-style 'msg-only))
 (use-package git-gutter
   :ensure t
-  :pin melpa
   :demand t
   :config
   (custom-set-variables '(git-gutter:update-interval 2)))

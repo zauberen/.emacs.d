@@ -5,7 +5,7 @@
 ;; ctags setup (citre)
 (use-package citre
   :ensure t
-  :pin melpa
+
   :defer t
   :after projectile evil
   :bind (("C-c t j" . citre-jump)
@@ -42,7 +42,6 @@
 (use-package lsp-mode
   :ensure t
   :demand t
-  :pin melpa
   :after consult corfu cape
   :bind (:map lsp-mode-map
          ("C-c C-." . lsp-execute-code-action))
@@ -69,23 +68,19 @@
   (add-hook 'js-mode-hook #'my/dont-launch-lsp-on-windows))
 (use-package lsp-ui
   :ensure t
-  :pin melpa
   :after lsp-mode)
 (use-package consult-lsp
   :ensure t
-  :pin melpa
   :after consult lsp-mode)
 
 ;; Tree sitter
 (use-package tree-sitter
   :ensure t
-  :pin melpa
   :diminish tree-sitter-mode
   :config
   (global-tree-sitter-mode))
 (use-package tree-sitter-langs
   :ensure t
-  :pin melpa
   :hook (tree-sitter-after-on . tree-sitter-hl-mode)
   :after tree-sitter)
 ;;; completions.el ends here

@@ -7,6 +7,5 @@
          ("\\.html\\'" . html-mode)))
 (use-package js2-mode
   :ensure t
-  :pin melpa
   :hook (js-mode . js2-minor-mode))
 ;;; web.el ends here

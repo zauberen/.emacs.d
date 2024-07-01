@@ -44,7 +44,6 @@
 ;(if (or (eq system-type 'ms-dos) (eq system-type 'windows-nt))
     ;(use-package powerthesaurus
       ;:after hydra evil
-      ;:ensure t
       ;:config
       ;(evil-define-key 'normal 'global
         ;(kbd "SPC d") #'powerthesaurus-hydra/body)

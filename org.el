@@ -196,7 +196,6 @@
 ;; Consult extension to search all org and denote files
 (use-package consult-notes
   :ensure t
-  :pin melpa
   :after denote consult evil org
   :bind (("C-c s" . consult-notes))
   :init
@@ -231,7 +230,6 @@
 ;; TODO keywords in org
 (use-package hl-todo
   :ensure t
-  :pin melpa
   :init
   (setq hl-todo-keyword-faces
 	    '(("TODO"           . "#FF0000")
@@ -244,7 +242,6 @@
 ; Load org extensions
 (use-package org-journal
   :ensure t
-  :pin melpa
   :after org
   :bind ("C-c j j" . org-journal-new-entry)
   :init
@@ -255,7 +252,6 @@
         org-journal-file-type 'monthly))
 (use-package org-super-agenda
   :ensure t
-  :pin melpa
   :demand t
   :after org
   :init
@@ -283,7 +279,6 @@
   (org-super-agenda-mode))
 (use-package evil-org
   :ensure t
-  :pin melpa
   :demand t
   :diminish evil-org-mode
   :hook (org-mode . evil-org-mode)
