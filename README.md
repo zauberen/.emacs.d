@@ -1,12 +1,14 @@
 # emacs-config
 My emacs configuration
 
+This branch is a WIP conversion to elpaca.el from package.el
+
 ## Install instructions
 1. Install emacs on system
 2. Install dependencies
    - `ispell` (non-macos) (causes completion errors without it)
    - Universal `ctags` (tested with 6.0) (provides completion and seek when lsp is not available)
-   - `python3`(.10+ preferred) (python lsp) pip3 install "python-lsp-server[all]" (python lsp)
+   - `python3`(.10+ preferred) (python lsp) pip3 install "python-lsp-server[all]"
    - `node` (tested with 20.3) (lsp)
    - `ag` or `the_silver_searcher`(macos) or `silversearcher-ag`(ubuntu) (project searching)
    - `fonts-hack-ttf`(ubuntu) or `homebrew/cask-fonts/font-hack`(macos) Hack font
