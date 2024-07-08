@@ -13,7 +13,7 @@
                                          (cons
                                           (cape-capf-super
                                            #'yasnippet-capf
-                                           #'tempel-complete
+                                           ;#'tempel-complete
                                            #'cape-keyword
                                            #'cape-dabbrev
                                            #'cape-dict)
@@ -24,7 +24,7 @@
                                          (cons
                                           (cape-capf-super
                                            #'yasnippet-capf
-                                           #'tempel-complete
+                                           ;#'tempel-complete
                                            #'cape-keyword
                                            #'cape-dabbrev)
                                           completion-at-point-functions))))))
@@ -35,7 +35,7 @@
                                          #'cape-file
                                          (cons
                                           (cape-capf-super
-                                           #'yasnippet-capf
+                                           ;#'yasnippet-capf
                                            #'tempel-complete
                                            #'cape-keyword
                                            #'cape-dabbrev
@@ -46,7 +46,7 @@
                                          #'cape-file
                                          (cons
                                           (cape-capf-super
-                                           #'yasnippet-capf
+                                           ;#'yasnippet-capf
                                            #'tempel-complete
                                            #'cape-keyword
                                            #'cape-dabbrev)
@@ -58,8 +58,8 @@
                                          (list #'cape-file)
                                          completion-at-point-functions
                                          (list (cape-capf-super
-                                                ;#'yasnippet-capf
-                                                #'tempel-complete
+                                                #'yasnippet-capf
+                                                ;#'tempel-complete
                                                 #'cape-keyword
                                                 #'citre-completion-at-point
                                                 #'cape-dabbrev
@@ -67,7 +67,8 @@
                             (setq-local completion-at-point-functions
                                         (append
                                          (list #'cape-file
-                                               #'tempel-complete)
+                                               #'yasnippet-capf)
+                                               ;#'tempel-complete)
                                          completion-at-point-functions
                                          (list (cape-capf-super
                                            ;#'yasnippet-capf
@@ -81,7 +82,7 @@
                            (setq-local completion-at-point-functions
                                        (list #'cape-file
                                              (cape-capf-super
-                                              ;#'yasnippet-capf
+                                              #'yasnippet-capf
                                               #'tempel-complete
                                               #'cape-keyword
                                               #'cape-dabbrev
@@ -89,7 +90,7 @@
                            (setq-local completion-at-point-functions
                                        (list #'cape-file
                                              (cape-capf-super
-                                              ;#'yasnippet-capf
+                                              #'yasnippet-capf
                                               #'tempel-complete
                                               #'cape-keyword
                                               #'cape-dabbrev)))))))
@@ -99,7 +100,7 @@
   ;;     (setq completion-at-point-functions
   ;;           (list #'cape-file
   ;;                 (cape-capf-super
-  ;;                  #'tempel-complete
+  ;;                  ;#'tempel-complete
   ;;                  #'cape-keyword
   ;;                  #'cape-dabbrev
   ;;                  #'citre-completion-at-point
@@ -107,17 +108,15 @@
   ;;     (setq completion-at-point-functions
   ;;           (list #'cape-file
   ;;                 (cape-capf-super
-  ;;                  #'tempel-complete
+  ;;                  ;#'tempel-complete
   ;;                  #'cape-keyword
   ;;                  #'cape-dabbrev
   ;;                  #'citre-completion-at-point))))
   )
 ;; VC doesn't work on windows for now
-;(use-package yasnippet-capf
-  ;:vc (:fetcher github :repo elken/yasnippet-capf)
-  ;:after cape
-  ;:config
-  ;(add-to-list 'completion-at-point-functions #'yasnippet-capf))
+(use-package yasnippet-capf
+  :ensure t
+  :after cape)
 
 (use-package corfu
   :ensure t
