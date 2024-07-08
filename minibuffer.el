@@ -7,8 +7,7 @@
   :pin melpa
   :after evil evil-collection
   :demand t
-  :bind (("C-s" . consult-git-grep)
-         ("C-c o a" . consult-org-agenda)
+  :bind (("C-c o a" . consult-org-agenda)
          ("C-'" . consult-bookmark)
          ("C-c m" . bookmark-set)
          ("C-c b d" . bookmark-delete)
@@ -19,12 +18,16 @@
          ("C-," . consult-yank-from-kill-ring)
          ("C-x b" . consult-buffer))
   :config
+  ;; Bind C-s to ripgrep if it is installed. Git is required, so git-grep will always be there as a fallback.
+  (if (not (eq (executable-find "rg") nil))
+      (define-key global-map (kbd "C-s") 'consult-ripgrep)
+    (define-key global-map (kbd "C-s") 'consult-git-grep))
   ;; Add a slight waiting period before a preview on windows
   (when (or (eq system-type 'ms-dos) (eq system-type 'windows-nt))
     (consult-customize
      consult-ripgrep consult-git-grep consult-grep
      consult-bookmark consult-recent-file consult-xref
-     consult-projectile
+     consult-projectile consult-buffer consult-notes
      consult--source-bookmark consult--source-file-register
      consult--source-recent-file consult--source-project-recent-file
      :preview-key '(:debounce 0.5 any)))
@@ -52,7 +55,8 @@ This only works with orderless and for the first component of the search."
   (evil-define-key 'normal 'global
     ; Bind to SPC o because evil-jump-backward is C-o
     (kbd "SPC o") #'evil-collection-consult-jump-list
-    (kbd "C-f") #'consult-imenu-multi
+    (kbd "C-t") #'consult-imenu-multi
+    (kbd "C-f") #'consult-outline
     (kbd "SPC l") #'consult-line-multi
     (kbd "SPC b") #'consult-buffer
     (kbd "/") #'consult-line
@@ -110,7 +114,8 @@ This only works with orderless and for the first component of the search."
   :pin melpa
   :demand t
   :after evil
-  :bind ("C-;" . embark-act))
+  :bind (("C-;" . embark-act)
+         ("C-:" . embark-collect)))
 (use-package embark-consult
   :ensure t
   :pin melpa
