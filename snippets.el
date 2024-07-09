@@ -17,8 +17,10 @@
     (kbd "SPC y") #'yas-insert-snippet)
   (yas-global-mode 1))
 (use-package yasnippet-capf
+  :after cape
   :ensure t
-  :pin melpa)
+  :config
+  (setq yasnippet-capf-lookup-by 'name))
 (use-package tempel
   :ensure t
   :pin melpa
