@@ -113,10 +113,6 @@
   ;;                  #'cape-dabbrev
   ;;                  #'citre-completion-at-point))))
   )
-;; VC doesn't work on windows for now
-(use-package yasnippet-capf
-  :ensure t
-  :after cape)
 
 (use-package corfu
   :ensure t
