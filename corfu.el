@@ -125,8 +125,8 @@
   :hook (corfu-mode . corfu-popupinfo-mode)
   :init
   (setq corfu-auto t
-        corfu-auto-delay 0
-        corfu-auto-prefix 3
+        corfu-auto-delay 0.3
+        corfu-auto-prefix 2
         completion-cycle-threshold 5)
         ;read-extended-command-predicate #'command-completion-default-include-p)
   :config
