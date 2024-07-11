@@ -2,6 +2,8 @@
 ;;; Commentary:
 ;;; java-mode, csv-mode, pascal-mode, markdown-mode, clang-format, cmake-mode, rust-mode, cargo, sql
 ;;; Code:
+
+;; Java Configuration
 (use-package dap-mode
   :ensure t
   :after lsp-mode
@@ -26,12 +28,16 @@
 (use-package lsp-java
   :ensure t
   :init
-  (setq lsp-java-java-path "C:/Program Files/Eclipse Adoptium/jdk-17.0.7.7-hotspot/bin/java.exe")
-  (setq lsp-java-configuration-runtimes '[(:name "JavaSE-1.8"
-                                                 :path "C:/Program Files/Java/jdk1.8.0_202"
-                                                 :default t)
-                                          (:name "JavaSE-17"
-                                                 :path "C:/Program Files/Eclipse Adoptium/jdk-17.0.7.7-hotspot")])
+  (if (or (eq system-type 'ms-dos) (eq system-type 'windows-nt))
+      (setq lsp-java-java-path "C:/Program Files/Eclipse Adoptium/jdk-17.0.7.7-hotspot/bin/java.exe"
+            lsp-java-configuration-runtimes '[(:name "JavaSE-1.8"
+                                                     :path "C:/Program Files/Java/jdk1.8.0_202"
+                                                     :default t)
+                                              (:name "JavaSE-17"
+                                                     :path "C:/Program Files/Eclipse Adoptium/jdk-17.0.7.7-hotspot")])
+    (setq lsp-java-java-path "/usr/bin/java"
+          lsp-java-configuration-runtimes '[(:name "OpenJDK-21"
+                                                   :path "/opt/homebrew/opt/openjdk@21")]))
   ;; current VSCode defaults
   (setq lsp-java-vmargs '("-XX:+UseParallelGC" "-XX:GCTimeRatio=4" "-XX:AdaptiveSizePolicyWeight=90" "-Dsun.zip.disableMemoryMapping=true" "-Xmx2G" "-Xms100m")))
 
@@ -48,6 +54,7 @@
   :init
   (setq pascal-indent-level 4))
 
+;; Markdown
 (use-package markdown-mode
   :ensure t
   :mode (("README\\.md\\'". gfm-mode)
@@ -57,10 +64,26 @@
   :config
   (setq markdown-open-command 'find-file))
 
+;; C and C++
 (use-package clang-format
   :ensure t)
 (use-package cmake-mode
   :ensure t)
+
+;; Python
+(when (memq window-system '(mac ns x))
+  (use-package exec-path-from-shell
+    :ensure t
+    :config
+    (exec-path-from-shell-initialize)))
+(use-package pet
+  :ensure t
+  :config
+  (add-hook 'python-base-mode-hook 'pet-mode -10)
+  (add-hook 'python-mode-hook
+          (lambda ()
+            (setq-local python-shell-interpreter (pet-executable-find "python")
+                        python-shell-virtualenv-root (pet-virtualenv-root)))))
 
 ;; rust
 (use-package rust-mode

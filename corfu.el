@@ -55,10 +55,11 @@
                         (if (eq system-type 'darwin)
                             (setq-local completion-at-point-functions
                                         (append
-                                         (list #'cape-file)
+                                         (list #'cape-file
+                                               #'yasnippet-capf)
                                          completion-at-point-functions
                                          (list (cape-capf-super
-                                                #'yasnippet-capf
+                                                ;#'yasnippet-capf
                                                 ;#'tempel-complete
                                                 #'cape-keyword
                                                 #'citre-completion-at-point
