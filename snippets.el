@@ -3,13 +3,10 @@
 ;;; yasnippet-snippets, yasnippet, tempel, tempel-collection
 ;;; Code:
 (use-package yasnippet-snippets
-  :ensure t
-  :pin melpa)
+  :ensure t)
 (use-package yasnippet
   :ensure t
-  :pin melpa
-  :demand t
-  :after yasnippet-snippets
+  :after yasnippet-snippets evil
   :diminish yas-minor-mode
   :bind ("C-c y" . yas-insert-snippet)
   :config
