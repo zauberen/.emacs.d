@@ -95,27 +95,32 @@ This only works with orderless and for the first component of the search."
     (interactive)
     (vertico-multiform-grid)
     (vertico-quick-exit))
-  (vertico-mode)
   (evil-define-key 'normal 'global
     (kbd "C-.") #'vertico-repeat)
   (setq enable-recursive-minibuffers t)
   (setq read-file-name-completion-ignore-case t
         read-buffer-completion-ignore-case t
-        completion-ignore-case t))
+        completion-ignore-case t)
+  (vertico-mode))
+(use-package vertico-directory
+  :after vertico
+  :ensure nil
+  ;; Use backspace to delete a directory
+  :bind (:map vertico-map
+         ("DEL" . vertico-directory-delete-char))
+  :hook (rfn-eshadow-update-overlay . vertico-directory-tidy))
 (use-package marginalia
   :ensure t
-  :demand t
+  :after vertico
   :config
   (marginalia-mode))
 (use-package embark
   :ensure t
-  :demand t
   :after evil
   :bind (("C-;" . embark-act)
          ("C-:" . embark-collect)))
 (use-package embark-consult
   :ensure t
-  :demand t
   :after embark consult
   :hook (embark-collect-mode . consult-preview-at-point-mode))
 ;;; minibuffer.el ends here

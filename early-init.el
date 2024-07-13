@@ -1,13 +1,10 @@
-;;; early-init.el --- Early init config v20220829
+;;; early-init.el --- Early init config
 ;;; Commentary:
-;;; Building basics still
+;;; My early init
 ;;; Code:
 
 ;; Disable GC
 (setq gc-cons-threshold most-positive-fixnum)
-
-;; Package vs elpaca switch
-(setq use-elpaca t)
 
 ;; Hide UI elements
 (push '(menu-bar-lines . 0)   default-frame-alist)
@@ -19,8 +16,7 @@
       window-resize-pixelwise t)
 
 ;; Disable package.el when using elpaca
-(when (eq use-elpaca t)
-  (setq package-enable-at-startup nil))
+(setq package-enable-at-startup nil)
 
 (provide 'early-init)
 ;;; early-init.el ends here
