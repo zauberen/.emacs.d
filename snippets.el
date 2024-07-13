@@ -6,8 +6,7 @@
   :ensure t)
 (use-package yasnippet
   :ensure t
-  :demand t
-  :after yasnippet-snippets
+  :after yasnippet-snippets evil
   :diminish yas-minor-mode
   :bind ("C-c y" . yas-insert-snippet)
   :config
@@ -15,7 +14,10 @@
     (kbd "SPC y") #'yas-insert-snippet)
   (yas-global-mode 1))
 (use-package yasnippet-capf
-  :ensure t)
+  :after cape
+  :ensure t
+  :config
+  (setq yasnippet-capf-lookup-by 'name))
 (use-package tempel
   :ensure t
   :demand t
