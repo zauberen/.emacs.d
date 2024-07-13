@@ -32,3 +32,4 @@ server/
 /eln-cache/
 /workgroups
 /elpaca/
+/flycheck_init.el
