@@ -1,8 +1,6 @@
 # emacs-config
 My emacs configuration
 
-This branch is a WIP conversion to elpaca.el from package.el
-
 ## Install instructions
 1. Install emacs on system
 2. Install dependencies
