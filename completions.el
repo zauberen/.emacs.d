@@ -75,6 +75,7 @@
 
 ;; Tree sitter
 (use-package tree-sitter
+  :defer t
   :ensure t
   :diminish tree-sitter-mode
   :config

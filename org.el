@@ -136,7 +136,7 @@
   :after evil org
   :demand t
   ; Make denote links work
-  :hook ((find-file . denote-link-buttonize-buffer)
+  :hook ((find-file . denote-fontify-links-mode)
          ; Denote formatting for files in dired
          (dired-mode . denote-dired-mode))
   :bind (("C-c n n" . denote)
@@ -211,7 +211,6 @@
 
 ;; Diary and calendar
 (use-package calendar
-  :ensure t
   :after org
   :bind (("C-x c" . calendar)
          ("C-x y" . diary))
