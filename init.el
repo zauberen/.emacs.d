@@ -6,7 +6,13 @@
 ;; Default to utf-8
 (set-default-coding-systems 'utf-8)
 
+;; Package signatures are broken in Windows
+(when (or (eq system-type 'ms-dos) (eq system-type 'windows-nt))
+  (setq package-check-signature nil))
+
 ;; Package management ;;
+(setq package-native-compile t
+      package-quickstart t)
 (defvar elpaca-installer-version 0.7)
 (defvar elpaca-directory (expand-file-name "elpaca/" user-emacs-directory))
 (defvar elpaca-builds-directory (expand-file-name "builds/" elpaca-directory))
