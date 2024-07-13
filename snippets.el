@@ -14,8 +14,8 @@
     (kbd "SPC y") #'yas-insert-snippet)
   (yas-global-mode 1))
 (use-package yasnippet-capf
+  :ensure (:host github :repo "zauberen/yasnippet-capf")
   :after cape
-  :ensure t
   :config
   (setq yasnippet-capf-lookup-by 'name))
 (use-package tempel
