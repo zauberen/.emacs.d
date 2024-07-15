@@ -15,7 +15,14 @@
       package-quickstart t)
 (load-file (expand-file-name "elpaca.el" user-emacs-directory))
 
-;;; Non-use-package configuration
+;;; General configuration
+(use-package emacs
+  :ensure nil
+  :config
+  ;; Kill buffer command
+  (global-set-key (kbd "C-x k") 'kill-current-buffer)
+  ;; Indent region command
+  (global-set-key (kbd "C-c i") 'indent-region))
 ;; Line numbering and word wrap
 (setq display-line-numbers-type 'relative)
 (global-display-line-numbers-mode)
@@ -24,11 +31,12 @@
 (global-visual-line-mode)
 ;; Mac font sizing is unusually small
 (if (eq system-type 'darwin)
-    ; 170 when doing presentations
-    ; 130 when using mac screen
+    ;; 170 when doing presentations
+    ;; 130 when using mac screen
     (setq font-height '130)
-    (setq font-height '100))
+  (setq font-height '100))
 (setq use-default-font-for-symbols nil)
+;; Fonts
 (set-face-attribute 'default nil :height font-height :family "Hack")
 (set-face-attribute 'fixed-pitch nil :family "Hack")
 (set-face-attribute 'variable-pitch nil :family "Hack")
@@ -38,13 +46,8 @@
 
 (load-file (expand-file-name "tweaks.el" user-emacs-directory))
 
-;; Kill buffer command
-(global-set-key (kbd "C-x k") 'kill-current-buffer)
-;; Indent region command
-(global-set-key (kbd "C-c i") 'indent-region)
-
-(use-package use-package-ensure-system-package
-  :ensure t)
+;; Diminish to hide minor modes
+;; Not necessary with doom modeline but will be useful if I drop it in the future
 (use-package diminish
   :ensure t)
 
@@ -112,7 +115,7 @@
   (doom-modeline-mode 1))
 
 ;; Load exwm only if it is already installed
-(if (package-installed-p 'exwm)
+(if (elpaca-installed-p 'exwm)
    (load-file (expand-file-name "exwm.el" user-emacs-directory)))
 
 ;; Prism, theme enhancement to show depth
@@ -145,17 +148,6 @@
   :ensure t
   :demand t
   :bind ("C-l" . avy-goto-line))
-
-;; Workspaces with persp-mode
-;; Removed because it doesn't actually work, it's more of a stash of buffers
-;(use-package persp-mode
-  ;;:hook (window-setup . #'(lambda () (persp-mode 1)))
-  ;:init
-  ;(setq persp-keymap-prefix (kbd "C-c d"))
-  ;:config
-  ;(setq wg-morph-on nil)
-  ;(setq persp-autokill-buffer-on-remove 'kill-weak)
-  ;(persp-mode 1))
 
 ;; Magit and other git plugins
 (load-file (expand-file-name "git.el" user-emacs-directory))
@@ -244,13 +236,16 @@
   :config
   (gcmh-mode 1))
 
+;; Wait for everything to be loaded
+(elpaca-wait)
+
 ;; Load custom settings
 (let ((local-settings (expand-file-name "local.el" user-emacs-directory)))
   (when (file-exists-p local-settings)
     (load-file local-settings)))
 
 ;; Open init.el on opening
-(find-file (or user-init-file ""))
+(find-file (expand-file-name "init.el" user-emacs-directory))
 
 ;; Editor package management section
 (custom-set-variables
