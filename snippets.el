@@ -15,7 +15,7 @@
   (yas-global-mode 1))
 (use-package yasnippet-capf
   :ensure (:host github :repo "zauberen/yasnippet-capf")
-  :after cape
+  :after cape yasnippet
   :config
   (setq yasnippet-capf-lookup-by 'name))
 (use-package tempel

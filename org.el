@@ -6,7 +6,6 @@
   :ensure t
   :demand t)
 (use-package org
-  :ensure t
   :after evil evil-org org-contrib consult
   :demand t
   :diminish org-indent-mode eldoc-mode auto-revert-mode

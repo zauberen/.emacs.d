@@ -36,17 +36,22 @@
 (use-package ox-pandoc
   :ensure t)
 
-;; Does not work on unix, either this or some required dependency
-;; No longer works in windows as well, new theory is that you must install this first, then vertico on top to make it work.
-;; Last time I installed on windows, I commented out minibuffer.el, loaded, then uncommented and relaunched.
-;; I don't want any weirdness like that required to use the system, so commenting out again
+;; Elpaca fixed the dependency problems with this!
 ;; Useful dictionary/thesaurus program (requires internet)
-;(if (or (eq system-type 'ms-dos) (eq system-type 'windows-nt))
-    ;(use-package powerthesaurus
-      ;:after hydra evil
-      ;:config
-      ;(evil-define-key 'normal 'global
-        ;(kbd "SPC d") #'powerthesaurus-hydra/body)
-      ;(evil-define-key 'visual 'global
-        ;(kbd "SPC d") #'powerthesaurus-hydra/body)))
+(use-package powerthesaurus
+  :ensure t
+  :after (hydra evil)
+  :config
+  (evil-define-key 'normal 'global
+    (kbd "SPC d") #'powerthesaurus-hydra/body)
+  (evil-define-key 'visual 'global
+    (kbd "SPC d") #'powerthesaurus-hydra/body))
+
+;; Blogging platform integration
+(use-package writefreely
+  :ensure t
+  :after org
+  :config
+  (setq writefreely-instance-url "https://write.as"
+        writefreely-instance-api-endpoint "https://write.as/api"))
 ;;; editor.el ends here
