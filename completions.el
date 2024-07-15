@@ -75,9 +75,9 @@
 
 ;; Tree sitter
 (use-package tree-sitter
-  :defer t
   :ensure t
   :diminish tree-sitter-mode
+  :demand t
   :config
   (global-tree-sitter-mode))
 (use-package tree-sitter-langs

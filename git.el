@@ -3,9 +3,12 @@
 ;;; magit, magit-todos, git-gutter
 ;;; Code:
 ;; Git config
-;(use-package magit-todos
+;; Transient required because the magit recipe does not pull the correct version
+(use-package transient
+  :ensure (:host github :repo "magit/transient"))
 (use-package magit
-  :ensure t
+  :ensure (:host github :repo "magit/magit")
+  :after transient
   :init
   (setq magit-view-git-manual-method 'man
         transient-history-file null-device

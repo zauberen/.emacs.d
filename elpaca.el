@@ -1,6 +1,12 @@
 ;;; elpaca.el --- Elpaca installer snippet
 ;;; Commentary:
 ;;; Code:
+
+;; Windows requires a limited queue or it hits the open file limit.
+(when (or (eq system-type 'ms-dos) (eq system-type 'windows-nt))
+  (setq elpaca-queue-limit 5))
+
+;; Start of generic elpaca installer from online docs
 (defvar elpaca-installer-version 0.7)
 (defvar elpaca-directory (expand-file-name "elpaca/" user-emacs-directory))
 (defvar elpaca-builds-directory (expand-file-name "builds/" elpaca-directory))
@@ -39,8 +45,9 @@
     (load "./elpaca-autoloads")))
 (add-hook 'after-init-hook #'elpaca-process-queues)
 (elpaca `(,@elpaca-order))
+;; End of generic installer code
 
-;; Uncomment for systems which cannot create symlinks:
+;; More Windows configurations for elpaca
 (when (or (eq system-type 'ms-dos) (eq system-type 'windows-nt))
   (elpaca-no-symlink-mode))
 
