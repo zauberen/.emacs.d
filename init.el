@@ -166,13 +166,13 @@
 (use-package projectile
   :ensure t
   :after evil
-  :demand t
   :diminish projectile-mode
   :bind (:map projectile-mode-map
          ("C-c p" . projectile-command-map))
   :init
-  (setq projectile-project-search-path '("~/.emacs.d"
-                                        ("~/Documents/GitHub" . 1)))
+  (when (not (or (eq system-type 'ms-dos) (eq system-type 'windows-nt)))
+    (setq projectile-project-search-path '("~/.emacs.d"
+                                            ("~/Documents/GitHub" . 1))))
   :config
   (projectile-mode +1)
   ; Bind the most useful projectile commands to easier keys

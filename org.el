@@ -3,11 +3,9 @@
 ;;; org-contrib, org, denote, evil-org, calendar, hl-todo, org-journal, org-super-agenda
 ;;; Code:
 (use-package org-contrib
-  :ensure t
-  :demand t)
+  :ensure t)
 (use-package org
   :after evil evil-org org-contrib consult
-  :demand t
   :diminish org-indent-mode eldoc-mode auto-revert-mode
   ; Enable word wrap and org indenting
   :hook ((org-mode . toggle-truncate-lines)
