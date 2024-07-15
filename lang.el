@@ -76,6 +76,7 @@
     :ensure t
     :config
     (exec-path-from-shell-initialize)))
+;; Allows use of virtual environments in python
 (use-package pet
   :ensure t
   :config
@@ -116,4 +117,11 @@
 (use-package yaml-pro
   :ensure t
   :hook (yaml-mode . yaml-pro-mode))
+
+;;; Misc
+;; Rainbow parentheses highlighting
+(use-package rainbow-delimiters
+  :ensure t
+  :bind ("C-c r" . rainbow-delimiters-mode))
+
 ;;; lang.el ends here

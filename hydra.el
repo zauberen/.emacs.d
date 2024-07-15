@@ -9,7 +9,8 @@
 ;; Switch windows using ace style bindings
 (use-package ace-window
   :ensure t
-  :bind ("C-x C-o" . ace-window)
+  :bind (("C-x C-o" . ace-window)
+         ("C-x M-o" . ace-swap-window))
   :init
   (evil-define-key 'normal 'global
     (kbd "SPC w") #'ace-swap-window)
