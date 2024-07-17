@@ -112,6 +112,9 @@ This only works with orderless and for the first component of the search."
 (use-package marginalia
   :ensure t
   :after vertico
+  :custom
+  ;; Set this to a ridiculously large number so that it always calculates the field width dynamically
+  (marginalia-field-width 500)
   :config
   (marginalia-mode))
 (use-package embark

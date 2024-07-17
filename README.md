@@ -21,3 +21,4 @@ My emacs configuration
 4. Move `root.editorconfig` to `~/.editorconfig`
 5. Create `.emacs.d/auto-save`
 6. Start emacs (first load will take a while while it loads and compiles plugins)
+7. Run `all-the-icons-install-fonts` to install the emoji and icon fonts for the emacs UI
