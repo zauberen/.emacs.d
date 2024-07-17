@@ -51,6 +51,24 @@
 (use-package diminish
   :ensure t)
 
+;; Icons and emoji support and it's cross platform
+;; Must run `all-the-icons-install-fonts' on first load!
+(use-package all-the-icons
+  :ensure t
+  :if (display-graphic-p))
+(use-package all-the-icons-completion
+  :ensure t
+  :after all-the-icons
+  :if (display-graphic-p)
+  :hook (marginalia-mode . all-the-icons-completion-marginalia-setup)
+  :config
+  (all-the-icons-completion-mode))
+
+(use-package all-the-icons-dired
+  :ensure t
+  :if (display-graphic-p)
+  :hook (dired-mode . all-the-icons-dired-mode))
+
 ;; ag, the silver searcher
 (use-package ag
   :ensure t
@@ -103,14 +121,16 @@
 (use-package doom-modeline
   :ensure t
   :init
-  (setq doom-modeline-icon nil                 ; Don't use icons
-        doom-modeline-time t                   ; Show the time
-        doom-modeline-height 17                ; Reasonable modeline height
-        display-time-default-load-average nil) ; Don't show CPU with system time
-  ; Unicode fallback looks pretty bad on MacOS
-  ; Also bad on wsl, just getting rid of this for now
-  ;(when (not (eq system-type 'darwin))
-        ;(setq doom-modeline-unicode-fallback t))
+  ;; Display all-the-icons icons when able to (display-graphic-p)
+  (if (display-graphic-p)
+      (setq doom-modeline-icon t
+            doom-modeline-time t
+            doom-modeline-height (+ (frame-char-height) 4)
+            display-time-default-load-average nil)
+    (setq doom-modeline-icon nil
+          doom-modeline-time t
+          doom-modeline-height 17
+          display-time-default-load-average nil))
   :config
   (doom-modeline-mode 1))
 
