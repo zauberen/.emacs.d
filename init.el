@@ -32,8 +32,9 @@
 ;; Mac font sizing is unusually small
 (if (eq system-type 'darwin)
     ;; 170 when doing presentations
-    ;; 130 when using mac screen
-    (setq font-height '130)
+    ;; 130-135 when using mac screen
+    ;; 120 when using 1080p screen on mac
+    (setq font-height '135)
   (setq font-height '100))
 (setq use-default-font-for-symbols nil)
 ;; Fonts
@@ -125,7 +126,7 @@
   (if (display-graphic-p)
       (setq doom-modeline-icon t
             doom-modeline-time t
-            doom-modeline-height (+ (frame-char-height) 4)
+            doom-modeline-height (+ (frame-char-height) 5)
             display-time-default-load-average nil)
     (setq doom-modeline-icon nil
           doom-modeline-time t
@@ -185,6 +186,7 @@
 ;; Set up projectile project directories in local.el!
 (use-package projectile
   :ensure t
+  :demand t
   :after evil
   :diminish projectile-mode
   :bind (:map projectile-mode-map
