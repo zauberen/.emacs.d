@@ -80,11 +80,10 @@
 (use-package pet
   :ensure t
   :config
-  (add-hook 'python-base-mode-hook 'pet-mode -10)
-  (add-hook 'python-mode-hook
-          (lambda ()
-            (setq-local python-shell-interpreter (pet-executable-find "python")
-                        python-shell-virtualenv-root (pet-virtualenv-root)))))
+  (defun my-python-use-venv ()
+    "Set up python to use venv. Run before opening project."
+    (interactive)
+    (add-hook 'python-base-mode-hook 'pet-mode -10)))
 
 ;; rust
 (use-package rust-mode
