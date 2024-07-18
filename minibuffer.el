@@ -62,8 +62,8 @@ This only works with orderless and for the first component of the search."
     (kbd "g m") #'evil-collection-consult-mark))
 (use-package consult-projectile
   :ensure t
-  :after projectile evil
   :demand t
+  :after projectile evil
   :config
   ; Rebind SPC f to use consult
   (evil-define-key 'normal 'global
