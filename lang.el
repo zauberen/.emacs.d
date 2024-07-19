@@ -120,7 +120,6 @@
 ;;; Misc
 ;; Rainbow parentheses highlighting
 (use-package rainbow-delimiters
-  :ensure t
-  :bind ("C-c r" . rainbow-delimiters-mode))
+  :ensure t)
 
 ;;; lang.el ends here

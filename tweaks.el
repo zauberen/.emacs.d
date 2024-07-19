@@ -41,4 +41,12 @@
       make-backup-files nil
       create-lockfiles nil
       custom-file null-device)
+
+;; Fix blurry PDFs
+(use-package doc-view
+  :init
+  ;; Set DPI of pdf viewer
+  (setq doc-view-resolution 300
+        ;; Set viewer to use scaling? (from reddit)
+        pdf-view-use-scaling t))
 ;;; tweaks.el ends here
