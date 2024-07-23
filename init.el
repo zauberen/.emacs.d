@@ -113,7 +113,8 @@
     ; A selection of good light themes: doom-flatwhite, also doom-miramare, and the light gruvbox
     ; Dark themes: doom-gruvbox, doom-molokai, doom-tomorrow-night
     ; While I like the idea, they give me a headache
-    (load-theme 'doom-molokai t)
+    ; Mixing it up a bit at work, gonna use gruvbox here too for now
+    (load-theme 'doom-gruvbox t) ;(load-theme 'doom-molokai t)
     ; The comments on gruvbox are too good, I need them at work
     ;(load-theme 'doom-gruvbox t)
     ; Use gruvbox at home since it's close but just different enough to give a different context
