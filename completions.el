@@ -1,6 +1,6 @@
 ;;; completions.el --- LSP and ctags configuration
 ;;; Commentary:
-;;; citre, lsp-mode, lsp-ui, consult-lsp, tree-sitter, tree-sitter-langs
+;;; Generic completion engines
 ;;; Code:
 ;; ctags setup (citre)
 (use-package citre

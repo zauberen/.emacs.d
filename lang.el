@@ -1,6 +1,6 @@
 ;;; lang.el --- Misc language configuration
 ;;; Commentary:
-;;; java-mode, csv-mode, pascal-mode, markdown-mode, clang-format, cmake-mode, rust-mode, cargo, sql
+;;; Programming language configuration.
 ;;; Code:
 
 ;; Java Configuration
@@ -40,6 +40,24 @@
                                                    :path "/opt/homebrew/opt/openjdk@21")]))
   ;; current VSCode defaults
   (setq lsp-java-vmargs '("-XX:+UseParallelGC" "-XX:GCTimeRatio=4" "-XX:AdaptiveSizePolicyWeight=90" "-Dsun.zip.disableMemoryMapping=true" "-Xmx2G" "-Xms100m")))
+
+;;; LISP
+;; Clojure
+(use-package clojure-ts-mode
+  :ensure t)
+(use-package cider
+  :ensure t
+  :hook (clojure-ts-mode . rainbow-delimiters-mode))
+(use-package cider-hydra
+  :ensure t
+  :hook (clojure-ts-mode . cider-hydra-mode))
+(use-package sly
+  :ensure t
+  :hook ((sly-mode . rainbow-delimiters-mode)
+         (lisp-mode . rainbow-delimiters-mode))
+  :config
+  (setq inferior-lisp-program "sbcl"))
+;;; End LISP
 
 ;; CSV editing mode
 (use-package csv-mode

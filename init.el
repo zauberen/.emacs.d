@@ -159,11 +159,11 @@
   (global-flycheck-mode))
 
 ;; New formatting engine copied from doom, see https://editorconfig.org
-(use-package editorconfig
-  :ensure t
-  :demand t
-  :config
-  (editorconfig-mode 1))
+;(use-package editorconfig
+  ;:ensure t
+  ;:demand t
+  ;:config
+  ;(editorconfig-mode 1))
 
 ;; Jump to text with avy
 (use-package avy
