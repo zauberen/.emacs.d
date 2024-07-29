@@ -1,6 +1,6 @@
 ;;; evil.el --- Basic evil configuration
 ;;; Commentary:
-;;; evil-collection, evil, evil-mc, smartparens, evil-smartparens
+;;; Evil configuration
 ;;; Code:
 (use-package evil-collection
   :ensure t
@@ -100,6 +100,9 @@ play well with `evil-mc'."
          ("C-c w s" . sp-wrap-square)
          ("C-c w u" . sp-unwrap-sexp))
   :config
+  ;; Use the smartparens default configuration
+  (require 'smartparens-config)
+  ;; A couple of my own custom wrap functions
   (defun sp-wrap-quote ()
     "Wrap text with a single quote"
     (interactive)
@@ -108,6 +111,7 @@ play well with `evil-mc'."
     "Wrap text with a double quote"
     (interactive)
     (sp-wrap-with-pair "\""))
+  ;; Bind custom wrap functions
   (define-key global-map (kbd "C-c \"") #'sp-wrap-double-quote)
   (define-key global-map (kbd "C-c '") #'sp-wrap-quote)
   (define-key global-map (kbd "C-c w d") #'sp-wrap-double-quote)
@@ -119,5 +123,5 @@ play well with `evil-mc'."
   :hook (smartparens-enabled . evil-smartparens-mode)
   :config
   (smartparens-global-mode 1)
-  (smartparens-strict-mode 1))
+  (smartparens-global-strict-mode))
 ;;; evil.el ends here
