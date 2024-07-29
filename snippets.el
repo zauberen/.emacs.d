@@ -1,12 +1,14 @@
 ;;; snippets.el --- Snippet plugin configuration
 ;;; Commentary:
-;;; yasnippet-snippets, yasnippet, tempel, tempel-collection
+;;; Snippet packages
 ;;; Code:
 (use-package yasnippet-snippets
   :ensure t)
+(use-package common-lisp-snippets
+  :ensure t)
 (use-package yasnippet
   :ensure t
-  :after yasnippet-snippets evil
+  :after (yasnippet-snippets evil)
   :diminish yas-minor-mode
   :bind ("C-c y" . yas-insert-snippet)
   :config
