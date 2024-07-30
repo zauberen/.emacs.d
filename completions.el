@@ -1,4 +1,4 @@
-;;; completions.el --- LSP and ctags configuration
+;;; completions.el --- Completion and syntax checking packages
 ;;; Commentary:
 ;;; Generic completion engines
 ;;; Code:

@@ -14,19 +14,14 @@
   (tooltip-mode 1)
   (dap-ui-controls-mode 1)
   (dap-auto-configure-mode))
-; Java for jsp files
-(use-package java-mode
-  :after citre
-  ; Use global to get reference jumping on java projects, also no auto saves or git gutter to avoid encoding popups
+(use-package lsp-java
+  :ensure t
   :hook (java-mode . (lambda ()
                        (when (or (eq system-type 'ms-dos) (eq system-type 'windows-nt))
                          (citre-use-global-windows)
                          (setq-local auto-save-default nil)
                          (git-gutter-mode nil)
                          (require 'dap-java))))
-  :mode ("\\.jsp\\'" . java-mode))
-(use-package lsp-java
-  :ensure t
   :init
   (if (or (eq system-type 'ms-dos) (eq system-type 'windows-nt))
       (setq lsp-java-java-path "C:/Program Files/Eclipse Adoptium/jdk-17.0.7.7-hotspot/bin/java.exe"
@@ -124,6 +119,21 @@
          (sql-interactive-mode . (lambda () (toggle-truncate-lines t))))
   :init
   (setq sql-mysql-options '("--prompt=mysql> " "-C" "-t" "-f" "-n")))
+
+;; Web
+(use-package web-mode
+  :ensure t
+  :mode (("\\.phtml\\'" . web-mode)
+         ("\\.tpl\\.php\\'" . web-mode)
+         ("\\.[agj]sp\\'" . web-mode)
+         ("\\.as[cp]x\\'" . web-mode)
+         ("\\.erb\\'" . web-mode)
+         ("\\.mustache\\'" . web-mode)
+         ("\\.djhtml\\'" . web-mode)
+         ("\\.html?\\'" . web-mode)))
+(use-package js2-mode
+  :ensure t
+  :hook (js-mode . js2-minor-mode))
 
 ;; YAML
 ; Basic syntax highlighting in yaml
