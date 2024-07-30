@@ -156,7 +156,7 @@
   :ensure t
   :demand t
   :config
-  (global-flycheck-mode))
+  (add-hook 'after-init-hook #'global-flycheck-mode))
 
 ;; New formatting engine copied from doom, see https://editorconfig.org
 ;(use-package editorconfig
@@ -227,7 +227,6 @@
 
 
 ;; Language configuration
-(load-file (expand-file-name "web.el" user-emacs-directory))
 (load-file (expand-file-name "lang.el" user-emacs-directory))
 
 ;; Org mode
