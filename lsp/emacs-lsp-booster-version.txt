@@ -1,0 +1,1 @@
+emacs-lsp-booster_v0.2.1_x86_64-pc-windows-gnu
