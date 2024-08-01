@@ -51,9 +51,6 @@
         lsp-pylsp-plugins-ruff-line-length 300)
   ;; This code is used to optimize the lsp interaction with emacs
   ;; Code adapted from https://github.com/blahgeek/emacs-lsp-booster
-  (when (or (or (eq system-type 'ms-dos) (eq system-type 'windows-nt)
-                (eq system-type 'darwin))
-            (executable-find "emacs-lsp-booster"))
     (defun lsp-booster--advice-json-parse (old-fn &rest args)
       "Try to parse bytecode instead of json."
       (or
@@ -81,7 +78,7 @@
                      (file-exists-p (expand-file-name "lsp/emacs-lsp-booster.exe" user-emacs-directory))
                    (if (eq system-type 'darwin)
                        (file-exists-p (expand-file-name "lsp/macos/emacs-lsp-booster" user-emacs-directory))
-                       (executable-find "emacs-lsp-booster"))))
+                       (file-exists-p (expand-file-name "lsp/linux/emacs-lsp-booster" user-emacs-directory)))))
             (progn
               (when-let ((command-from-exec-path (executable-find (car orig-result))))  ;; resolve command from exec-path (in case not found in $PATH)
                 (setcar orig-result command-from-exec-path))
@@ -90,10 +87,10 @@
                         (expand-file-name "lsp/emacs-lsp-booster.exe" user-emacs-directory)
                       (if (eq system-type 'darwin)
                           (expand-file-name "lsp/macos/emacs-lsp-booster" user-emacs-directory)
-                        "emacs-lsp-booster"))
+                        (expand-file-name "lsp/linux/emacs-lsp-booster" user-emacs-directory)))
                     orig-result))
           orig-result)))
-    (advice-add 'lsp-resolve-final-command :around #'lsp-booster--advice-final-command))
+    (advice-add 'lsp-resolve-final-command :around #'lsp-booster--advice-final-command)
   :config
   (advice-add #'lsp-completion-at-point :around #'cape-wrap-noninterruptible)
                                         ; Use consult for lsp completions
