@@ -17,7 +17,7 @@ My emacs configuration
    - `fonts-hack-ttf`(ubuntu) or `homebrew/cask-fonts/font-hack`(macos) Hack font
    - Some LaTeX distribution (recommend `texlive`)
    - `pandoc` (optional but recommended) for exporting files
-   - `emacs-lsp-booster` (optional, non-windows) Optimizes lsp-mode, but requires a full plugin reinstall to work. The booster exe is included in this repo for windows.
+   - `emacs-lsp-booster` (optional, linux) Optimizes lsp-mode, but requires a full plugin reinstall to work. The booster binary is included in this repo for mac and windows.
      - Install rust: `curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh`
      - Get the code: `git clone https://github.com/blahgeek/emacs-lsp-booster`
      - Build: `cd emacs-lsp-booster; cargo build --release`
