@@ -9,7 +9,7 @@
 ;; Hide UI elements
 (push '(menu-bar-lines . 0)   default-frame-alist)
 (push '(tool-bar-lines . 0)   default-frame-alist)
-;;(push '(vertical-scroll-bars) default-frame-alist)
+(push '(vertical-scroll-bars . 0) default-frame-alist)
 (advice-add #'x-apply-session-resources :override #'ignore)
 (setq frame-inhibit-implied-resize t
       frame-resize-pixelwise t
