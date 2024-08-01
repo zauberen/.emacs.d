@@ -91,6 +91,15 @@
   (evil-define-key 'visual 'global
     (kbd "C-d") #'substitute-target-in-buffer))
 
+;; Scrollbar replacement
+(use-package yascroll
+  :ensure t
+  :demand t
+  :init
+  (scroll-bar-mode -1)
+  :config
+  (global-yascroll-bar-mode 1))
+
 ;; Theming ;;
 ; I really like ef-elea-dark
 (use-package ef-themes
