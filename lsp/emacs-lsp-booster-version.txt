@@ -1,2 +1,3 @@
 WINDOWS: emacs-lsp-booster_v0.2.1_x86_64-pc-windows-gnu
 MACOS BUILD: 2024-07-31 10pm
+LINUX BUILD: 2024-08-01 10am

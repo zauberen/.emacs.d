@@ -16,10 +16,7 @@
       window-resize-pixelwise t)
 
 ;; Set up lsp-mode to use plists (for lsp-booster)
-(if (or (or (eq system-type 'ms-dos) (eq system-type 'windows-nt)
-            (eq system-type 'darwin))
-        (executable-find "emacs-lsp-booster"))
-    (setenv "LSP_USE_PLISTS" "true"))
+(setenv "LSP_USE_PLISTS" "true")
 
 ;; Disable package.el when using elpaca
 (setq package-enable-at-startup nil)
