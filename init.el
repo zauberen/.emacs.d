@@ -103,7 +103,10 @@
   :ensure t :demand t
   :init
   (scroll-bar-mode -1)
-  :hook (lsp-mode . (lambda () (setq-local nyan-bar-length 10)))
+  :hook (window-state-change . (lambda () (setq-local nyan-bar-length
+                                                      (max 10
+                                                           (/ (window-width)
+                                                              5)))))
   :config
   (setq nyan-bar-length 25)
   (nyan-mode))
@@ -144,6 +147,7 @@
   (if (display-graphic-p)
       (setq doom-modeline-icon t
             doom-modeline-time t
+            doom-modeline-project-detection nil
             doom-modeline-height (+ (frame-char-height) 5)
             display-time-default-load-average nil)
     (setq doom-modeline-icon nil
