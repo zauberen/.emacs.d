@@ -51,7 +51,13 @@
   :hook ((sly-mode . rainbow-delimiters-mode)
          (lisp-mode . rainbow-delimiters-mode))
   :config
-  (setq inferior-lisp-program "sbcl"))
+  ;; Roswell has its own special configuration
+  ;; After installing roswell run:
+  ;; ros install sly
+  (if (and (executable-find "ros")
+           (file-exists-p (expand-file-name "~/.roswell/helper.el")))
+      (load (expand-file-name "~/.roswell/helper.el"))
+    (setq inferior-lisp-program "sbcl")))
 ;;; End LISP
 
 ;; CSV editing mode
@@ -148,6 +154,7 @@
 ;;; Misc
 ;; Rainbow parentheses highlighting
 (use-package rainbow-delimiters
-  :ensure t)
+  :ensure t
+  :hook (emacs-lisp-mode . rainbow-delimiters-mode))
 
 ;;; lang.el ends here
