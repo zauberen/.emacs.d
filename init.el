@@ -92,13 +92,21 @@
     (kbd "C-d") #'substitute-target-in-buffer))
 
 ;; Scrollbar replacement
-(use-package yascroll
-  :ensure t
-  :demand t
+;; (use-package yascroll
+;;   :ensure t :demand t
+;;   :init
+;;   (scroll-bar-mode -1)
+;;   :config
+;;   (global-yascroll-bar-mode 1))
+;; More stable but less professional scrollbar replacement
+(use-package nyan-mode
+  :ensure t :demand t
   :init
   (scroll-bar-mode -1)
+  :hook (lsp-mode . (lambda () (setq-local nyan-bar-length 10)))
   :config
-  (global-yascroll-bar-mode 1))
+  (setq nyan-bar-length 25)
+  (nyan-mode))
 
 ;; Theming ;;
 ; I really like ef-elea-dark
