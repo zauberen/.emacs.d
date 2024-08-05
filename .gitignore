@@ -40,3 +40,4 @@ server/
 /package-lock.json
 /package.json
 /flycheck_lang.el
+/flycheck_evil.el
