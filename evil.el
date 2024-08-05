@@ -112,11 +112,22 @@ play well with `evil-mc'."
     "Wrap text with a double quote"
     (interactive)
     (sp-wrap-with-pair "\""))
+  (defun sp-wrap-equal-sign ()
+    "Wrap text with equal signs (org mode)"
+    (interactive)
+    (sp-wrap-with-pair "="))
+  (defun my-sp-wrap-generic (s)
+    "Wrap text with whatever"
+    (interactive "sWrap with: ")
+    (sp-wrap-with-pair s))
   ;; Bind custom wrap functions
   (define-key global-map (kbd "C-c \"") #'sp-wrap-double-quote)
   (define-key global-map (kbd "C-c '") #'sp-wrap-quote)
+  (define-key org-mode-map (kbd "C-=") #'sp-wrap-equal-sign)
   (define-key global-map (kbd "C-c w d") #'sp-wrap-double-quote)
-  (define-key global-map (kbd "C-c w q") #'sp-wrap-quote))
+  (define-key global-map (kbd "C-c w q") #'sp-wrap-quote)
+  (define-key global-map (kbd "C-c w e") #'sp-wrap-equal-sign)
+  (define-key global-map (kbd "C-c w g") #'my-sp-wrap-generic))
 (use-package evil-smartparens
   :ensure t
   :demand t
