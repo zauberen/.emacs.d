@@ -54,7 +54,8 @@ This only works with orderless and for the first component of the search."
   (evil-define-key 'normal 'global
     ; Bind to SPC o because evil-jump-backward is C-o
     (kbd "SPC o") #'evil-collection-consult-jump-list
-    (kbd "C-t") #'consult-imenu-multi
+    (kbd "C-t") #'consult-imenu
+    (kbd "C-S-t") #'consult-imenu-multi
     (kbd "C-f") #'consult-outline
     (kbd "SPC l") #'consult-line-multi
     (kbd "SPC b") #'consult-buffer
