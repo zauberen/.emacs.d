@@ -17,6 +17,9 @@ My emacs configuration
    - `fonts-hack-ttf`(ubuntu) or `homebrew/cask-fonts/font-hack`(macos) Hack font
    - Some LaTeX distribution (recommend `texlive`)
    - `pandoc` (optional but recommended) for exporting files
+   - For use as an SQL workbench:
+    - `leiningen` (also released as `lein`, and is that on the path)
+    - `clojure`
    - `emacs-lsp-booster` (binaries included in lsp folder) Optimizes lsp-mode, but requires a full plugin reinstall to work.
      - If you want to build the booster binaries, follow these steps:
      - Install rust: `curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh`
