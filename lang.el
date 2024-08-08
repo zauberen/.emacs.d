@@ -120,11 +120,26 @@
     (put sym 'completion-predicate #'ignore)))
 
 ;; SQL
+(use-package ejc-sql
+  :ensure t
+  :if (and (executable-find "clojure")
+           (executable-find "lein"))
+  :hook ((ejc-sql-connected . (lambda ()
+                                (ejc-set-fetch-size 99)
+                                (ejc-set-max-rows 99)
+                                (ejc-set-show-too-many-rows-message t)
+                                (ejc-set-column-width-limit 25)
+                                (ejc-set-use-unicode t)))
+         (ejc-sql-mode . (lambda () (ejc-eldoc-setup))))
+  :config
+  (setq clomacs-httpd-default-port 9095
+        ejc-completion-system 'standard
+        ejc-result-table-impl 'orgtbl-mode)) ; 'ejc-result-mode alternative?
 (use-package sql
+  :after ejc-sql
   :hook ((sql-mode . sql-highlight-mariadb-keywords)
-         (sql-interactive-mode . (lambda () (toggle-truncate-lines t))))
-  :init
-  (setq sql-mysql-options '("--prompt=mysql> " "-C" "-t" "-f" "-n")))
+         (sql-mode . ejc-sql-mode)))
+;(setq sql-mysql-options '("--prompt=mysql> " "-C" "-t" "-f" "-n"))
 
 ;; Web
 (use-package web-mode
