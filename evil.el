@@ -90,6 +90,7 @@ play well with `evil-mc'."
 (use-package smartparens
   :ensure t
   :demand t
+  :after org
   :bind (("C-c (" . sp-wrap-round)
          ("C-c {" . sp-wrap-curly)
          ("C-c [" . sp-wrap-square)
@@ -99,7 +100,9 @@ play well with `evil-mc'."
          ("C-c w r" . sp-wrap-round)
          ("C-c w c" . sp-wrap-curly)
          ("C-c w s" . sp-wrap-square)
-         ("C-c w u" . sp-unwrap-sexp))
+         ("C-c w u" . sp-unwrap-sexp)
+         :map org-mode-map
+         ("C-=" . sp-wrap-equal-sign))
   :config
   ;; Use the smartparens default configuration
   (require 'smartparens-config)
@@ -123,7 +126,6 @@ play well with `evil-mc'."
   ;; Bind custom wrap functions
   (define-key global-map (kbd "C-c \"") #'sp-wrap-double-quote)
   (define-key global-map (kbd "C-c '") #'sp-wrap-quote)
-  (define-key org-mode-map (kbd "C-=") #'sp-wrap-equal-sign)
   (define-key global-map (kbd "C-c w d") #'sp-wrap-double-quote)
   (define-key global-map (kbd "C-c w q") #'sp-wrap-quote)
   (define-key global-map (kbd "C-c w e") #'sp-wrap-equal-sign)
