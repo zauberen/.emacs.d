@@ -33,4 +33,10 @@
                                        "ls")))
                            ; This is here because it uses the ls variable set above
                            (eshell/alias "ll" (concat ls " -AlohG --color=always"))))))
+(use-package eshell-syntax-highlighting
+  :ensure t
+  :demand t
+  :after eshell-mode
+  :config
+  (eshell-syntax-highlighting-global-mode +1))
 ;;; eshell.el ends here
