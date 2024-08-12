@@ -44,5 +44,8 @@
   :init
   (setq diff-hl-disable-on-remote t)
   :config
-  (global-diff-hl-mode))
+  (global-diff-hl-mode)
+  ;; Normal diff-hl doesn't work on terminal, need to use the less-good hl-margin-mode
+  (unless (display-graphic-p)
+    (diff-hl-margin-mode)))
 ;;; git.el ends here
