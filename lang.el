@@ -20,7 +20,6 @@
                        (when (or (eq system-type 'ms-dos) (eq system-type 'windows-nt))
                          (citre-use-global-windows)
                          (setq-local auto-save-default nil)
-                         (git-gutter-mode nil)
                          (require 'dap-java))))
   :init
   (if (or (eq system-type 'ms-dos) (eq system-type 'windows-nt))
