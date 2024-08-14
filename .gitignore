@@ -41,3 +41,4 @@ server/
 /package.json
 /flycheck_lang.el
 /flycheck_evil.el
+flycheck_git.el

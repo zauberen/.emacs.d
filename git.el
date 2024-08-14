@@ -40,7 +40,6 @@
 (use-package diff-hl
   :ensure t
   :demand t
-  :hook (dired-mode . diff-hl-dired-mode)
   :init
   (setq diff-hl-disable-on-remote t)
   :config
@@ -48,4 +47,7 @@
   ;; Normal diff-hl doesn't work on terminal, need to use the less-good hl-margin-mode
   (unless (display-graphic-p)
     (diff-hl-margin-mode)))
+(use-package diff-hl-dired
+  :after diff-hl
+  :hook (dired-mode . diff-hl-dired-mode-unless-remote))
 ;;; git.el ends here
