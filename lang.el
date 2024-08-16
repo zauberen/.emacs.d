@@ -16,11 +16,11 @@
   (dap-auto-configure-mode))
 (use-package lsp-java
   :ensure t
+  :after dap-mode
   :hook (java-mode . (lambda ()
                        (when (or (eq system-type 'ms-dos) (eq system-type 'windows-nt))
                          (citre-use-global-windows)
-                         (setq-local auto-save-default nil)
-                         (require 'dap-java))))
+                         (setq-local auto-save-default nil))))
   :init
   (if (or (eq system-type 'ms-dos) (eq system-type 'windows-nt))
       (setq lsp-java-java-path "C:/Program Files/Eclipse Adoptium/jdk-17.0.7.7-hotspot/bin/java.exe"
@@ -33,7 +33,9 @@
           lsp-java-configuration-runtimes '[(:name "OpenJDK-21"
                                                    :path "/opt/homebrew/opt/openjdk@21")]))
   ;; current VSCode defaults
-  (setq lsp-java-vmargs '("-XX:+UseParallelGC" "-XX:GCTimeRatio=4" "-XX:AdaptiveSizePolicyWeight=90" "-Dsun.zip.disableMemoryMapping=true" "-Xmx2G" "-Xms100m")))
+  (setq lsp-java-vmargs '("-XX:+UseParallelGC" "-XX:GCTimeRatio=4" "-XX:AdaptiveSizePolicyWeight=90" "-Dsun.zip.disableMemoryMapping=true" "-Xmx2G" "-Xms100m"))
+  :config
+  (require 'dap-java))
 
 ;;; LISP
 ;; Clojure
