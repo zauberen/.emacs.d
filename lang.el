@@ -7,20 +7,23 @@
 (use-package dap-mode
   :ensure t
   :after lsp-mode
+  :functions dap-hydra/nil
+  :hook ((dap-mode . dap-ui-mode)
+         (dap-session-created . (lambda (&_rest) (dap-hydra)))
+         (dap-terminated . (lambda (&_rest) (dap-hydra/nil))))
+  :bind (:map lsp-mode-map
+              ("M-S-d" . dap-debug)
+              ("M-d" . dap-hydra))
   :config
-  (dap-mode 1)
-  (dap-ui-mode 1)
-  (dap-tooltip-mode 1)
-  (tooltip-mode 1)
-  (dap-ui-controls-mode 1)
-  (dap-auto-configure-mode))
+  (require 'dap-java))
+(use-package dap-java :after dap-mode :ensure nil)
+
 (use-package lsp-java
   :ensure t
   :after dap-mode
   :hook (java-mode . (lambda ()
                        (when (or (eq system-type 'ms-dos) (eq system-type 'windows-nt))
-                         (citre-use-global-windows)
-                         (setq-local auto-save-default nil))))
+                         (citre-use-global-windows))))
   :init
   (if (or (eq system-type 'ms-dos) (eq system-type 'windows-nt))
       (setq lsp-java-java-path "C:/Program Files/Eclipse Adoptium/jdk-17.0.7.7-hotspot/bin/java.exe"
@@ -33,9 +36,7 @@
           lsp-java-configuration-runtimes '[(:name "OpenJDK-21"
                                                    :path "/opt/homebrew/opt/openjdk@21")]))
   ;; current VSCode defaults
-  (setq lsp-java-vmargs '("-XX:+UseParallelGC" "-XX:GCTimeRatio=4" "-XX:AdaptiveSizePolicyWeight=90" "-Dsun.zip.disableMemoryMapping=true" "-Xmx2G" "-Xms100m"))
-  :config
-  (require 'dap-java))
+  (setq lsp-java-vmargs '("-XX:+UseParallelGC" "-XX:GCTimeRatio=4" "-XX:AdaptiveSizePolicyWeight=90" "-Dsun.zip.disableMemoryMapping=true" "-Xmx2G" "-Xms100m")))
 
 ;;; LISP
 ;; Clojure
