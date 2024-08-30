@@ -125,7 +125,19 @@
                   (org-babel-get-src-block-info))))
            (org-hide-block-toggle))))))
   (add-hook 'org-mode-hook (function individual-visibility-source-blocks))
-  (require 'org-checklist))
+  (require 'org-checklist)
+  ;; Org Babel
+  (org-babel-do-load-languages
+   'org-babel-load-languages
+   '((java . t)
+     (python . t)
+     (sql . t)
+     (sqlite . t)))
+  (nconc org-babel-default-header-args:java
+         '((:dir . nil)
+           (:results . value))))
+
+
 
 ; Denote settings
 (use-package denote
