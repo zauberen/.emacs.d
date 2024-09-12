@@ -38,7 +38,8 @@
   (setq corfu-auto t
         corfu-auto-delay 0.3
         corfu-auto-prefix 2
-        completion-cycle-threshold 5)
+        completion-cycle-threshold 5
+        corfu-on-exact-match 'show)
   ;;read-extended-command-predicate #'command-completion-default-include-p)
   :config
   (global-corfu-mode)
