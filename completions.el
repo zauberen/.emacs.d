@@ -120,6 +120,8 @@
   :ensure t
   :diminish tree-sitter-mode
   :demand t
+  :init
+  (setq treesit-font-lock-level 4)
   :config
   (global-tree-sitter-mode))
 (use-package tree-sitter-langs
