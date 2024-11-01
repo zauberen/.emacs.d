@@ -33,6 +33,7 @@
     (kbd "SPC b") #'switch-to-buffer
     (kbd "M-l") #'evil-avy-goto-char
     (kbd "SPC SPC") #'evil-avy-goto-word-or-subword-1
+    (kbd "g SPC") #'evil-join-whitespace
     (kbd "C-u") #'universal-argument
     (kbd "C-a") #'beginning-of-line
     (kbd "C-e") #'end-of-line
@@ -130,12 +131,12 @@ play well with `evil-mc'."
   (define-key global-map (kbd "C-c w q") #'sp-wrap-quote)
   (define-key global-map (kbd "C-c w e") #'sp-wrap-equal-sign)
   (define-key global-map (kbd "C-c w g") #'my-sp-wrap-generic))
-(use-package evil-smartparens
-  :ensure t
-  :demand t
-  :after smartparens evil
-  :hook (smartparens-enabled . evil-smartparens-mode)
-  :config
-  (smartparens-global-mode 1)
-  (smartparens-global-strict-mode))
+;; (use-package evil-smartparens
+;;   :ensure t
+;;   :demand t
+;;   :after smartparens evil
+;;   :hook (smartparens-enabled . evil-smartparens-mode)
+;;   :config
+;;   (smartparens-global-mode 1)
+;;   (smartparens-global-strict-mode))
 ;;; evil.el ends here
