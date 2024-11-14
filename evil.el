@@ -130,7 +130,10 @@ play well with `evil-mc'."
   (define-key global-map (kbd "C-c w d") #'sp-wrap-double-quote)
   (define-key global-map (kbd "C-c w q") #'sp-wrap-quote)
   (define-key global-map (kbd "C-c w e") #'sp-wrap-equal-sign)
-  (define-key global-map (kbd "C-c w g") #'my-sp-wrap-generic))
+  (define-key global-map (kbd "C-c w g") #'my-sp-wrap-generic)
+  ;; Enables smartparens
+  (smartparens-global-mode 1)
+  (smartparens-global-strict-mode))
 ;; (use-package evil-smartparens
 ;;   :ensure t
 ;;   :demand t
