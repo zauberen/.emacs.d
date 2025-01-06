@@ -39,4 +39,13 @@
   :after eshell-mode
   :config
   (eshell-syntax-highlighting-global-mode +1))
+
+(use-package eat
+  :ensure t
+  :demand t
+  :after eshell-mode
+  :config
+  (when (not (or (eq system-type 'ms-dos) (eq system-type 'windows-nt)))
+    (eat-eshell-mode)
+    (eat-eshell-visual-command-mode)))
 ;;; eshell.el ends here
