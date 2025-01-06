@@ -120,6 +120,10 @@ play well with `evil-mc'."
     "Wrap text with equal signs (org mode)"
     (interactive)
     (sp-wrap-with-pair "="))
+  (defun sp-wrap-star ()
+    "Wrap text with stars to bold (org mode)"
+    (interactive)
+    (sp-wrap-with-pair "*"))
   (defun my-sp-wrap-generic (s)
     "Wrap text with whatever"
     (interactive "sWrap with: ")
@@ -130,6 +134,7 @@ play well with `evil-mc'."
   (define-key global-map (kbd "C-c w d") #'sp-wrap-double-quote)
   (define-key global-map (kbd "C-c w q") #'sp-wrap-quote)
   (define-key global-map (kbd "C-c w e") #'sp-wrap-equal-sign)
+  (define-key global-map (kbd "C-c w b") #'sp-wrap-star)
   (define-key global-map (kbd "C-c w g") #'my-sp-wrap-generic)
   ;; Enables smartparens
   (smartparens-global-mode 1)
