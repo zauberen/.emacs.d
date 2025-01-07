@@ -30,20 +30,87 @@
 (transient-mark-mode 1)
 (global-visual-line-mode)
 ;; Mac font sizing is unusually small
-(if (eq system-type 'darwin)
+;(if (eq system-type 'darwin)
     ;; 170 when doing presentations
     ;; 130-135 when using mac screen
     ;; 120 when using 1080p screen on mac
-    (setq font-height '135)
-  (setq font-height '100))
+    ;(setq font-height '135)
+  ;(setq font-height '100))
 (setq use-default-font-for-symbols nil)
-;; Fonts
-(set-face-attribute 'default nil :height font-height :family "Hack")
-(set-face-attribute 'fixed-pitch nil :family "Hack")
-(set-face-attribute 'variable-pitch nil :family "Hack")
 ;; Set display of menu according with whether GUI is used
 (when (and (or (eq system-type 'ms-dos) (eq system-type 'windows-nt)) (display-graphic-p))
   (menu-bar-mode 1))
+
+;; Fonts
+;(set-face-attribute 'default nil :height font-height :family "Hack")
+;(set-face-attribute 'fixed-pitch nil :family "Hack")
+;(set-face-attribute 'variable-pitch nil :family "Hack")
+;; Use fontaine-set-preset to change settings.
+(use-package fontaine
+  :ensure t
+  :demand t
+  :config
+  ;; FIXME: Use new fontaine-mode.
+  (fontaine-set-preset (or (fontaine-restore-latest-preset) 'regular))
+  (fontaine-mode 1)
+  ;; NOTE: Since Fontaine doesn't support the :width attribute, I
+  ;; don't use it for tab-bar faces. See
+  ;; <https://github.com/protesilaos/fontaine/issues/6>.
+  ;; FIXME: Fontaine 2.1 supports the :width attribute.
+  (cl-callf2 remq 'tab-bar fontaine-faces)
+  :custom
+  (fontaine-presets
+   '((t :default-family "Hack"
+        :default-weight normal
+        :default-height 100
+        :fixed-pitch-height 1.0
+        :fixed-pitch-serif-height 1.0
+        :variable-pitch-family "Sans"
+        :variable-pitch-height 1.0
+        :bold-weight bold
+        :italic-slant italic
+        :line-spacing nil
+        :fixed-pitch-family nil
+        :fixed-pitch-weight nil
+        :fixed-pitch-serif-family nil
+        :fixed-pitch-serif-weight nil
+        :variable-pitch-weight nil
+        :bold-family nil
+        :italic-family nil)
+     (regular :default-height 100)
+     (medium :default-weight semilight
+             :default-height 140
+             :bold-weight extrabold)
+     (large :default-weight semilight
+            :default-height 170
+            :bold-weight extrabold)
+
+     (hack-ttf :default-family "Hack"
+               :default-height 100
+               :default-weight normal)
+     (hack-ttf-mac :default-family "Hack"
+                   :default-height 135
+                   :default-weight normal)
+     (hack-ttf-big :default-family "Hack"
+                   :default-height 170
+                   :default-weight normal)
+
+     (monaspace-argon :default-family "Monaspace Argon"
+                      :default-height 100)
+     (monaspace-argon-semi-bold :inherit monaspace-argon
+                                :default-weight semibold)
+     (monaspace-neon :default-family "Monaspace Neon"
+                     :default-height 100)
+     (monaspace-neon-regular :inherit monaspace-neon
+                             :default-weight regular)
+     (monaspace-neon-normal :inherit monaspace-neon
+                            :default-weight normal)
+     (monaspace-neon-semi-bold :inherit monaspace-neon
+                               :default-weight semibold)
+     (monaspace-xenon :default-family "Monaspace Xenon"
+                      :default-height 100)
+     (monaspace-xenon-semi-bold :inherit monaspace-xenon
+                                :default-weight semibold))))
 
 (load-file (expand-file-name "tweaks.el" user-emacs-directory))
 
