@@ -42,3 +42,4 @@ server/
 /flycheck_lang.el
 /flycheck_evil.el
 flycheck_git.el
+/fontaine-latest-state.eld
