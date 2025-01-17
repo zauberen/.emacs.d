@@ -65,7 +65,7 @@
         :default-height 100
         :fixed-pitch-height 1.0
         :fixed-pitch-serif-height 1.0
-        :variable-pitch-family "Sans"
+        :variable-pitch-family "Hack"
         :variable-pitch-height 1.0
         :bold-weight bold
         :italic-slant italic
@@ -93,24 +93,7 @@
                    :default-weight normal)
      (hack-ttf-big :default-family "Hack"
                    :default-height 170
-                   :default-weight normal)
-
-     (monaspace-argon :default-family "Monaspace Argon"
-                      :default-height 100)
-     (monaspace-argon-semi-bold :inherit monaspace-argon
-                                :default-weight semibold)
-     (monaspace-neon :default-family "Monaspace Neon"
-                     :default-height 100)
-     (monaspace-neon-regular :inherit monaspace-neon
-                             :default-weight regular)
-     (monaspace-neon-normal :inherit monaspace-neon
-                            :default-weight normal)
-     (monaspace-neon-semi-bold :inherit monaspace-neon
-                               :default-weight semibold)
-     (monaspace-xenon :default-family "Monaspace Xenon"
-                      :default-height 100)
-     (monaspace-xenon-semi-bold :inherit monaspace-xenon
-                                :default-weight semibold))))
+                   :default-weight normal))))
 
 (load-file (expand-file-name "tweaks.el" user-emacs-directory))
 
