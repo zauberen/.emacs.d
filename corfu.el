@@ -40,6 +40,8 @@
         corfu-auto-prefix 2
         completion-cycle-threshold 5
         corfu-on-exact-match 'show)
+  (when (or (eq system-type 'ms-dos) (eq system-type 'windows-nt))
+      (setq text-mode-ispell-word-completion nil))
   ;;read-extended-command-predicate #'command-completion-default-include-p)
   :config
   (global-corfu-mode)
