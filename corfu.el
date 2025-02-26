@@ -56,7 +56,6 @@
                                            #'yasnippet-capf
                                            ;;#'tempel-complete
                                            #'cape-keyword
-                                           #'cape-dabbrev
                                            #'cape-dict)
                                           completion-at-point-functions)))
                           (setq-local completion-at-point-functions
@@ -67,7 +66,7 @@
                                          #'yasnippet-capf
                                          ;;#'tempel-complete
                                          #'cape-keyword
-                                         #'cape-dabbrev)
+                                         #'cape-dict)
                                         completion-at-point-functions))))))
          (text-mode . (lambda ()
                         (if (eq system-type 'darwin)
@@ -79,7 +78,6 @@
                                            ;;#'yasnippet-capf
                                            #'tempel-complete
                                            #'cape-keyword
-                                           #'cape-dabbrev
                                            #'cape-dict)
                                           completion-at-point-functions)))
                           (setq-local completion-at-point-functions
@@ -90,7 +88,7 @@
                                          ;;#'yasnippet-capf
                                          #'tempel-complete
                                          #'cape-keyword
-                                         #'cape-dabbrev)
+                                         #'cape-dict)
                                         completion-at-point-functions))))))
          (prog-mode . (lambda ()
                         (if (eq system-type 'darwin)
@@ -115,7 +113,8 @@
                                        (list (cape-capf-super
                                               ;;#'yasnippet-capf
                                               #'cape-keyword
-                                              #'cape-dabbrev)
+                                              #'cape-dabbrev
+                                              #'cape-dict)
                                              ;;#'citre-completion-at-point
                                              ))
                                       ))))
@@ -135,5 +134,5 @@
                                             #'yasnippet-capf
                                             #'tempel-complete
                                             #'cape-keyword
-                                            #'cape-dabbrev))))))))
+                                            #'cape-dict))))))))
 ;;; corfu.el ends here

@@ -18,6 +18,8 @@
 ;;; General configuration
 (use-package emacs
   :ensure nil
+  :custom
+  (ispell-dictionary "en_US")
   :config
   ;; Kill buffer command
   (global-set-key (kbd "C-x k") 'kill-current-buffer)
