@@ -2,11 +2,12 @@
 ;;; Commentary:
 ;;; Useless but fun Lisp functions.
 ;;; Code:
-(defun my-interest-calculator (payment interest-rate loan-amt)
+(defun my-interest-calculator (payment interest-rate loan-amt &optional suppress-disp)
   "Calculates interest for a loan given a payment.
 PAYMENT The monthly payment.
 INTEREST-RATE The yearly interest rate.
-LOAN-AMT The starting loan amount."
+LOAN-AMT The starting loan amount.
+SUPPRESS-DISP display statistics if nil."
   (let ((monthly-rate (/ interest-rate 12))
         (min-pay (* (/ interest-rate 12) loan-amt))
         (this-payment payment)
@@ -25,7 +26,7 @@ LOAN-AMT The starting loan amount."
               interest-accrued (* (- loan-amt this-payment) monthly-rate)
               interest-paid (+ interest-paid interest-accrued)
               loan-amt (+ (- loan-amt this-payment) interest-accrued))))
-    (when (> months-paid 0)
+    (when (and (eq suppress-disp nil) (> months-paid 0))
       (princ "Max interest/mo: ")
       (princ min-pay)
       (princ " Months paid: ")
@@ -40,5 +41,20 @@ LOAN-AMT The starting loan amount."
       (princ interest-paid)
       (princ " Total paid: ")
       (princ total-paid))
-    total-paid))
+    (list :months-paid months-paid :interest-paid interest-paid :total-paid total-paid :payment payment)))
+
+(defun my-payment-comparison (payment1 payment2 interest-rate loan-amt)
+  "Compares 2 payment plans for a loan.
+PAYMENT1 The monthly payment option 1.
+PAYMENT2 The monthly payment option 2.
+INTEREST-RATE The yearly interest rate.
+LOAN-AMT The starting loan amount."
+  (let ((pplan1 (my-interest-calculator payment1 interest-rate loan-amt t))
+        (pplan2 (my-interest-calculator payment2 interest-rate loan-amt t))
+        (better-plan (list 1))
+        (worse-plan (list 2)))
+    (when (> (getf pplan1 :total-paid) (getf pplan2 :total-paid))
+      (setf better-plan pplan2
+            worse-plan pplan1))
+    (list :savings (- (getf worse-plan :total-paid) (getf better-plan :total-paid)) :savings-in-months (/ (- (getf worse-plan :total-paid) (getf better-plan :total-paid)) (getf worse-plan :payment)) :optimal-plan better-plan)))
 ;;; fun.el ends here
