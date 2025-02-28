@@ -314,6 +314,9 @@
 ;; Eshell configuration
 (load-file (expand-file-name "eshell.el" user-emacs-directory))
 
+;; Fun stuff
+(load-file ((expand-file-name "fun.el" user-emacs-directory)))
+
 ;; Save minibuffer history
 (use-package savehist
   :config
