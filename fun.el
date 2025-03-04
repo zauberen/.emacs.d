@@ -53,8 +53,12 @@ LOAN-AMT The starting loan amount."
         (pplan2 (my-interest-calculator payment2 interest-rate loan-amt t))
         (better-plan (list 1))
         (worse-plan (list 2)))
-    (when (> (getf pplan1 :total-paid) (getf pplan2 :total-paid))
+    (if (> (getf pplan1 :total-paid) (getf pplan2 :total-paid))
       (setf better-plan pplan2
-            worse-plan pplan1))
-    (list :savings (- (getf worse-plan :total-paid) (getf better-plan :total-paid)) :savings-in-months (/ (- (getf worse-plan :total-paid) (getf better-plan :total-paid)) (getf worse-plan :payment)) :optimal-plan better-plan)))
+            worse-plan pplan1)
+      (setf better-plan pplan1
+            worse-plan pplan2))
+    (list :savings (- (getf worse-plan :total-paid) (getf better-plan :total-paid))
+          :savings-in-months (/ (- (getf worse-plan :total-paid) (getf better-plan :total-paid)) (getf worse-plan :payment))
+          :optimal-plan better-plan)))
 ;;; fun.el ends here
