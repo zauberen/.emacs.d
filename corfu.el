@@ -1,4 +1,4 @@
-;;; corfu.el --- Packages for completion at point
+;;; corfu.el --- Packages for completion at point -*- lexical-binding: t -*-
 ;;; Commentary:
 ;;; cape, corfu, corfu-terminal
 ;;; Code:

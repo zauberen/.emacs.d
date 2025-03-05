@@ -1,4 +1,4 @@
-;;; tweaks.el --- Editor tweaks
+;;; tweaks.el --- Editor tweaks -*- lexical-binding: t -*-
 ;;; Commentary:
 ;;; No packages.
 ;;; Code:

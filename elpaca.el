@@ -1,4 +1,4 @@
-;;; elpaca.el --- Elpaca installer snippet
+;;; elpaca.el --- Elpaca installer snippet -*- lexical-binding: t -*-
 ;;; Commentary:
 ;;; Code:
 

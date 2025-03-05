@@ -1,4 +1,4 @@
-;;; eshell.el --- Universal eshell configuration
+;;; eshell.el --- Universal eshell configuration -*- lexical-binding: t -*-
 ;;; Commentary:
 ;;; Code:
 (use-package eshell

@@ -1,4 +1,4 @@
-;;; completions.el --- Completion and syntax checking packages
+;;; completions.el --- Completion and syntax checking packages -*- lexical-binding: t -*-
 ;;; Commentary:
 ;;; Generic completion engines
 ;;; Code:
