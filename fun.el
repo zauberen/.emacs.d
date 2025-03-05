@@ -1,4 +1,4 @@
-;;; fun.el --- Random funcions set up for fun.
+;;; fun.el --- Random funcions set up for fun. -*- lexical-binding: t -*-
 ;;; Commentary:
 ;;; Useless but fun Lisp functions.
 ;;; Code:

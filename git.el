@@ -1,4 +1,4 @@
-;;; git.el --- Git related packages
+;;; git.el --- Git related packages -*- lexical-binding: t -*-
 ;;; Commentary:
 ;;; magit, magit-todos, git-gutter
 ;;; Code:

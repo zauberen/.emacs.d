@@ -1,4 +1,4 @@
-;;; org.el --- Org and Denote configuration
+;;; org.el --- Org and Denote configuration -*- lexical-binding: t -*-
 ;;; Commentary:
 ;;; org-contrib, org, denote, evil-org, calendar, hl-todo, org-journal, org-super-agenda
 ;;; Code:

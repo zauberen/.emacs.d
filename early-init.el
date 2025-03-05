@@ -1,4 +1,4 @@
-;;; early-init.el --- Early init config
+;;; early-init.el --- Early init config -*- no-byte-compile: t lexical-binding: t -*-
 ;;; Commentary:
 ;;; My early init
 ;;; Code:
