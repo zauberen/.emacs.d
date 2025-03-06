@@ -9,13 +9,16 @@
   :after lsp-mode
   :functions dap-hydra/nil
   :hook ((dap-mode . dap-ui-mode)
+         (dap-mode . dap-tooltip-mode)
          (dap-session-created . (lambda (&_rest) (dap-hydra)))
+         (dap-stopped . (lambda (arg) (call-interactively #'dap-hydra)))
          (dap-terminated . (lambda (&_rest) (dap-hydra/nil))))
   :bind (:map lsp-mode-map
               ("M-S-d" . dap-debug)
               ("M-d" . dap-hydra))
   :config
   (require 'dap-java))
+
 (use-package dap-java :after dap-mode :ensure nil)
 
 (use-package lsp-java
@@ -24,6 +27,10 @@
   :hook (java-mode . (lambda ()
                        (when (or (eq system-type 'ms-dos) (eq system-type 'windows-nt))
                          (citre-use-global-windows))))
+  :bind (:map java-mode-map
+              ("C-c t s" . tomcat-start)
+              ("C-c t x" . tomcat-stop)
+              ("C-c t c" . tomcat-clear-logs))
   :init
   (if (or (eq system-type 'ms-dos) (eq system-type 'windows-nt))
       (setq lsp-java-java-path "C:/Program Files/Eclipse Adoptium/jdk-17.0.7.7-hotspot/bin/java.exe"
@@ -36,7 +43,28 @@
           lsp-java-configuration-runtimes '[(:name "OpenJDK-21"
                                                    :path "/opt/homebrew/opt/openjdk@21")]))
   ;; current VSCode defaults
-  (setq lsp-java-vmargs '("-XX:+UseParallelGC" "-XX:GCTimeRatio=4" "-XX:AdaptiveSizePolicyWeight=90" "-Dsun.zip.disableMemoryMapping=true" "-Xmx2G" "-Xms100m")))
+  (setq lsp-java-vmargs '("-XX:+UseParallelGC" "-XX:GCTimeRatio=4" "-XX:AdaptiveSizePolicyWeight=90" "-Dsun.zip.disableMemoryMapping=true" "-Xmx2G" "-Xms100m")
+        ;; Default path, change this in local.el!
+        tomcat-path "~/tomcat"
+        ;; Set the name of the catalina script. If using binary distributions, this should work out of the box.
+        tomcat-catalina-name (if (or (eq system-type 'ms-dos) (eq system-type 'windows-nt))
+                                 "catalina.bat"
+                               "catalina.sh"))
+  (defun tomcat-start ()
+    "Starts tomcat on the configured tomcat-path."
+    (interactive)
+    ;; Clears the tomcat buffer
+    (with-current-buffer (get-buffer-create "*tomcat*") (erase-buffer))
+    ;; Note that the double ampersand is a cross platform method to run 2 commands in 1 line
+    (async-shell-command (concat "cd " tomcat-path " && " tomcat-catalina-name " run") "*tomcat*"))
+  (defun tomcat-stop ()
+    "Stop the tomcat process started by tomcat-start."
+    (interactive)
+    (interrupt-process (get-buffer-process "*tomcat*")))
+  (defun tomcat-clear-logs ()
+    "Clears the tomcat log."
+    (interactive)
+    (with-current-buffer (get-buffer-create "*tomcat*") (erase-buffer))))
 
 ;;; LISP
 ;; Clojure
