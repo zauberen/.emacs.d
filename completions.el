@@ -2,12 +2,9 @@
 ;;; Commentary:
 ;;; Generic completion engines
 ;;; Code:
-;; Enable completion previews
-(global-completion-preview-mode)
 ;; ctags setup (citre)
 (use-package citre
   :ensure t
-
   :defer t
   :after projectile evil
   :bind (("C-c t j" . citre-jump)

@@ -61,6 +61,10 @@
     "Stop the tomcat process started by tomcat-start."
     (interactive)
     (interrupt-process (get-buffer-process "*tomcat*")))
+  (defun tomcat-kill ()
+    "Kill the tomcat process started by tomcat-start."
+    (interactive)
+    (kill-process (get-buffer-process "*tomcat*")))
   (defun tomcat-clear-logs ()
     "Clears the tomcat log."
     (interactive)
