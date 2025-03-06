@@ -4,7 +4,6 @@ My emacs configuration
 ## Install instructions
 1. Install emacs on system
 2. Install dependencies
-   - `ispell` (non-macos) (causes completion errors without it)
    - Universal `ctags` (tested with 6.0) (provides completion and seek when lsp is not available)
    - `python3`(.10+ preferred) (python lsp) then run `pip3 install "python-lsp-server[all]"` (python lsp)
    - `dasel` for python venv support
@@ -17,9 +16,13 @@ My emacs configuration
    - `fonts-hack-ttf`(ubuntu) or `homebrew/cask-fonts/font-hack`(macos) Hack font
    - Some LaTeX distribution (recommend `texlive`)
    - `pandoc` (optional but recommended) for exporting files
-   - For use as an SQL workbench:
-    - `leiningen` (also released as `lein`, and is that on the path)
-    - `clojure`
+   - `ispell` (non-macos) (causes completion errors without it)
+   - For clojure support
+     - `leiningen` (also released as `lein`, and is that on the path)
+     - `clojure`
+   - `vale` A spell checker for writing. See https://github.com/errata-ai/vale
+     - To initialize vale in a new directory, create a `.vale.ini` in the git home directory, a generator is here: https://vale.sh/generator
+     - Next run `vale sync` in the git home directory, and it will be ready!
    - `emacs-lsp-booster` (binaries included in lsp folder) Optimizes lsp-mode, but requires a full plugin reinstall to work.
      - If you want to build the booster binaries, follow these steps:
      - Install rust: `curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh`
