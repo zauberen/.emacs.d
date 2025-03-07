@@ -1,4 +1,4 @@
-;;; editor.el --- Configuration for text editor plugins
+;;; editor.el --- Configuration for text editor plugins -*- lexical-binding: t -*-
 ;;; Commentary:
 ;;; Code:
 ;; Citations and paper storage
@@ -37,12 +37,12 @@
 (use-package ox-pandoc
   :ensure t)
 
-;; Spell checking (unmaintained...)
-;; (use-package flycheck-vale
-;;   :ensure t
-;;   :after org
-;;   :config
-;;   (flycheck-vale-setup))
+;; Spell checking
+(use-package flycheck-vale
+  :ensure t
+  :after org
+  :config
+  (flycheck-vale-setup))
 
 ;; Elpaca fixed the dependency problems with this!
 ;; Useful dictionary/thesaurus program (requires internet)

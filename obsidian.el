@@ -1,4 +1,4 @@
-;;; obsidian.el --- Obsidian configuration
+;;; obsidian.el --- Obsidian configuration -*- lexical-binding: t -*-
 ;;; Commentary:
 ;;; obsidian
 ;;; Code:

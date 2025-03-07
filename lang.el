@@ -1,4 +1,4 @@
-;;; lang.el --- Misc language configuration
+;;; lang.el --- Misc language configuration -*- lexical-binding: t -*-
 ;;; Commentary:
 ;;; Programming language configuration.
 ;;; Code:
