@@ -39,100 +39,64 @@
         corfu-auto-delay 0.3
         corfu-auto-prefix 2
         completion-cycle-threshold 5
-        corfu-on-exact-match 'show)
+        corfu-on-exact-match 'show
+        ;; This can be a list, possibly add spanish?
+        ;; Dictionary is sourced from Ubuntu 22.04
+        cape-dict-file (concat org-directory "/wordlists/american-english")
+        ;; This breaks it for me (at least on windows)
+        cape-dict-case-fold 'case-fold-search
+        ;; Default limit is 100, more suggestions means better matching.
+        cape-dict-limit 200)
   (when (or (eq system-type 'ms-dos) (eq system-type 'windows-nt))
       (setq text-mode-ispell-word-completion nil))
   ;;read-extended-command-predicate #'command-completion-default-include-p)
   :config
   (global-corfu-mode)
+  (setq conf-super-capf (cape-capf-super
+                         #'yasnippet-capf
+                         #'cape-keyword
+                         #'cape-dict)
+        text-super-capf (cape-capf-super
+                         #'tempel-complete
+                         #'cape-keyword
+                         #'cape-dict)
+        yasc-prece-capf (list #'cape-file
+                              #'yasnippet-capf)
+        winp-super-capf (cape-capf-super
+                         #'cape-keyword
+                         #'cape-dict)
+        macp-super-capf (cape-capf-super
+                         #'cape-keyword
+                         #'citre-completion-at-point
+                         #'cape-dict)
+        org-super-capf (cape-capf-super
+                        #'yasnippet-capf
+                        #'tempel-complete
+                        #'cape-keyword
+                        #'cape-dict))
+  (defun my/build-capf (super-capf &optional preceding-capf super-after)
+    "Builds the completion-at-point-functions for a major mode.
+SUPER-CAPF: The super capf to use.
+PRECEDING-CAPF: The preceding capf list to use. By default this is cape-file.
+SUPER-AFTER: If non-nil adds the super capf after completion-at-point-functions."
+    (when (eq preceding-capf nil)
+      (setq preceding-capf (list #'cape-file)))
+    (if (not (eq super-after nil))
+        (setq-local completion-at-point-functions
+                (append
+                 preceding-capf
+                 completion-at-point-functions
+                 (list super-capf)))
+      (setq-local completion-at-point-functions
+                (append
+                 preceding-capf
+                 (list super-capf)
+                 completion-at-point-functions))))
   :hook ((corfu-mode . corfu-popupinfo-mode)
-         (conf-mode . (lambda ()
-                        (if (eq system-type 'darwin)
-                            (setq-local completion-at-point-functions
-                                        (cons
-                                         #'cape-file
-                                         (cons
-                                          (cape-capf-super
-                                           #'yasnippet-capf
-                                           ;;#'tempel-complete
-                                           #'cape-keyword
-                                           #'cape-dict)
-                                          completion-at-point-functions)))
-                          (setq-local completion-at-point-functions
-                                      (cons
-                                       #'cape-file
-                                       (cons
-                                        (cape-capf-super
-                                         #'yasnippet-capf
-                                         ;;#'tempel-complete
-                                         #'cape-keyword
-                                         #'cape-dict)
-                                        completion-at-point-functions))))))
-         (text-mode . (lambda ()
-                        (if (eq system-type 'darwin)
-                            (setq-local completion-at-point-functions
-                                        (cons
-                                         #'cape-file
-                                         (cons
-                                          (cape-capf-super
-                                           ;;#'yasnippet-capf
-                                           #'tempel-complete
-                                           #'cape-keyword
-                                           #'cape-dict)
-                                          completion-at-point-functions)))
-                          (setq-local completion-at-point-functions
-                                      (cons
-                                       #'cape-file
-                                       (cons
-                                        (cape-capf-super
-                                         ;;#'yasnippet-capf
-                                         #'tempel-complete
-                                         #'cape-keyword
-                                         #'cape-dict)
-                                        completion-at-point-functions))))))
-         (prog-mode . (lambda ()
-                        (if (eq system-type 'darwin)
-                            (setq-local completion-at-point-functions
-                                        (append
-                                         (list #'cape-file
-                                               #'yasnippet-capf)
-                                         completion-at-point-functions
-                                         (list (cape-capf-super
-                                                ;;#'yasnippet-capf
-                                                ;;#'tempel-complete
-                                                #'cape-keyword
-                                                #'citre-completion-at-point
-                                                #'cape-dabbrev
-                                                #'cape-dict))))
-                          (setq-local completion-at-point-functions
-                                      (append
-                                       (list #'cape-file
-                                             #'yasnippet-capf)
-                                       ;;#'tempel-complete)
-                                       completion-at-point-functions
-                                       (list (cape-capf-super
-                                              ;;#'yasnippet-capf
-                                              #'cape-keyword
-                                              #'cape-dabbrev
-                                              #'cape-dict)
-                                             ;;#'citre-completion-at-point
-                                             ))
-                                      ))))
-         (org-mode . (lambda ()
-                       (if (eq system-type 'darwin)
-                           (setq-local completion-at-point-functions
-                                       (list #'cape-file
-                                             (cape-capf-super
-                                              #'yasnippet-capf
-                                              #'tempel-complete
-                                              #'cape-keyword
-                                              #'cape-dabbrev
-                                              #'cape-dict)))
-                         (setq-local completion-at-point-functions
-                                     (list #'cape-file
-                                           (cape-capf-super
-                                            #'yasnippet-capf
-                                            #'tempel-complete
-                                            #'cape-keyword
-                                            #'cape-dict))))))))
+         (conf-mode . (lambda () (my/build-capf conf-super-capf)))
+         (text-mode . (lambda () (my/build-capf text-super-capf)))
+         (prog-mode . (lambda () (if (eq system-type 'darwin)
+                                     (my/build-capf macp-super-capf yasc-prece-capf t)
+                                   (my/build-capf winp-super-capf yasc-prece-capf t))))
+         (org-mode . (lambda () (my/build-capf org-super-capf)))))
 ;;; corfu.el ends here
