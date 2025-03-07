@@ -292,6 +292,12 @@
         completion-category-overrides '((file (styles . (partial-completion))))
         completion-styles '(orderless partial-completion basic)))
 
+;; Set org directory, set outside of any main package becauses this is referenced in several places.
+(if (or (eq system-type 'ms-dos) (eq system-type 'windows-nt))
+    (setq org-directory '"C:/org/org-notes")
+  (setq org-directory '"~/Documents/GitHub/org-notes"))
+
+
 (load-file (expand-file-name "snippets.el" user-emacs-directory))
 (load-file (expand-file-name "hydra.el" user-emacs-directory))
 (load-file (expand-file-name "completions.el" user-emacs-directory))

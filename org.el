@@ -26,10 +26,6 @@
   :mode (("\\.org\\'" . org-mode)
          ("\\.org$" . org-mode))
   :init
-  ;; Set org directory
-  (if (or (eq system-type 'ms-dos) (eq system-type 'windows-nt))
-      (setq org-directory '"C:/org/org-notes")
-      (setq org-directory '"~/Documents/GitHub/org-notes"))
   (setq org-enforce-todo-dependencies t
         org-enfocre-todo-checkbox-dependencies t
         diary-file (concat org-directory "/diary")
@@ -155,10 +151,6 @@
          ("C-c n b" . denote-org-extras-dblock-insert-files)
          ("C-c n f" . denote-rename-file-using-front-matter))
   :init
-  ; Copied from org settings
-  (if (or (eq system-type 'ms-dos) (eq system-type 'windows-nt))
-      (setq org-directory '"C:/org/org-notes")
-      (setq org-directory '"~/Documents/GitHub/org-notes"))
   (setq denote-directory (concat org-directory "/denote")
         ; Eventually I want template added here, need to define denote-templates
         denote-prompts '(subdirectory title keywords)
