@@ -1,4 +1,4 @@
-;;; evil.el --- Basic evil configuration
+;;; evil.el --- Basic evil configuration -*- lexical-binding: t -*-
 ;;; Commentary:
 ;;; Evil configuration
 ;;; Code:

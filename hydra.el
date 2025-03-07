@@ -1,4 +1,4 @@
-;;; hydra.el --- Hydra configuration
+;;; hydra.el --- Hydra configuration -*- lexical-binding: t -*-
 ;;; Commentary:
 ;;; hydra
 ;;; Code:

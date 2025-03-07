@@ -1,4 +1,4 @@
-;;; exwm.el -- exwm configuration
+;;; exwm.el -- exwm configuration -*- lexical-binding: t -*-
 ;;; Commentary:
 ;;; Basic exwm configuration (you must manually install exwm to use it)
 ;;; Code:

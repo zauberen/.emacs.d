@@ -1,4 +1,4 @@
-;;; minibuffer.el --- Minibuffer plugins
+;;; minibuffer.el --- Minibuffer plugins -*- lexical-binding: t -*-
 ;;; Commentary:
 ;;; consult, consult-flycheck, vertico, marginalia, embark, embark-consult
 ;;; Code:

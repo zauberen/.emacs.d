@@ -1,4 +1,4 @@
-;;; snippets.el --- Snippet plugin configuration
+;;; snippets.el --- Snippet plugin configuration -*- lexical-binding: t -*-
 ;;; Commentary:
 ;;; Snippet packages
 ;;; Code:
