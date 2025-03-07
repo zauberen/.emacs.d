@@ -6,7 +6,53 @@
 (use-package cape
   :ensure t
   :init
-  (setq cape-dabbrev-min-length 2))
+  (setq cape-dabbrev-min-length 2)
+  :config
+  ;; Overwrite some functions in cape to pure elisp.
+  (defvar cape--dictionary nil "Cached dictionary for cape-dict.")
+  (defun cape--dict-load ()
+    "Load or reload the dictionary wordlist."
+    (interactive)
+    (let ((files (mapcar #'expand-file-name
+                         (ensure-list
+                          (if (functionp cape-dict-file)
+                              (funcall cape-dict-file)
+                            cape-dict-file)))))
+      (setq cape--dictionary
+            (split-string
+             (with-temp-buffer
+               (dolist (file files) (insert-file-contents file))
+               (buffer-string))
+             "\n"))))
+  (defun cape--dict-list (input)
+    "Return all words from `cape-dict-file' matching INPUT."
+    (let* ((inhibit-message t)
+           (message-log-max nil)
+           (default-directory
+            (if (and (not (file-remote-p default-directory))
+                     (file-directory-p default-directory))
+                default-directory
+              user-emacs-directory))
+           (words
+            (let ((matches nil)
+                  (max-matches cape-dict-limit)
+                  (compstr input))
+              (if (eq cape--dictionary nil)
+                  (cape--dict-load))
+              (catch 'maxed
+                (dolist (word cape--dictionary)
+                  (if (length< matches max-matches)
+                      (when (and (not (eq word nil))
+                                 (string-match-p compstr word))
+                        (setf matches (append matches (list word))))
+                    (throw 'maxed matches))))
+              matches)))
+      (cons
+       (apply-partially
+        (if (and cape-dict-limit (length= words cape-dict-limit))
+            #'equal #'string-search)
+        input)
+       (cape--case-replace-list cape-dict-case-replace input words)))))
 ;; Terminal specific settings for corfu
 (use-package corfu-terminal
   :ensure t
@@ -46,7 +92,7 @@
         ;; This breaks it for me (at least on windows)
         cape-dict-case-fold 'case-fold-search
         ;; Default limit is 100, more suggestions means better matching.
-        cape-dict-limit 200)
+        cape-dict-limit 100)
   (when (or (eq system-type 'ms-dos) (eq system-type 'windows-nt))
       (setq text-mode-ispell-word-completion nil))
   ;;read-extended-command-predicate #'command-completion-default-include-p)
