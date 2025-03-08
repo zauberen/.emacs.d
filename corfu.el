@@ -4,10 +4,10 @@
 ;;; Code:
 ;; Capf modifier
 (use-package cape
-  :ensure (:host github :repo "zauberen/cape")
+  :ensure t
   :custom
-  ;; My special option, this fixes the focus issue I have with cape-dict
-  (cape-dict-search-method 'lisp)
+  ;; Minad rewrote my method, this is the new "lisp only" setting
+  (cape-dict-grep nil)
   ;; Maybe obsolete?
   (cape-dabbrev-min-length 2)
   ;; Dictionary is sourced from Ubuntu 22.04
