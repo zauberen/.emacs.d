@@ -27,10 +27,9 @@
   :hook (java-mode . (lambda ()
                        (when (or (eq system-type 'ms-dos) (eq system-type 'windows-nt))
                          (citre-use-global-windows))))
-  :bind (:map java-mode-map
-              ("C-c t s" . tomcat-start)
-              ("C-c t x" . tomcat-stop)
-              ("C-c t c" . tomcat-clear-logs))
+  :bind (("C-c t s" . tomcat-start)
+         ("C-c t x" . tomcat-stop)
+         ("C-c t c" . tomcat-clear-logs))
   :init
   (if (or (eq system-type 'ms-dos) (eq system-type 'windows-nt))
       (setq lsp-java-java-path "C:/Program Files/Eclipse Adoptium/jdk-17.0.7.7-hotspot/bin/java.exe"
@@ -50,11 +49,14 @@
         tomcat-catalina-name (if (or (eq system-type 'ms-dos) (eq system-type 'windows-nt))
                                  "catalina.bat"
                                "catalina.sh"))
+  (defun tomcat-clear-logs ()
+    "Clears the tomcat log."
+    (interactive)
+    (with-current-buffer (get-buffer-create "*tomcat*") (erase-buffer)))
   (defun tomcat-start ()
     "Starts tomcat on the configured tomcat-path."
     (interactive)
-    ;; Clears the tomcat buffer
-    (with-current-buffer (get-buffer-create "*tomcat*") (erase-buffer))
+    (tomcat-clear-logs)
     ;; Note that the double ampersand is a cross platform method to run 2 commands in 1 line
     (async-shell-command (concat "cd " tomcat-path " && " tomcat-catalina-name " run") "*tomcat*"))
   (defun tomcat-stop ()
@@ -64,11 +66,7 @@
   (defun tomcat-kill ()
     "Kill the tomcat process started by tomcat-start."
     (interactive)
-    (kill-process (get-buffer-process "*tomcat*")))
-  (defun tomcat-clear-logs ()
-    "Clears the tomcat log."
-    (interactive)
-    (with-current-buffer (get-buffer-create "*tomcat*") (erase-buffer))))
+    (kill-process (get-buffer-process "*tomcat*"))))
 
 ;;; LISP
 ;; Clojure
@@ -76,10 +74,30 @@
   :ensure t)
 (use-package cider
   :ensure t
-  :hook (clojure-ts-mode . rainbow-delimiters-mode))
+  :hook (clojure-ts-mode . rainbow-delimiters-mode)
+  :init
+  (defun clj-biff-clear-logs ()
+    "Clears the clj-biff log."
+    (interactive)
+    (with-current-buffer (get-buffer-create "*clj-biff*") (erase-buffer)))
+  (defun clj-biff-start ()
+    "Starts biff in the current directory."
+    (interactive)
+    (clj-biff-clear-logs)
+    ;; Note that the double ampersand is a cross platform method to run 2 commands in 1 line
+    (async-shell-command (concat "cd " default-directory " && clj -M:dev dev") "*clj-biff*"))
+  (defun clj-biff-stop ()
+    "Stop the biff process started by clj-biff-start."
+    (interactive)
+    (interrupt-process (get-buffer-process "*clj-biff*")))
+  (defun clj-biff-kill ()
+    "Kill the clj-biff process started by clj-biff-start."
+    (interactive)
+    (kill-process (get-buffer-process "*clj-biff*"))))
 (use-package cider-hydra
   :ensure t
   :hook (clojure-ts-mode . cider-hydra-mode))
+;; Common Lisp
 (use-package sly
   :ensure t
   :hook ((sly-mode . rainbow-delimiters-mode)
