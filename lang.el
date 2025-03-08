@@ -75,6 +75,9 @@
 (use-package cider
   :ensure t
   :hook (clojure-ts-mode . rainbow-delimiters-mode)
+  :bind (("C-c b s" . clj-biff-start)
+         ("C-c b x" . clj-biff-stop)
+         ("C-c b c" . clj-biff-clear-logs))
   :init
   (defun clj-biff-clear-logs ()
     "Clears the clj-biff log."
@@ -223,5 +226,8 @@
 (use-package rainbow-delimiters
   :ensure t
   :hook (emacs-lisp-mode . rainbow-delimiters-mode))
-
+;; Highlight color codes
+(use-package rainbow-mode
+  :ensure t
+  :hook (prog-mode . rainbow-mode))
 ;;; lang.el ends here
