@@ -17,7 +17,8 @@
               ("M-S-d" . dap-debug)
               ("M-d" . dap-hydra))
   :config
-  (require 'dap-java))
+  (require 'dap-java)
+  (require 'dap-python))
 
 (use-package dap-java :after dap-mode :ensure nil)
 
