@@ -115,16 +115,15 @@
   :after consult lsp-mode)
 
 ;; Tree sitter
-(use-package tree-sitter
+(use-package treesit-auto
   :ensure t
-  :diminish tree-sitter-mode
-  :demand t
-  :init
-  (setq treesit-font-lock-level 4)
+  :custom
+  (treesit-auto-install 'prompt)
   :config
-  (global-tree-sitter-mode))
+  (treesit-auto-add-to-auto-mode-alist 'all)
+  (global-treesit-auto-mode))
 (use-package tree-sitter-langs
   :ensure t
-  :hook (tree-sitter-after-on . tree-sitter-hl-mode)
-  :after tree-sitter)
+  :config
+  (global-tree-sitter-mode))
 ;;; completions.el ends here
