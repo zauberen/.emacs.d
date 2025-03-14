@@ -14,7 +14,52 @@
   (cape-dict-file (concat org-directory "/wordlists/american-english"))
   ;; These are the defaults but I mess with them a lot
   (cape-dict-case-fold 'case-fold-search)
-  (cape-dict-limit 100))
+  (cape-dict-limit 100)
+  :config
+  ;; Overwrite some functions in cape to pure elisp.
+  (defvar cape--dictionary nil "Cached dictionary for cape-dict.")
+  (defun cape--dict-load ()
+    "Load or reload the dictionary wordlist."
+    (interactive)
+    (let ((files (mapcar #'expand-file-name
+                         (ensure-list
+                          (if (functionp cape-dict-file)
+                              (funcall cape-dict-file)
+                            cape-dict-file)))))
+      (setq cape--dictionary
+            (split-string
+             (with-temp-buffer
+               (dolist (file files) (insert-file-contents file))
+               (buffer-string))
+             "\n"))))
+  (defun cape--dict-list (input)
+    "Return all words from `cape-dict-file' matching INPUT."
+    (let* ((inhibit-message t)
+           (message-log-max nil)
+           (default-directory
+            (if (and (not (file-remote-p default-directory))
+                     (file-directory-p default-directory))
+                default-directory
+              user-emacs-directory))
+           (words
+            (let ((matches nil))
+              (if (eq cape--dictionary nil)
+                  (cape--dict-load))
+              (catch 'maxed
+                (dolist (word cape--dictionary)
+                  (if (length< matches cape-dict-limit)
+                      (when (and (not (eq word nil))
+                                 (string-match-p input word))
+                        (setf matches (append matches (list word))))
+                    (throw 'maxed matches))))
+              matches)))
+      (cons
+       (apply-partially
+        (if (and cape-dict-limit (length= words cape-dict-limit))
+            #'equal #'string-search)
+        input)
+       (cape--case-replace-list cape-dict-case-replace input words)))))
+  
 ;; Terminal specific settings for corfu
 (use-package corfu-terminal
   :ensure t

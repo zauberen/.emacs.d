@@ -8,8 +8,7 @@
   :after evil evil-org org-contrib consult
   :diminish org-indent-mode eldoc-mode auto-revert-mode
   ; Enable word wrap and org indenting
-  :hook ((org-mode . toggle-truncate-lines)
-         (org-mode . org-indent-mode))
+  :hook ((org-mode . org-indent-mode))
   :bind (("C-c l" . org-store-link)
          ("C-c a" . org-agenda)
          ("C-c c" . org-capture)
