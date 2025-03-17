@@ -39,24 +39,23 @@
 
 ;; flycheck-vale plugin does not work on windows,
 (if (not (or (eq system-type 'ms-dos) (eq system-type 'windows-nt)))
-  ;; Spell checking
-  (use-package flycheck-vale
-    :ensure t
-    :after org
-    :config
-    (flycheck-vale-setup))
+    ;; Spell checking
+    (use-package flycheck-vale
+      :ensure t
+      :after org
+      :config
+      (flycheck-vale-setup))
   ;; My own shittier version of this plugin for use on windows
-  (progn
-    (defun vale-clear ()
-      "Clears the vale buffer."
-      (interactive)
-      (with-current-buffer (get-buffer-create "*vale*") (erase-buffer)))
-    (defun vale-check-file ()
-      "Starts tomcat on the configured tomcat-path."
-      (interactive)
-      (vale-clear)
-      ;; Note that the double ampersand is a cross platform method to run 2 commands in 1 line
-      (async-shell-command (concat "cd " default-directory " && vale " (buffer-file-name)) "*vale*"))))
+  (defun vale-clear ()
+    "Clears the vale buffer."
+    (interactive)
+    (with-current-buffer (get-buffer-create "*vale*") (erase-buffer)))
+  (defun vale-check-file ()
+    "Starts tomcat on the configured tomcat-path."
+    (interactive)
+    (vale-clear)
+    ;; Note that the double ampersand is a cross platform method to run 2 commands in 1 line
+    (async-shell-command (concat "cd " default-directory " && vale " (buffer-file-name)) "*vale*")))
 
 ;; Elpaca fixed the dependency problems with this!
 ;; Useful dictionary/thesaurus program (requires internet)
@@ -68,6 +67,10 @@
     (kbd "SPC d") #'powerthesaurus-hydra/body)
   (evil-define-key 'visual 'global
     (kbd "SPC d") #'powerthesaurus-hydra/body))
+(use-package dictionary
+  :ensure nil
+  :custom
+  (dictionary-server "dict.org"))
 
 ;; Blogging platform integration
 (use-package writefreely
