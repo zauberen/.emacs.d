@@ -27,11 +27,11 @@
                               (funcall cape-dict-file)
                             cape-dict-file)))))
       (setq cape--dictionary
-            (split-string
-             (with-temp-buffer
-               (dolist (file files) (insert-file-contents file))
-               (buffer-string))
-             "\n"))))
+            (vconcat (split-string
+                      (with-temp-buffer
+                        (dolist (file files) (insert-file-contents file))
+                        (buffer-string))
+                      "\n")))))
   (defun cape--dict-list (input)
     "Return all words from `cape-dict-file' matching INPUT."
     (let* ((inhibit-message t)
@@ -46,7 +46,7 @@
               (if (eq cape--dictionary nil)
                   (cape--dict-load))
               (catch 'maxed
-                (dolist (word cape--dictionary)
+                (seq-doseq (word cape--dictionary)
                   (if (length< matches cape-dict-limit)
                       (when (and (not (eq word nil))
                                  (string-match-p input word))

@@ -22,6 +22,9 @@
                               (margin-face . magit-blame-margin)
                               (margin-body-face magit-blame-dimmed)))
         magit-blame-echo-style 'msg-only))
+(use-package vc-msg
+  :ensure t
+  :bind ("C-x v p" . #'vc-msg-show))
 
 ;; Moving to diff-hl for now
 ;; (use-package git-gutter

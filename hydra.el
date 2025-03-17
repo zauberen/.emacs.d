@@ -6,10 +6,11 @@
 (use-package hydra
   :ensure t
   :demand t
+  :bind (("C-c C-v" . my-hydra-rare-modes/body)
+         :map Buffer-menu-mode-map
+         ("." . hydra-buffer-menu/body))
   :config
-  (global-set-key
-   (kbd "C-c C-v")
-   (defhydra my-hydra-rare-modes (:color pink)
+  (defhydra my-hydra-rare-modes (:color pink)
     "
 ^Editing^            ^Debug^           ^Formatting^          ^Text Manipulation
 ^^^^^^^^--------------------------------------------------------------------------
@@ -17,18 +18,35 @@ _a_: abbrev          _d_: debug        _r_: rainbow parens   _s_: search & repla
 _f_: fill            _v_: setup venv   _w_: whitespace       _S_: regex & replace
 ^ ^                  ^ ^               ^ ^                   ^^
 "
-     ("a" abbrev-mode)
-     ("d" toggle-debug-on-error)
-     ("f" auto-fill-mode)
-     ("r" rainbow-delimiters-mode)
-     ("s" query-replace)
-     ("S" query-replace-regexp)
-     ("t" toggle-truncate-lines)
-     ("w" whitespace-mode)
-     ("v" my-python-use-venv)
-     ("q" nil "quit" :color blue)))
+    ("a" abbrev-mode)
+    ("d" toggle-debug-on-error)
+    ("f" auto-fill-mode)
+    ("r" rainbow-delimiters-mode)
+    ("s" query-replace)
+    ("S" query-replace-regexp)
+    ("t" toggle-truncate-lines)
+    ("w" whitespace-mode)
+    ("v" my-python-use-venv)
+    ("q" nil "quit" :color blue))
+  ;; vc-annotate hydra, breaks vc annotate, needs work.
+  ;; I want to set something up with major-mode-hydra's pretty-hydra package.
+  (defhydra my-hydra-vc-annotate (:color pink)
+    "
+^Movement^            ^Review^           ^Time^
+^^^^^^^^--------------------------------------------------------
+_k_: Up               _l_: Show log      _n_: Next revision
+_j_: Down             _q_: Exit          _p_: Previous revision
+^ ^                   ^ ^                ^^
+"
+    ("k" previous-line)
+    ("j" next-line)
+    ("l" vc-annotate-show-log-revision-at-line)
+    ("n" vc-annotate-next-revision)
+    ("p" vc-annotate-prev-revision)
+    ("q" quit-window)
+    ("x" nil "quit" :color blue))
   ;; Only in Emacs mode
-  (define-key Buffer-menu-mode-map "." (defhydra hydra-buffer-menu (:color pink
+  (defhydra hydra-buffer-menu (:color pink
                                       :hint nil)
     "
 ^Mark^             ^Unmark^           ^Actions^          ^Search
@@ -56,7 +74,7 @@ _~_: modified      ^ ^                ^ ^                ^^                     
     ("c" nil "cancel")
     ("v" Buffer-menu-select "select" :color blue)
     ("o" Buffer-menu-other-window "other-window" :color blue)
-    ("q" quit-window "quit" :color blue))))
+    ("q" quit-window "quit" :color blue)))
 
 ;; Switch windows using ace style bindings
 (use-package ace-window
