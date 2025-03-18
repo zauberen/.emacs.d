@@ -70,9 +70,15 @@
     (kill-process (get-buffer-process "*tomcat*"))))
 
 ;;; LISP
+;; Emacs Lisp
+(use-package dash
+  :ensure t
+  :demand t
+  :config
+  (global-dash-fontify-mode)
+  (with-eval-after-load 'info-look
+    (dash-register-info-lookup)))
 ;; Clojure
-(use-package clojure-ts-mode
-  :ensure t)
 (use-package cider
   :ensure t
   :hook (clojure-ts-mode . rainbow-delimiters-mode)
