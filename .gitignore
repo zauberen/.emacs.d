@@ -46,3 +46,4 @@ flycheck_git.el
 /url/
 *.stackdump
 flycheck_*.el
+/ielm-history.eld
