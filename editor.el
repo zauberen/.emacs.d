@@ -44,7 +44,11 @@
       :ensure t
       :after org
       :config
-      (flycheck-vale-setup))
+      ;; Vale causes a lot of errors in basic org files.
+      (defun enable-flycheck-vale ()
+        "Enable flycheck vale for this session."
+        (interactive)
+        (flycheck-vale-setup)))
   ;; My own shittier version of this plugin for use on windows
   (defun vale-clear ()
     "Clears the vale buffer."
@@ -71,6 +75,11 @@
   :ensure nil
   :custom
   (dictionary-server "dict.org"))
+;; This definition plugin supports offline dictionaries.
+;; Need to set up a script to download them automatically.
+(use-package define-word
+  :ensure t
+  :bind ("C-c d w" . define-word-at-point))
 
 ;; Blogging platform integration
 (use-package writefreely
