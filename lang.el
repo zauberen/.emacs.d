@@ -260,4 +260,6 @@
   :hook (tree-sitter-after-on . tree-sitter-hl-mode)
   :config
   (global-tree-sitter-mode))
+;; Show current function in modeline.
+(which-function-mode)
 ;;; lang.el ends here
