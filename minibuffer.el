@@ -13,7 +13,7 @@
          ("C-c b m" . bookmark-set)
          ("C-c b l" . consult-bookmark)
          ("C-x r l" . consult-bookmark) ; Replace the existing bookmark list with consult, not that I'd use it
-         ("C-c h" . consult-history)
+         ;("C-c h" . consult-history)
          ("C-," . consult-yank-from-kill-ring)
          ("C-x b" . consult-buffer))
   :config

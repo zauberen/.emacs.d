@@ -181,16 +181,11 @@
   ;(when (eq system-type 'darwin)
   (doom-themes-visual-bell-config)
   (doom-themes-org-config)
-  (if (not (eq system-type 'darwin))
-    ; A selection of good light themes: doom-flatwhite, also doom-miramare, and the light gruvbox
-    ; Dark themes: doom-gruvbox, doom-molokai, doom-tomorrow-night
-    ; While I like the idea, they give me a headache
-    ; Mixing it up a bit at work, gonna use gruvbox here too for now
-    (load-theme 'doom-molokai t)
-    ; The comments on gruvbox are too good, I need them at work
-    ;(load-theme 'doom-gruvbox t)
-    ; Use gruvbox at home since it's close but just different enough to give a different context
-    (load-theme 'doom-gruvbox t))
+  (load-theme (cond
+               ((eq system-type 'darwin) 'doom-gruvbox)
+               ((or (eq system-type 'ms-dos) (eq system-type 'windows-nt)) 'doom-molokai)
+               (t 'doom-Iosvkem))
+              t)
   :ensure t)
 (use-package doom-modeline
   :ensure t
