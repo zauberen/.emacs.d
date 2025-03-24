@@ -221,7 +221,8 @@
          ("\\.html?\\'" . web-mode)))
 (use-package js2-mode
   :ensure t
-  :hook (js-mode . js2-minor-mode))
+  :hook (js-mode . js2-minor-mode)
+  :mode (("\\.tsx\\'" . javascript-mode)))
 
 ;; YAML
 ; Basic syntax highlighting in yaml
