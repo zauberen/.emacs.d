@@ -104,6 +104,12 @@
     "Kill the clj-biff process started by clj-biff-start."
     (interactive)
     (kill-process (get-buffer-process "*clj-biff*"))))
+; TODO: Add a if here checking for (executable-find "hiccup-cli") and if it does, to use that package with the same keybinds.
+; Reason being that hiccup-cli does a better job at hiccup conversion.
+(use-package html-to-hiccup
+  :ensure t
+  :bind (("C-c h h" . html-to-hiccup-convert-region)
+         ("C-c h y" . html-to-hiccup-yank)))
 (use-package cider-hydra
   :ensure t
   :hook (clojure-ts-mode . cider-hydra-mode))
