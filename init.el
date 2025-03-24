@@ -160,8 +160,7 @@
                                                            (/ (window-width)
                                                               5)))))
   :config
-  (setq nyan-bar-length 25)
-  (nyan-mode))
+  (setq nyan-bar-length 25))
 
 ;; Theming ;;
 ; I really like ef-elea-dark
