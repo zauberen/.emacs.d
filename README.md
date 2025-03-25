@@ -21,6 +21,7 @@ My emacs configuration
    - For clojure support
      - `leiningen` (also released as `lein`, and is that on the path)
      - `clojure`
+     - `hiccup-cli` (optional) also requires elpaca-try hiccup-cli. Adds better hiccup conversion support. Must install manually either by compiling from source or by downloading and adding the binary to path.
    - `vale` A spell checker for writing. See https://github.com/errata-ai/vale
      - To initialize vale in a new directory, create a `.vale.ini` in the git home directory, a generator is here: https://vale.sh/generator
      - Next run `vale sync` in the git home directory, and it will be ready!

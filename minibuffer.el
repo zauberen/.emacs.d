@@ -14,6 +14,9 @@
          ("C-c b l" . consult-bookmark)
          ("C-x r l" . consult-bookmark) ; Replace the existing bookmark list with consult, not that I'd use it
          ;("C-c h" . consult-history)
+         ("C-c s" . consult-line)
+         ("C-c C-s" . consult-line-multi)
+         ("C-c t o" . consult-outline)
          ("C-," . consult-yank-from-kill-ring)
          ("C-x b" . consult-buffer))
   :config
@@ -56,10 +59,7 @@ This only works with orderless and for the first component of the search."
     (kbd "SPC o") #'evil-collection-consult-jump-list
     (kbd "C-t") #'consult-imenu
     (kbd "C-S-t") #'consult-imenu-multi
-    (kbd "C-f") #'consult-outline
-    (kbd "SPC l") #'consult-line-multi
     (kbd "SPC b") #'consult-buffer
-    (kbd "/") #'consult-line
     (kbd "g m") #'evil-collection-consult-mark))
 (use-package consult-projectile
   :ensure t

@@ -61,6 +61,12 @@
     ;; Note that the double ampersand is a cross platform method to run 2 commands in 1 line
     (async-shell-command (concat "cd " default-directory " && vale " (buffer-file-name)) "*vale*")))
 
+;; My function to delete empty lines
+(defun flush-empty-lines ()
+  "Remove empty lines in a file."
+  (interactive)
+  (flush-lines "^[[:space:]]*$"))
+
 ;; Elpaca fixed the dependency problems with this!
 ;; Useful dictionary/thesaurus program (requires internet)
 (use-package powerthesaurus
