@@ -81,7 +81,7 @@
 ;; Clojure
 (use-package cider
   :ensure t
-  :hook (clojure-ts-mode . rainbow-delimiters-mode)
+  :hook (clojure-mode . rainbow-delimiters-mode)
   :bind (("C-c b s" . clj-biff-start)
          ("C-c b x" . clj-biff-stop)
          ("C-c b c" . clj-biff-clear-logs))
