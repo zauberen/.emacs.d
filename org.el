@@ -197,7 +197,7 @@
 (use-package consult-notes
   :ensure t
   :after denote consult evil org
-  :bind (("C-c s" . consult-notes))
+  :bind (("C-c n s" . consult-notes))
   :init
   ;; Ensure the org directory is available here, needs to change if org dir ever does
   (if (or (eq system-type 'ms-dos) (eq system-type 'windows-nt))

@@ -33,6 +33,7 @@
     (kbd "SPC b") #'switch-to-buffer
     (kbd "M-l") #'evil-avy-goto-char
     (kbd "SPC SPC") #'evil-avy-goto-word-or-subword-1
+    (kbd "C-f") #'evil-avy-goto-word-or-subword-1
     (kbd "g SPC") #'evil-join-whitespace
     (kbd "C-u") #'universal-argument
     (kbd "C-a") #'beginning-of-line
