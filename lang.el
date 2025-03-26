@@ -81,7 +81,8 @@
 ;; Clojure
 (use-package cider
   :ensure t
-  :hook (clojure-mode . rainbow-delimiters-mode)
+  :hook ((clojure-mode . rainbow-delimiters-mode)
+         (clojure-mode . lsp))
   :bind (("C-c b s" . clj-biff-start)
          ("C-c b x" . clj-biff-stop)
          ("C-c b c" . clj-biff-clear-logs))
@@ -105,7 +106,7 @@
     (interactive)
     (kill-process (get-buffer-process "*clj-biff*"))))
 ; Convert html to hiccup (hiccup-cli is better but requires an external program)
-(if (elpaca-installed-p 'hiccup-cli)
+(if (executable-find "hiccup-cli")
     (use-package hiccup-cli
       :ensure t
       :bind (("C-c h h" . hiccup-cli-region-as-hiccup)
@@ -115,10 +116,9 @@
     :ensure t
     :bind (("C-c h h" . html-to-hiccup-convert-region)
            ("C-c h y" . html-to-hiccup-yank))))
-
 (use-package cider-hydra
   :ensure t
-  :hook (clojure-ts-mode . cider-hydra-mode))
+  :hook (clojure-mode . cider-hydra-mode))
 ;; Common Lisp
 (use-package sly
   :ensure t

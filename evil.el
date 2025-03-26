@@ -113,6 +113,7 @@ play well with `evil-mc'."
          ("C-c [" . sp-wrap-square)
          ("C-c u" . sp-unwrap-sexp)
          ("C-S-e" . sp-end-of-sexp)
+         ("C-S-a" . sp-beginning-of-sexp)
          ("C-c w w" . sp-rewrap-sexp)
          ("C-c w r" . sp-wrap-round)
          ("C-c w c" . sp-wrap-curly)
