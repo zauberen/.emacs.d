@@ -229,6 +229,12 @@
   :ensure t
   :hook (js-mode . js2-minor-mode)
   :mode (("\\.tsx\\'" . javascript-mode)))
+(use-package lsp-tailwindcss
+  :ensure (:host github :repo "merrickluo/lsp-tailwindcss"))
+(use-package emmet-mode
+  :ensure t
+  :hook (sgml-mode . emmet-mode)
+  :bind (("C-<tab>" . emmet-expand-line)))
 
 ;; YAML
 ; Basic syntax highlighting in yaml
