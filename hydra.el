@@ -80,7 +80,10 @@ _~_: modified      ^ ^                ^ ^                ^^                     
 (use-package ace-window
   :ensure t
   :bind (("C-x C-o" . ace-window)
-         ("C-x M-o" . ace-swap-window))
+         ("C-x M-o" . ace-swap-window)
+         ("C-S-w" . ace-swap-window)
+         :map evil-insert-state-map
+         ("C-w" . ace-window))
   :init
   (evil-define-key 'normal 'global
     (kbd "SPC w") #'ace-swap-window)
