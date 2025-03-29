@@ -230,7 +230,12 @@
   :hook (js-mode . js2-minor-mode)
   :mode (("\\.tsx\\'" . javascript-mode)))
 (use-package lsp-tailwindcss
-  :ensure (:host github :repo "merrickluo/lsp-tailwindcss"))
+  :ensure (:host github :repo "merrickluo/lsp-tailwindcss")
+  :after lsp-mode
+  :init
+  (setq lsp-tailwindcss-add-on-mode t
+        lsp-tailwindcss-server-version "0.14.8"
+        lsp-tailwindcss-skip-config-check t))
 (use-package emmet-mode
   :ensure t
   :hook (sgml-mode . emmet-mode)
