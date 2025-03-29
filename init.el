@@ -314,6 +314,9 @@
 ;; Eshell configuration
 (load-file (expand-file-name "eshell.el" user-emacs-directory))
 
+;; AI integration
+(load-file (expand-file-name "ai.el" user-emacs-directory))
+
 ;; Fun stuff
 (load-file (expand-file-name "fun.el" user-emacs-directory))
 
