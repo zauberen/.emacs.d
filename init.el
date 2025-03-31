@@ -200,7 +200,6 @@
           doom-modeline-time t
           doom-modeline-height 17
           display-time-default-load-average nil))
-  :config
   (doom-modeline-mode 1))
 
 ;; Load exwm only if it is already installed
