@@ -219,7 +219,7 @@
   :ensure t
   :mode (("\\.phtml\\'" . web-mode)
          ("\\.tpl\\.php\\'" . web-mode)
-         ("\\.[agj]sp\\'" . web-mode)
+         ("\\.[agj]sp\\'" . html-mode) ; web mode crashes on some jsp files.
          ("\\.as[cp]x\\'" . web-mode)
          ("\\.erb\\'" . web-mode)
          ("\\.mustache\\'" . web-mode)
@@ -228,7 +228,7 @@
 (use-package js2-mode
   :ensure t
   :hook (js-mode . js2-minor-mode)
-  :mode (("\\.tsx\\'" . javascript-mode)))
+  :mode (("\\.tsx\\'" . js-mode)))
 (use-package lsp-tailwindcss
   :ensure (:host github :repo "merrickluo/lsp-tailwindcss")
   :after lsp-mode

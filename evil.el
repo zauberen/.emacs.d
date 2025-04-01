@@ -154,14 +154,5 @@ play well with `evil-mc'."
   (define-key global-map (kbd "C-c w b") #'sp-wrap-star)
   (define-key global-map (kbd "C-c w g") #'my-sp-wrap-generic)
   ;; Enables smartparens
-  (smartparens-global-mode 1)
-  (smartparens-global-strict-mode))
-;; (use-package evil-smartparens
-;;   :ensure t
-;;   :demand t
-;;   :after smartparens evil
-;;   :hook (smartparens-enabled . evil-smartparens-mode)
-;;   :config
-;;   (smartparens-global-mode 1)
-;;   (smartparens-global-strict-mode))
+  (smartparens-global-mode 1))
 ;;; evil.el ends here

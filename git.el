@@ -8,6 +8,7 @@
   :ensure (:host github :repo "magit/transient"))
 (use-package magit
   :ensure (:host github :repo "magit/magit")
+  :bind ("C-x v f" . magit-log-buffer-file)
   :after transient
   :init
   (setq magit-view-git-manual-method 'man
