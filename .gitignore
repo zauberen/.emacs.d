@@ -47,3 +47,5 @@ flycheck_git.el
 *.stackdump
 flycheck_*.el
 /ielm-history.eld
+/dap-ui-repl-java-history
+/semanticdb/

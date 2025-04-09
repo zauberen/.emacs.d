@@ -228,7 +228,10 @@
 (use-package js2-mode
   :ensure t
   :hook (js-mode . js2-minor-mode)
-  :mode (("\\.tsx\\'" . js-mode)))
+  :mode (("\\.tsx\\'" . js-mode))
+  :config
+  (if (or (eq system-type 'ms-dos) (eq system-type 'windows-nt))
+      (setq inhibit-compacting-font-cache t)))
 (use-package lsp-tailwindcss
   :ensure (:host github :repo "merrickluo/lsp-tailwindcss")
   :after lsp-mode
@@ -285,5 +288,18 @@
   :config
   (global-tree-sitter-mode))
 ;; Show current function in modeline.
-(which-function-mode)
+(use-package which-func
+  :ensure nil
+  :demand t
+  :config
+  (setq which-func-modes '(java-mode org-mode emacs-lisp-mode lisp-mode clojure-mode lsp-mode xml-mode nxml-mode python-mode))
+  (which-function-mode))
+;; Stick the function name of the top function to the top of the screen.
+(use-package semantic
+  :ensure nil
+  ;; Only use this when not using lsp.
+  :bind ("C-c b r" . semantic-stickyfunc-mode)
+  :config
+  (semantic-mode)
+  (global-semanticdb-minor-mode))
 ;;; lang.el ends here
