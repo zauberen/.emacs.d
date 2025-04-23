@@ -122,13 +122,15 @@
   :if (display-graphic-p)
   :hook (dired-mode . all-the-icons-dired-mode))
 
-;; ag, the silver searcher
-(use-package ag
+;; Base ripgrep search outside of minibuffer
+(use-package deadgrep
+  :ensure t
+  :demand t
+  :bind ("C-M-s" . deadgrep))
+;; Allows editing directly inside the deadgrep buffer
+(use-package wgrep-deadgrep
   :ensure t
   :demand t)
-(use-package wgrep-ag
-  :demand t
-  :ensure t)
 ;; Used to replace all instances of the word or selection under the cursor
 ;; C-c d contains context limited replace all functions (defun scope, below or above cursor)
 (use-package substitute
@@ -269,10 +271,7 @@
     ; Note that f is overridden if minibuffer.el is included to use consult-projectile
     (kbd "SPC f") #'projectile-find-file
     (kbd "SPC p") #'projectile-switch-project
-    (kbd "SPC e") #'projectile-run-eshell
-    ; Also bind ag
-    (kbd "SPC a a") #'ag
-    (kbd "SPC a p") #'projectile-ag))
+    (kbd "SPC e") #'projectile-run-eshell)
 
 ;; Virtico, Corfu, cape, orderless, consult, embark, marginalia
 (use-package orderless

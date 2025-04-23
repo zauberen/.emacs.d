@@ -17,6 +17,7 @@
   :ensure t
   :demand t
   :after evil-collection avy
+  :bind ("C-/" . evil-search-forward)
   :config
   (defun my-mark-defun ()
     "Marks the defun by moving to the start of the defun then marking it."

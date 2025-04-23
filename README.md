@@ -9,11 +9,10 @@ My emacs configuration
      - If you want debugging support with DAP, you will also need `ptvsd`
    - `dasel` for python venv support
    - `node` (tested with 20.3) (lsp)
-   - `ag` or `the_silver_searcher`(macos) or `silversearcher-ag`(ubuntu) (project searching) (optional)
-     - Plugin makes a buffer which is easy to search through
    - `rg` or `ripgrep` (project searching) (optional)
      - Built into consult, replaces git-grep when installed.
-     - Similar functionality to ag by using embark-collect (C-s to search, then M-S-; to collect)
+     - Get your search in a buffer using deadgrep (C-M-s)
+     - Similar functionality to deadgrep by using embark-collect (C-s to search, then M-S-; to collect)
    - `fonts-hack-ttf`(ubuntu) or `homebrew/cask-fonts/font-hack`(macos) Hack font
    - Some LaTeX distribution (recommend `texlive`)
    - `pandoc` (optional but recommended) for exporting files
