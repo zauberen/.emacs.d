@@ -274,7 +274,7 @@
     ; Note that f is overridden if minibuffer.el is included to use consult-projectile
     (kbd "SPC f") #'projectile-find-file
     (kbd "SPC p") #'projectile-switch-project
-    (kbd "SPC e") #'projectile-run-eshell)
+    (kbd "SPC e") #'projectile-run-eshell))
 
 ;; Virtico, Corfu, cape, orderless, consult, embark, marginalia
 (use-package orderless
