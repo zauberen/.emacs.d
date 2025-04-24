@@ -5,11 +5,16 @@
 (use-package gptel
   :ensure t
   :demand t
-  :bind (("C-c C-a g" . gptel)
-         ("C-c C-a a" . gptel-add-file)
+  :bind (("C-c a i" . gptel)
+         ("C-c a a" . gptel-add)
+         ("C-c a f" . gptel-add-file)
          :map gptel-mode-map
          ("S-<return>" . gptel-send))
   :config
+  (defun set-default-chat (model-name setup-func)
+    "Set the default model, given a MODEL-NAME and the output of the SETUP-FUNC."
+    (setq gptel-model model-name
+          gptel-backend setup-func))
   ;; In local.el, call the function with an api key to use DeepSeek.
   ;; Here's an example:
   ;; (use-package gptel
@@ -18,14 +23,20 @@
   ;;   (setup-deep-seek "key"))
   (defun setup-deep-seek (apikey)
     "Sets up deepseek with the given APIKEY."
-    (interactive)
-    (setq gptel-model   'deepseek-reasoner
-          gptel-backend (gptel-make-deepseek "DeepSeek"
-                                             :stream t
-                                             :key apikey))))
+    (gptel-make-deepseek "DeepSeek"
+      :stream t
+      :key apikey))
+  (defun setup-ollama (model-list)
+    "Sets up ollama with the given
+MODEL-LIST like \='(deepseek-r1:8b deepseek-coder-v2:16b)."
+    (gptel-make-ollama "Ollama"
+      :host "localhost:11434"
+      :stream t
+      :models model-list)))
+
 (use-package copilot-chat
   :ensure t
-  :bind ("C-c C-a c" . copilot-chat-display)
+  :bind ("C-c a c" . copilot-chat-display)
   :config
   ; Fix doom-modeline
   (defun copilot-chat--org-goto-input()

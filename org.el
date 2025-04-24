@@ -9,8 +9,8 @@
   :diminish org-indent-mode eldoc-mode auto-revert-mode
   ; Enable word wrap and org indenting
   :hook ((org-mode . org-indent-mode))
-  :bind (("C-c l" . org-store-link)
-         ("C-c a" . org-agenda)
+  :bind (("C-c n S-l" . org-store-link)
+         ("C-c a o" . org-agenda)
          ("C-c c" . org-capture)
          :map org-mode-map
          ; Ensure consult gets it's bindings in org
