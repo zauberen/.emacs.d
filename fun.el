@@ -61,4 +61,24 @@ LOAN-AMT The starting loan amount."
     (list :savings (- (getf worse-plan :total-paid) (getf better-plan :total-paid))
           :savings-in-months (/ (- (getf worse-plan :total-paid) (getf better-plan :total-paid)) (getf worse-plan :payment))
           :optimal-plan better-plan)))
+
+(defvar my-cards nil "List of cards made by my-create-card for my-pay-calculator.")
+(defun my-create-card (card-name card-balance card-due)
+  (if my-cards
+      (add-to-list 'my-cards (list :name card-name :balance card-balance :due card-due))
+    (setq my-cards (list (list :name card-name :balance card-balance :due card-due)))))
+(defun my-pay-calculator (bank wage wage-count wage-count-next)
+  (let ((cost 0)
+        (cost-next 0)
+        (card-cost))
+    (dolist (card my-cards)
+      (setq card-cost (getf card :due)
+            cost (+ cost card-cost)
+            cost-next (+ cost-next (- (getf card :balance) card-cost))))
+    (let* ((wage-this-period (* wage wage-count))
+           (wage-next-period (* wage wage-count-next))
+           (left-this-month (- (+ bank wage-this-period) cost))
+           (left-next-month (- (+ left-this-month wage-next-period) cost-next)))
+      (list :due-this-month cost :leftover left-this-month
+            :due-next-month cost-next :leftover-next left-next-month))))
 ;;; fun.el ends here
