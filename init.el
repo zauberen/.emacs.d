@@ -95,7 +95,10 @@
                    :default-weight normal)
      (hack-ttf-big :default-family "Hack"
                    :default-height 170
-                   :default-weight normal))))
+                   :default-weight normal)
+     (hack-ttf-wolfy :default-family "Hack"
+                     :default-height 200
+                     :default-weight normal))))
 
 (load-file (expand-file-name "tweaks.el" user-emacs-directory))
 
