@@ -194,21 +194,29 @@
     (put sym 'completion-predicate #'ignore)))
 
 ;; SQL
-;; (use-package ejc-sql
-;;   :ensure t
-;;   :if (and (executable-find "clojure")
-;;            (executable-find "lein"))
-;;   :hook ((ejc-sql-connected . (lambda ()
-;;                                 (ejc-set-fetch-size 99)
-;;                                 (ejc-set-max-rows 99)
-;;                                 (ejc-set-show-too-many-rows-message t)
-;;                                 (ejc-set-column-width-limit 25)
-;;                                 (ejc-set-use-unicode t)))
-;;          (ejc-sql-mode . (lambda () (ejc-eldoc-setup))))
-;;   :config
-;;   (setq clomacs-httpd-default-port 9095
-;;         ejc-completion-system 'standard
-;;         ejc-result-table-impl 'orgtbl-mode)) ; 'ejc-result-mode alternative?
+(use-package ejc-sql
+  :ensure t
+  :if (and (executable-find "clj")
+           (executable-find "lein"))
+  :hook ((ejc-sql-connected . (lambda ()
+                                (ejc-set-fetch-size 99)
+                                (ejc-set-max-rows 99)
+                                (ejc-set-show-too-many-rows-message t)
+                                (ejc-set-column-width-limit 25)
+                                (ejc-set-use-unicode t)))
+         (ejc-sql-mode . (lambda () (ejc-eldoc-setup))))
+  :config
+  (setq clomacs-httpd-default-port 9095
+        ejc-completion-system 'standard
+        ejc-result-table-impl 'orgtbl-mode)) ; 'ejc-result-mode alternative?
+;; This is only here to facilitate capfs for ejc-sql
+(use-package company
+  :ensure t)
+(use-package ejc-company
+  :ensure nil
+  :after (ejc-sql company cape)
+  :hook (ejc-sql-mode . (lambda () (setq-local completion-at-point-functions (mapcar #'cape-company-to-capf (list #'ejc-company-backend #'company-keywords))))))
+
 (use-package sql
   :hook (sql-mode . sql-highlight-mariadb-keywords))
 ;;(sql-mode . ejc-sql-mode)
