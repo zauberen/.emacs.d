@@ -207,6 +207,7 @@
          (ejc-sql-mode . (lambda () (ejc-eldoc-setup))))
   :config
   (setq clomacs-httpd-default-port 9095
+        ejc-sql-separator ";"
         ejc-completion-system 'standard
         ejc-result-table-impl 'orgtbl-mode)) ; 'ejc-result-mode alternative?
 ;; This is only here to facilitate capfs for ejc-sql

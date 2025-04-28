@@ -43,54 +43,57 @@
   :demand t
   :after consult corfu cape
   :bind (:map lsp-mode-map
-         ("C-c C-." . lsp-execute-code-action))
+         ("C-c C-." . lsp-execute-code-action)
+         ("C-k" . lsp-describe-thing-at-point))
   :init
   (setq lsp-completion-provider :none
         lsp-keymap-prefix "C-c l"
         lsp-pylsp-plugins-ruff-line-length 300)
   ;; This code is used to optimize the lsp interaction with emacs
   ;; Code adapted from https://github.com/blahgeek/emacs-lsp-booster
-    (defun lsp-booster--advice-json-parse (old-fn &rest args)
-      "Try to parse bytecode instead of json."
-      (or
-       (when (equal (following-char) ?#)
-         (let ((bytecode (read (current-buffer))))
-           (when (byte-code-function-p bytecode)
-             (funcall bytecode))))
-       (apply old-fn args)))
-    (advice-add (if (progn (require 'json)
-                           (fboundp 'json-parse-buffer))
-                    'json-parse-buffer
-                  'json-read)
-                :around
-                #'lsp-booster--advice-json-parse)
+  (defun lsp-booster--advice-json-parse (old-fn &rest args)
+    "Try to parse bytecode instead of json."
+    (or
+     (when (equal (following-char) ?#)
+       (let ((bytecode (read (current-buffer))))
+         (when (byte-code-function-p bytecode)
+           (funcall bytecode))))
+     (apply old-fn args)))
+  (advice-add (if (progn (require 'json)
+                         (fboundp 'json-parse-buffer))
+                  'json-parse-buffer
+                'json-read)
+              :around
+              #'lsp-booster--advice-json-parse)
 
-    (defun lsp-booster--advice-final-command (old-fn cmd &optional test?)
-      "Prepend emacs-lsp-booster command to lsp CMD."
-      (let ((orig-result (funcall old-fn cmd test?)))
-        (if (and (not test?)                             ;; for check lsp-server-present?
-                 (not (file-remote-p default-directory)) ;; see lsp-resolve-final-command, it would add extra shell wrapper
-                 lsp-use-plists
-                 (not (functionp 'json-rpc-connection))  ;; native json-rpc
-                 ;; For windows, the exe is in .emacs.d
-                 (if (or (eq system-type 'ms-dos) (eq system-type 'windows-nt))
-                     (file-exists-p (expand-file-name "lsp/emacs-lsp-booster.exe" user-emacs-directory))
-                   (if (eq system-type 'darwin)
-                       (file-exists-p (expand-file-name "lsp/macos/emacs-lsp-booster" user-emacs-directory))
-                       (file-exists-p (expand-file-name "lsp/linux/emacs-lsp-booster" user-emacs-directory)))))
-            (progn
-              (when-let ((command-from-exec-path (executable-find (car orig-result))))  ;; resolve command from exec-path (in case not found in $PATH)
-                (setcar orig-result command-from-exec-path))
-              (message "Using emacs-lsp-booster for %s!" orig-result)
-              (cons (if (or (eq system-type 'ms-dos) (eq system-type 'windows-nt))
-                        (expand-file-name "lsp/emacs-lsp-booster.exe" user-emacs-directory)
-                      (if (eq system-type 'darwin)
-                          (expand-file-name "lsp/macos/emacs-lsp-booster" user-emacs-directory)
-                        (expand-file-name "lsp/linux/emacs-lsp-booster" user-emacs-directory)))
-                    orig-result))
-          orig-result)))
-    (advice-add 'lsp-resolve-final-command :around #'lsp-booster--advice-final-command)
+  (defun lsp-booster--advice-final-command (old-fn cmd &optional test?)
+    "Prepend emacs-lsp-booster command to lsp CMD."
+    (let ((orig-result (funcall old-fn cmd test?)))
+      (if (and (not test?)                             ;; for check lsp-server-present?
+               (not (file-remote-p default-directory)) ;; see lsp-resolve-final-command, it would add extra shell wrapper
+               lsp-use-plists
+               (not (functionp 'json-rpc-connection))  ;; native json-rpc
+               ;; For windows, the exe is in .emacs.d
+               (if (or (eq system-type 'ms-dos) (eq system-type 'windows-nt))
+                   (file-exists-p (expand-file-name "lsp/emacs-lsp-booster.exe" user-emacs-directory))
+                 (if (eq system-type 'darwin)
+                     (file-exists-p (expand-file-name "lsp/macos/emacs-lsp-booster" user-emacs-directory))
+                   (file-exists-p (expand-file-name "lsp/linux/emacs-lsp-booster" user-emacs-directory)))))
+          (progn
+            (when-let ((command-from-exec-path (executable-find (car orig-result))))  ;; resolve command from exec-path (in case not found in $PATH)
+              (setcar orig-result command-from-exec-path))
+            (message "Using emacs-lsp-booster for %s!" orig-result)
+            (cons (if (or (eq system-type 'ms-dos) (eq system-type 'windows-nt))
+                      (expand-file-name "lsp/emacs-lsp-booster.exe" user-emacs-directory)
+                    (if (eq system-type 'darwin)
+                        (expand-file-name "lsp/macos/emacs-lsp-booster" user-emacs-directory)
+                      (expand-file-name "lsp/linux/emacs-lsp-booster" user-emacs-directory)))
+                  orig-result))
+        orig-result)))
+  (advice-add 'lsp-resolve-final-command :around #'lsp-booster--advice-final-command)
+
   :config
+  (setq evil-lookup-func #'lsp-describe-thing-at-point)
   (advice-add #'lsp-completion-at-point :around #'cape-wrap-noninterruptible)
                                         ; Use consult for lsp completions
   (define-key lsp-mode-map [remap xref-find-apropos] #'consult-lsp-symbols)
