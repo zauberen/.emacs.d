@@ -204,12 +204,15 @@
                                 (ejc-set-show-too-many-rows-message t)
                                 (ejc-set-column-width-limit 25)
                                 (ejc-set-use-unicode t)))
-         (ejc-sql-mode . (lambda () (ejc-eldoc-setup))))
+         (ejc-sql-mode . (lambda () (ejc-eldoc-setup)))
+         (sql-mode . (lambda () (call-interactively 'ejc-connect))))
+  :bind (:map ejc-sql-mode-keymap
+              ("C-<return>" . ejc-eval-user-sql-at-point))
   :config
   (setq clomacs-httpd-default-port 9095
         ejc-sql-separator ";"
         ejc-completion-system 'standard
-        ejc-result-table-impl 'orgtbl-mode)) ; 'ejc-result-mode alternative?
+        ejc-result-table-impl 'orgtbl-mode))
 ;; This is only here to facilitate capfs for ejc-sql
 (use-package company
   :ensure t)
