@@ -32,6 +32,8 @@
     (kbd "C-r") #'evil-paste-from-register)
   (evil-define-key 'normal 'global
     (kbd "SPC b") #'switch-to-buffer
+    (kbd "SPC t") #'tab-bar-switch-to-tab
+    (kbd "g l") #'tab-bar-switch-to-tab
     (kbd "M-l") #'evil-avy-goto-char
     (kbd "SPC SPC") #'evil-avy-goto-word-or-subword-1
     (kbd "C-f") #'evil-avy-goto-word-or-subword-1

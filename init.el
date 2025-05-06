@@ -24,7 +24,11 @@
   ;; Kill buffer command
   (global-set-key (kbd "C-x k") 'kill-current-buffer)
   ;; Indent region command
-  (global-set-key (kbd "C-c i") 'indent-region))
+  (global-set-key (kbd "C-c i") 'indent-region)
+  ;; Tab switching via a list
+  (global-set-key (kbd "C-x t l") 'tab-bar-switch-to-tab)
+  ;; Tab show or hide
+  (global-set-key (kbd "C-x t s") 'tab-bar-mode))
 ;; Line numbering and word wrap
 (setq display-line-numbers-type 'relative)
 (global-display-line-numbers-mode)
