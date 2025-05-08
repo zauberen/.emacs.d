@@ -26,6 +26,17 @@
     (gptel-make-deepseek "DeepSeek"
       :stream t
       :key apikey))
+  ;; In local.el, call the function with a model list to use Ollama.
+  ;; Here's an example with my list of preferred llms:
+  ;; Note: some other nice llms to have: nomic-embed-text
+  ;; (use-package gptel
+  ;;   :ensure nil
+  ;;   :config
+  ;;   (set-default-chat 'qwen3:32b
+  ;;                     (setup-ollama '(deepseek-r1:32b   ; Decent thinking AI
+  ;;                                     gemma3:27b        ; Decent text based AI
+  ;;                                     qwen3:32b         ; Decent coding AI
+  ;;                                     qwen3:30b-a3b)))) ; Good at mind numbing things with /no_think
   (defun setup-ollama (model-list)
     "Sets up ollama with the given
 MODEL-LIST like \='(deepseek-r1:8b deepseek-coder-v2:16b)."
