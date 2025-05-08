@@ -204,8 +204,7 @@
                                 (ejc-set-show-too-many-rows-message t)
                                 (ejc-set-column-width-limit 25)
                                 (ejc-set-use-unicode t)))
-         (ejc-sql-mode . (lambda () (ejc-eldoc-setup)))
-         (sql-mode . (lambda () (call-interactively 'ejc-connect))))
+         (ejc-sql-mode . (lambda () (ejc-eldoc-setup))))
   :bind (:map ejc-sql-mode-keymap
               ("C-<return>" . ejc-eval-user-sql-at-point))
   :config
