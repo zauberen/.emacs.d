@@ -10,7 +10,16 @@
          ("C-c a f" . gptel-add-file)
          :map gptel-mode-map
          ("S-<return>" . gptel-send))
+  :hook (gptel-post-stream . gptel-auto-scroll)
+  :custom
+  ; Write prompt buffers and responses in org syntax.
+  (gptel-default-mode 'org-mode)
+  ; Allow use and reference of media files.
+  (gptel-track-media t)
+  ; Do not show thinking in the buffer.
+  (gptel-include-reasoning nil)
   :config
+  (add-hook 'gptel-post-response-functions 'gptel-end-of-response)
   (defun set-default-chat (model-name setup-func)
     "Set the default model, given a MODEL-NAME and the output of the SETUP-FUNC."
     (setq gptel-model model-name

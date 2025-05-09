@@ -44,7 +44,7 @@
   :after consult corfu cape
   :bind (:map lsp-mode-map
          ("C-c C-." . lsp-execute-code-action)
-         ("C-k" . lsp-describe-thing-at-point))
+         ("C-k" . lsp-find-references))
   :init
   (setq lsp-completion-provider :none
         lsp-keymap-prefix "C-c l"
