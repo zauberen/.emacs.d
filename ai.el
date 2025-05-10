@@ -26,10 +26,13 @@
           gptel-backend setup-func))
   ;; In local.el, call the function with an api key to use DeepSeek.
   ;; Here's an example:
+  ;; Note: if you do not want to set deepseek as the default chat, simply
+  ;;       call the setup-deep-seek function without the set-default-chat wrapping it.
   ;; (use-package gptel
   ;;   :ensure nil
   ;;   :config
-  ;;   (setup-deep-seek "key"))
+  ;;   (set-default-chat 'deepseek-reasoner
+  ;;                     (setup-deep-seek "key")))
   (defun setup-deep-seek (apikey)
     "Sets up deepseek with the given APIKEY."
     (gptel-make-deepseek "DeepSeek"
@@ -38,6 +41,8 @@
   ;; In local.el, call the function with a model list to use Ollama.
   ;; Here's an example with my list of preferred llms:
   ;; Note: some other nice llms to have: nomic-embed-text
+  ;; Note: if you do not want to set an ollama llm as the default chat, simply
+  ;;       call the setup-ollama function without the set-default-chat wrapping it.
   ;; (use-package gptel
   ;;   :ensure nil
   ;;   :config
