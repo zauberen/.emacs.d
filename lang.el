@@ -86,25 +86,8 @@
   :bind (("C-c b s" . clj-biff-start)
          ("C-c b x" . clj-biff-stop)
          ("C-c b c" . clj-biff-clear-logs))
-  :init
-  (defun clj-biff-clear-logs ()
-    "Clears the clj-biff log."
-    (interactive)
-    (with-current-buffer (get-buffer-create "*clj-biff*") (erase-buffer)))
-  (defun clj-biff-start ()
-    "Starts biff in the current directory."
-    (interactive)
-    (clj-biff-clear-logs)
-    ;; Note that the double ampersand is a cross platform method to run 2 commands in 1 line
-    (async-shell-command (concat "cd " default-directory " && clj -M:dev dev") "*clj-biff*"))
-  (defun clj-biff-stop ()
-    "Stop the biff process started by clj-biff-start."
-    (interactive)
-    (interrupt-process (get-buffer-process "*clj-biff*")))
-  (defun clj-biff-kill ()
-    "Kill the clj-biff process started by clj-biff-start."
-    (interactive)
-    (kill-process (get-buffer-process "*clj-biff*"))))
+  :custom
+  (cider-clojure-cli-parameters "-A:dev"))
 ; Convert html to hiccup (hiccup-cli is better but requires an external program)
 (if (executable-find "hiccup-cli")
     (use-package hiccup-cli
