@@ -50,6 +50,8 @@
   ;;                     (setup-ollama '(deepseek-r1:32b   ; Decent thinking AI
   ;;                                     gemma3:27b        ; Decent text based AI
   ;;                                     qwen3:32b         ; Decent coding AI
+  ;;                                     mistral-small3.1:24b
+  ;;                                     starcoder2:15b
   ;;                                     qwen3:30b-a3b)))) ; Good at mind numbing things with /no_think
   (defun setup-ollama (model-list)
     "Sets up ollama with the given
