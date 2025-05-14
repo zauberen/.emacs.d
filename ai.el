@@ -18,6 +18,15 @@
   (gptel-track-media t)
   ; Do not show thinking in the buffer.
   (gptel-include-reasoning nil)
+  ; Set the default prompt prefixes
+  (gptel-prompt-prefix-alist '((markdown-mode . "### ")
+                               (org-mode . "* ")
+                               (text-mode . "# ")))
+  (gptel-response-prefix-alist '((markdown-mode . "")
+                                 (org-mode . "** Response:\n")
+                                 (text-mode . "")))
+  ; Some tuning settings
+  (gptel-temperature 0.6)
   :config
   (add-hook 'gptel-post-response-functions 'gptel-end-of-response)
   (defun set-default-chat (model-name setup-func)
