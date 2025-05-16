@@ -8,6 +8,7 @@
   :bind (("C-c a i" . gptel)
          ("C-c a a" . gptel-add)
          ("C-c a f" . gptel-add-file)
+         ("C-c a m" . gptel-menu)
          :map gptel-mode-map
          ("S-<return>" . gptel-send))
   :hook (gptel-post-stream . gptel-auto-scroll)
@@ -19,12 +20,17 @@
   ; Do not show thinking in the buffer.
   (gptel-include-reasoning nil)
   ; Set the default prompt prefixes
-  (gptel-prompt-prefix-alist '((markdown-mode . "### ")
-                               (org-mode . "* ")
-                               (text-mode . "# ")))
+  (gptel-prompt-prefix-alist   '((markdown-mode . "### ")
+                                 (org-mode . "* ")
+                                 (text-mode . "# ")))
   (gptel-response-prefix-alist '((markdown-mode . "")
                                  (org-mode . "** Response:\n")
                                  (text-mode . "")))
+  (gptel-directives '((default     . "You are a large language model living in Emacs and a helpful assistant. Respond concisely.")
+                      (programming . "You are a large language model and a careful programmer. Provide code and only code as output without any additional text, prompt or note.")
+                      (writing     . "You are a large language model and a writing assistant. Respond concisely.")
+                      (chat        . "You are a large language model and a conversation partner. Respond concisely.")
+                      (prog-so     . "I want you to act as a stackoverflow post. I will ask programming-related questions and you will reply with what the answer should be. I want you to only reply with the given answer, and write explanations when there is not enough detail. do not write explanations. When I need to tell you something in English, I will do so by putting text inside curly brackets {like this}.")))
   ; Some tuning settings
   (gptel-temperature 0.6)
   :config
