@@ -5,6 +5,8 @@ My emacs configuration
 1. Install emacs on system
 2. Install dependencies
    - Universal `ctags` (tested with 6.0) (provides completion and seek when lsp is not available)
+   - Install libtree-sitter (libtree-sitter-dev with apt)
+     - May also compile from source, see https://www.masteringemacs.org/article/how-to-get-started-tree-sitter
    - `python3`(.10+ preferred) (python lsp) then run `pip3 install "python-lsp-server[all]"` (python lsp)
      - If you want debugging support with DAP, you will also need `ptvsd`
    - `dasel` for python venv support

@@ -35,7 +35,6 @@ server/
 /flycheck_init.el
 /request/
 /flycheck_org.el
-/tree-sitter/
 /node_modules/
 /package-lock.json
 /package.json
