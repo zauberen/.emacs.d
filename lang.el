@@ -222,7 +222,8 @@
 (use-package js2-mode
   :ensure t
   :hook (js-mode . js2-minor-mode)
-  :mode (("\\.tsx\\'" . js-mode))
+  ;; :mode (("\\.tsx\\'" . js-mode)
+  ;;        ("\\.ts\\'" . js-mode))
   :config
   (if (or (eq system-type 'ms-dos) (eq system-type 'windows-nt))
       (setq inhibit-compacting-font-cache t)))
@@ -259,28 +260,35 @@
   :hook (prog-mode . rainbow-mode))
 ;; Tree sitter
 ;;; The background on the difference between these plugins is that treesit-auto uses the built in treesit package, while tree-sitter-langs uses the tree-sitter package which predates the emacs treesit builtin.
-;;; The problem with using the built in is that treesit-auto does not do a binary download, instead it downloads the sources and tries to compile. On windows, this is very problematic as I do not have the prereqs nor do I want them. I would stick purely to tree-sitter-langs, but the maintainer seems to be gearing up to archive the repos. I want to figure something out by then, but for now I guess this giant rant will do.
-;; Problematic, maybe some config is in order to use treesit-auto
-;; on linux/mac and tree-sitter on win?
-;; (use-package treesit-auto
-;;   :ensure t
-;;   :custom
-;;   (treesit-auto-install 'prompt)
-;;   :config
-;;   (treesit-auto-add-to-auto-mode-alist 'all)
-;;   (global-treesit-auto-mode))
-(use-package tree-sitter
-  :ensure t
-  :demand t
-  :init
-  (setq treesit-font-lock-level 4))
-(use-package tree-sitter-langs
-  :ensure t
-  :demand t
-  :after tree-sitter
-  :hook (tree-sitter-after-on . tree-sitter-hl-mode)
-  :config
-  (global-tree-sitter-mode))
+;;; I have set up tree sitter for linux and mac usable out of the box so long as the tree-sitter library is installed.
+(if (or (eq system-type 'ms-dos) (eq system-type 'windows-nt))
+    (progn (use-package tree-sitter-langs
+             :ensure t
+             :demand t
+             :after tree-sitter
+             :hook (tree-sitter-after-on . tree-sitter-hl-mode)
+             :config
+             (global-tree-sitter-mode))
+           (use-package tree-sitter
+             :ensure t
+             :demand t
+             :init
+             (setq treesit-font-lock-level 4)))
+  (progn (use-package treesit-auto
+           :ensure t
+           :custom
+           (treesit-auto-install nil)
+           (treesit-extra-load-path (list (expand-file-name "tree-sitter/linux" user-emacs-directory)
+                                          (expand-file-name "tree-sitter/macos" user-emacs-directory)
+                                          (expand-file-name "tree-sitter/win" user-emacs-directory)))
+           :config
+           (treesit-auto-add-to-auto-mode-alist 'all)
+           (global-treesit-auto-mode))
+         (use-package treesit
+           :ensure nil
+           :demand t
+           :custom
+           (treesit-font-lock-level 4))))
 ;; Show current function in modeline.
 (use-package which-func
   :ensure nil

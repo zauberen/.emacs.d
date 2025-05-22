@@ -109,7 +109,9 @@
   (add-hook 'lsp-completion-mode #'corfu-lsp-setup)
   (add-hook 'python-mode-hook #'my/dont-launch-lsp-on-windows)
   (add-hook 'html-mode-hook #'my/dont-launch-lsp-on-windows)
-  (add-hook 'js-mode-hook #'my/dont-launch-lsp-on-windows))
+  (add-hook 'js-mode-hook #'my/dont-launch-lsp-on-windows)
+  (add-hook 'typescript-ts-mode-hook #'my/dont-launch-lsp-on-windows)
+  (add-hook 'tsx-ts-mode-hook #'my/dont-launch-lsp-on-windows))
 (use-package lsp-ui
   :ensure t
   :after lsp-mode)
