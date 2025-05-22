@@ -1,0 +1,10 @@
+.cache/
+.git/
+tree-sitter/
+node_modules/
+elpa/
+elpaca/
+ctags/
+url/
+lsp/
+server/

@@ -79,10 +79,12 @@
   (with-eval-after-load 'info-look
     (dash-register-info-lookup)))
 ;; Clojure
+(use-package clojure-ts-mode
+  :ensure t)
 (use-package cider
   :ensure t
-  :hook ((clojure-mode . rainbow-delimiters-mode)
-         (clojure-mode . lsp))
+  :hook ((clojure-ts-mode . rainbow-delimiters-mode)
+         (clojure-ts-mode . lsp))
   :bind (("C-c b s" . clj-biff-start)
          ("C-c b x" . clj-biff-stop)
          ("C-c b c" . clj-biff-clear-logs))
@@ -218,7 +220,7 @@
          ("\\.erb\\'" . web-mode)
          ("\\.mustache\\'" . web-mode)
          ("\\.djhtml\\'" . web-mode)
-         ("\\.html?\\'" . web-mode)))
+         ("\\.html?\\'" . html-mode)))
 (use-package js2-mode
   :ensure t
   :hook (js-mode . js2-minor-mode)
@@ -260,41 +262,65 @@
   :hook (prog-mode . rainbow-mode))
 ;; Tree sitter
 ;;; The background on the difference between these plugins is that treesit-auto uses the built in treesit package, while tree-sitter-langs uses the tree-sitter package which predates the emacs treesit builtin.
-;;; I have set up tree sitter for linux and mac usable out of the box so long as the tree-sitter library is installed.
-(if (or (eq system-type 'ms-dos) (eq system-type 'windows-nt))
-    (progn (use-package tree-sitter-langs
-             :ensure t
-             :demand t
-             :after tree-sitter
-             :hook (tree-sitter-after-on . tree-sitter-hl-mode)
-             :config
-             (global-tree-sitter-mode))
-           (use-package tree-sitter
-             :ensure t
-             :demand t
-             :init
-             (setq treesit-font-lock-level 4)))
-  (progn (use-package treesit-auto
-           :ensure t
-           :custom
-           (treesit-auto-install nil)
-           (treesit-extra-load-path (list (expand-file-name "tree-sitter/linux" user-emacs-directory)
-                                          (expand-file-name "tree-sitter/macos" user-emacs-directory)
-                                          (expand-file-name "tree-sitter/win" user-emacs-directory)))
-           :config
-           (treesit-auto-add-to-auto-mode-alist 'all)
-           (global-treesit-auto-mode))
-         (use-package treesit
-           :ensure nil
-           :demand t
-           :custom
-           (treesit-font-lock-level 4))))
+;;; Preserving old configuration from when I was not using treesit for everything just in case.
+;; (if (or (eq system-type 'ms-dos) (eq system-type 'windows-nt))
+;;     (progn (use-package tree-sitter-langs
+;;              :ensure t
+;;              :demand t
+;;              :after tree-sitter
+;;              :hook (tree-sitter-after-on . tree-sitter-hl-mode)
+;;              :config
+;;              (global-tree-sitter-mode))
+;;            (use-package tree-sitter
+;;              :ensure t
+;;              :demand t
+;;              :init
+;;              (setq treesit-font-lock-level 4)))
+;;   (progn (use-package treesit-auto
+;;            :ensure t
+;;            :custom
+;;            (treesit-auto-install nil)
+;;            (treesit-extra-load-path (list (expand-file-name "tree-sitter/linux" user-emacs-directory)
+;;                                           (expand-file-name "tree-sitter/macos" user-emacs-directory)
+;;                                           (expand-file-name "tree-sitter/win" user-emacs-directory)))
+;;            :config
+;;            (treesit-auto-add-to-auto-mode-alist 'all)
+;;            (global-treesit-auto-mode))
+;;          (use-package treesit
+;;            :ensure nil
+;;            :demand t
+;;            :custom
+;;            (treesit-font-lock-level 4))))
+(use-package treesit
+  :ensure nil
+  :demand t
+  :custom
+  (treesit-font-lock-level 4)
+  (treesit-extra-load-path (list (expand-file-name "tree-sitter/linux" user-emacs-directory)
+                                 (expand-file-name "tree-sitter/macos" user-emacs-directory)
+                                 (expand-file-name "tree-sitter/win" user-emacs-directory))))
+(use-package treesit-auto
+  :ensure t
+  :custom
+  (treesit-auto-install nil)
+  :config
+  (treesit-auto-add-to-auto-mode-alist 'all)
+  (global-treesit-auto-mode))
 ;; Show current function in modeline.
 (use-package which-func
   :ensure nil
   :demand t
   :config
-  (setq which-func-modes '(java-mode org-mode emacs-lisp-mode lisp-mode clojure-mode lsp-mode xml-mode nxml-mode python-mode))
+  (setq which-func-modes '(java-mode
+                           org-mode
+                           emacs-lisp-mode
+                           lisp-mode
+                           clojure-mode
+                           lsp-mode
+                           xml-mode
+                           nxml-mode
+                           python-mode
+                           js-ts-mode))
   (which-function-mode))
 ;; Stick the function name of the top function to the top of the screen.
 (use-package semantic
