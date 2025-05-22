@@ -64,10 +64,16 @@ LOAN-AMT The starting loan amount."
 
 (defvar my-cards nil "List of cards made by my-create-card for my-pay-calculator.")
 (defun my-create-card (card-name card-balance card-due)
+  "Create a card for the payment calculator.
+Use a given CARD-NAME, CARD-BALANCE, and the amount CARD-DUE this month."
   (if my-cards
       (add-to-list 'my-cards (list :name card-name :balance card-balance :due card-due))
     (setq my-cards (list (list :name card-name :balance card-balance :due card-due)))))
 (defun my-pay-calculator (bank wage wage-count wage-count-next)
+  "Calculate the budget for 2 months given a end-of-month card setup in my-cards.
+Use the current BANK value, the expected WAGE for both months, and the
+number of payments (WAGE-COUNT) for this month and
+next (WAGE-COUNT-NEXT) to calculate."
   (let ((cost 0)
         (cost-next 0)
         (card-cost))
