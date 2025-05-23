@@ -67,6 +67,7 @@
   ;;                                     qwen3:32b         ; Decent coding AI
   ;;                                     mistral-small3.1:24b
   ;;                                     starcoder2:15b
+  ;;                                     devstral:24b      ; Thinking about getting rid of qwen3 and starcoder for this one.
   ;;                                     qwen3:30b-a3b)))) ; Good at mind numbing things with /no_think
   (defun setup-ollama (model-list)
     "Sets up ollama with the given
