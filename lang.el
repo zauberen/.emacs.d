@@ -330,4 +330,30 @@
   :config
   (semantic-mode)
   (global-semanticdb-minor-mode))
+
+;; Local doc viewer
+(use-package devdocs
+  :ensure t
+  :bind (("C-c s s" . devdocs-lookup)
+         ("C-c s p" . devdocs-peruse)
+         ("C-c s i" . devdocs-install)
+         ("C-c s d" . devdocs-delete)
+         ("C-c s u" . devdocs-update-all))
+  :hook ((java-mode . (lambda () (my-devdocs-lang-hook "openjdk~8" "openjdk~8_web" "openjdk~8_gui")))
+         (js-ts-mode . (lambda () (my-devdocs-lang-hook "javascript" "dom")))
+         (emacs-lisp . (lambda () (my-devdocs-lang-hook "elisp"))))
+  :init
+  (defun my-install-docs (&rest docs)
+    "Install a set of devdocs."
+    (dolist (doc docs)
+      (devdocs-install doc)))
+  (defun my-devdocs-lang-hook (&rest docs)
+    "Set DOCS as the docs for the local buffer."
+    (setq-local devdocs-current-docs docs))
+  (defun my-install-my-docs ()
+    "Install all of the devdocs I currently use."
+    (interactive)
+    (my-install-docs "bash" "css" "dom" "elisp" "javascript"
+                     "openjdk~8" "openjdk~8_web" "openjdk~8_gui"
+                     "git" "html" "http" "mariadb")))
 ;;; lang.el ends here
