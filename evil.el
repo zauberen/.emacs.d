@@ -123,7 +123,10 @@ play well with `evil-mc'."
          ("C-c w s" . sp-wrap-square)
          ("C-c w u" . sp-unwrap-sexp)
          :map org-mode-map
-         ("C-=" . sp-wrap-equal-sign))
+         ("C-=" . sp-wrap-equal-sign)
+         :map evil-normal-state-map
+         ("(" . sp-down-sexp)
+         (")" . sp-up-sexp))
   :config
   ;; Use the smartparens default configuration
   (require 'smartparens-config)

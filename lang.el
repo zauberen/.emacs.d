@@ -355,5 +355,6 @@
     (interactive)
     (my-install-docs "bash" "css" "dom" "elisp" "javascript"
                      "openjdk~8" "openjdk~8_web" "openjdk~8_gui"
-                     "git" "html" "http" "mariadb")))
+                     "git" "html" "http" "mariadb"
+                     "clojure~1.11")))
 ;;; lang.el ends here
