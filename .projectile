@@ -1,6 +1,10 @@
 .cache/
 .git/
 tree-sitter/
+auto-save/
+auto-save-list/
+devdocs/
+workspace/
 node_modules/
 elpa/
 elpaca/
