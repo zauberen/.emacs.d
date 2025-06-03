@@ -117,11 +117,14 @@ play well with `evil-mc'."
          ("C-c u" . sp-unwrap-sexp)
          ("C-S-e" . sp-end-of-sexp)
          ("C-S-a" . sp-beginning-of-sexp)
+         ("C-S-d" . sp-kill-sexp)
          ("C-c w w" . sp-rewrap-sexp)
          ("C-c w r" . sp-wrap-round)
          ("C-c w c" . sp-wrap-curly)
          ("C-c w s" . sp-wrap-square)
          ("C-c w u" . sp-unwrap-sexp)
+         ("M-(" . sp-down-sexp)
+         ("M-)" . sp-up-sexp)
          :map org-mode-map
          ("C-=" . sp-wrap-equal-sign)
          :map evil-normal-state-map
