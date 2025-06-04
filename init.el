@@ -239,6 +239,12 @@
   ;:demand t
   ;:config
   ;(editorconfig-mode 1))
+; Visual undo
+(use-package vundo
+  :ensure t
+  :bind (("C-S-u" . vundo)
+         :map evil-normal-state-map
+         ("U" . vundo)))
 
 ;; Jump to text with avy
 (use-package avy
