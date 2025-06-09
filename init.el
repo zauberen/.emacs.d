@@ -133,7 +133,10 @@
 (use-package deadgrep
   :ensure t
   :demand t
-  :bind ("C-M-s" . deadgrep))
+  :bind (("C-M-s" . deadgrep)
+         :map deadgrep-mode-map
+         ("C-M-s" . deadgrep-search-term)
+         ("C-s" . deadgrep-search-term)))
 ;; Allows editing directly inside the deadgrep buffer
 (use-package wgrep-deadgrep
   :ensure t
@@ -239,12 +242,30 @@
   ;:demand t
   ;:config
   ;(editorconfig-mode 1))
-; Visual undo
+
+;; Visual undo
 (use-package vundo
   :ensure t
   :bind (("C-S-u" . vundo)
          :map evil-normal-state-map
          ("U" . vundo)))
+
+;; Replace ediff (uses multiple windows) with a copy of vimdiff which doesn't.
+(use-package vdiff
+  :ensure t
+  :bind (:map vdiff-mode-map ("C-c v" . vdiff-mode-prefix-map)))
+(use-package vdiff-magit
+  :ensure t
+  :demand t
+  :after (vdiff magit)
+  :bind (:map magit-mode-map
+         ("e" . vdiff-magit-dwim)
+         ("E" . vdiff-magit))
+  :config
+  (transient-suffix-put 'magit-dispatch "e" :description "vdiff (dwim)")
+  (transient-suffix-put 'magit-dispatch "e" :command 'vdiff-magit-dwim)
+  (transient-suffix-put 'magit-dispatch "E" :description "vdiff")
+  (transient-suffix-put 'magit-dispatch "E" :command 'vdiff-magit))
 
 ;; Jump to text with avy
 (use-package avy
