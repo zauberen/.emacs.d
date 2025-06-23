@@ -246,6 +246,8 @@
 ;; Visual undo
 (use-package vundo
   :ensure t
+  :after evil
+  :demand t
   :bind (("C-S-u" . vundo)
          :map evil-normal-state-map
          ("U" . vundo)))
