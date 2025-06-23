@@ -44,6 +44,7 @@
   :after consult corfu cape
   :bind (:map lsp-mode-map
          ("C-c C-." . lsp-execute-code-action)
+         ("C-S-r" . lsp-rename)
          ("C-k" . lsp-find-references))
   :init
   (setq lsp-completion-provider :none
