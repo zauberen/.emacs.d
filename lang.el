@@ -35,13 +35,13 @@
   (if (or (eq system-type 'ms-dos) (eq system-type 'windows-nt))
       (setq lsp-java-java-path "C:/Program Files/Eclipse Adoptium/jdk-17.0.7.7-hotspot/bin/java.exe"
             lsp-java-configuration-runtimes '[(:name "JavaSE-1.8"
-                                                     :path "C:/Program Files/Java/jdk1.8.0_202"
-                                                     :default t)
+                                               :path "C:/Program Files/Java/jdk1.8.0_202"
+                                               :default t)
                                               (:name "JavaSE-17"
-                                                     :path "C:/Program Files/Eclipse Adoptium/jdk-17.0.7.7-hotspot")])
+                                               :path "C:/Program Files/Eclipse Adoptium/jdk-17.0.7.7-hotspot")])
     (setq lsp-java-java-path "/usr/bin/java"
           lsp-java-configuration-runtimes '[(:name "OpenJDK-21"
-                                                   :path "/opt/homebrew/opt/openjdk@21")]))
+                                             :path "/opt/homebrew/opt/openjdk@21")]))
   ;; current VSCode defaults
   (setq lsp-java-vmargs '("-XX:+UseParallelGC" "-XX:GCTimeRatio=4" "-XX:AdaptiveSizePolicyWeight=90" "-Dsun.zip.disableMemoryMapping=true" "-Xmx2G" "-Xms100m")
         ;; Default path, change this in local.el!
