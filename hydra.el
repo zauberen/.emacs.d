@@ -7,9 +7,19 @@
   :ensure t
   :demand t
   :bind (("C-c C-v" . my-hydra-rare-modes/body)
+         ("C-c j" . dumb-jump-hydra/body)
          :map Buffer-menu-mode-map
          ("." . hydra-buffer-menu/body))
   :config
+  (defhydra dumb-jump-hydra (:color blue :columns 3)
+    "Dumb Jump"
+    ("j" dumb-jump-go "Go")
+    ("o" dumb-jump-go-other-window "Other window")
+    ("e" dumb-jump-go-prefer-external "Go external")
+    ("x" dumb-jump-go-prefer-external-other-window "Go external other window")
+    ("i" dumb-jump-go-prompt "Prompt")
+    ("l" dumb-jump-quick-look "Quick look")
+    ("b" dumb-jump-back "Back"))
   (defhydra my-hydra-rare-modes (:color pink)
     "
 ^Editing^            ^Debug^           ^Formatting^          ^Text Manipulation

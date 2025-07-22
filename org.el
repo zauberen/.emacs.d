@@ -239,16 +239,6 @@
   :config
   (global-hl-todo-mode))
 ; Load org extensions
-(use-package org-journal
-  :ensure t
-  :after org
-  :bind ("C-c j j" . org-journal-new-entry)
-  :init
-  (setq org-journal-dir (concat org-directory "/journal")
-        org-journal-prefix-key "C-c j "
-        org-journal-enable-agenda-integration t
-        org-journal-file-format "%Y-%m.org"
-        org-journal-file-type 'monthly))
 (use-package org-super-agenda
   :ensure t
   :demand t

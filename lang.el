@@ -132,6 +132,16 @@
   :init
   (setq pascal-indent-level 4))
 
+;; perl
+(use-package cperl-mode
+  :ensure nil
+  :hook (cperl-mode . flycheck-mode)
+  :custom
+  (cperl-indent-parens-as-block t)
+  (cperl-close-paren-offset (- cperl-indent-level))
+  :init
+  (fset 'perl-mode 'cperl-mode))
+
 ;; Markdown
 (use-package markdown-mode
   :ensure t
