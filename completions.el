@@ -37,6 +37,16 @@
     (kbd "g p") 'citre-peek
     (kbd "g P") 'citre-ace-peek))
 
+;; Jump to definition
+(use-package dumb-jump
+  :ensure t
+  :demand t
+  :init
+  (add-hook 'xref-backend-functions #'dumb-jump-xref-activate)
+  :config
+  (when (not (eq (executable-find "rg") nil))
+    (setq dumb-jump-prefer-searcher 'rg)))
+
 ;; LSP setup with lsp-mode
 (use-package lsp-mode
   :ensure t

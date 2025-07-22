@@ -4,7 +4,7 @@
 
 ;; Windows requires a limited queue or it hits the open file limit.
 (when (or (eq system-type 'ms-dos) (eq system-type 'windows-nt))
-  (setq elpaca-queue-limit 5))
+  (setq elpaca-queue-limit 10)) ; This is a balancing act, since if a package has deps higher than the number, emacs will get a memory leak until it crashes or you kill it.
 
 ;; Start of generic elpaca installer from online docs
 (defvar elpaca-installer-version 0.11)
