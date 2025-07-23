@@ -349,9 +349,13 @@
          ("C-c s i" . devdocs-install)
          ("C-c s d" . devdocs-delete)
          ("C-c s u" . devdocs-update-all))
-  :hook ((java-mode . (lambda () (my-devdocs-lang-hook "openjdk~8" "openjdk~8_web" "openjdk~8_gui")))
+  :hook ((java-ts-mode . (lambda () (my-devdocs-lang-hook "openjdk~8" "openjdk~8_web" "openjdk~8_gui")))
          (js-ts-mode . (lambda () (my-devdocs-lang-hook "javascript" "dom")))
-         (emacs-lisp . (lambda () (my-devdocs-lang-hook "elisp"))))
+         (css-ts-mode . (lambda () (my-devdocs-lang-hook "css")))
+         (bash-ts-mode . (lambda () (my-devdocs-lang-hook "bash")))
+         (clojure-ts-mode . (lambda () (my-devdocs-lang-hook "clojure~1.11")))
+         (emacs-lisp-mode . (lambda () (my-devdocs-lang-hook "elisp"))))
+  ; (prog-mode . (lambda () (setq-local evil-lookup-func #'devdocs-lookup)))
   :init
   (defun my-install-docs (&rest docs)
     "Install a set of devdocs."
@@ -366,5 +370,5 @@
     (my-install-docs "bash" "css" "dom" "elisp" "javascript"
                      "openjdk~8" "openjdk~8_web" "openjdk~8_gui"
                      "git" "html" "http" "mariadb"
-                     "clojure~1.11")))
+                     "clojure~1.11" "perl~5.38")))
 ;;; lang.el ends here
