@@ -56,6 +56,8 @@
          ("C-c C-." . lsp-execute-code-action)
          ("C-S-r" . lsp-rename)
          ("C-k" . lsp-find-references))
+  :hook ((prog-mode . my/set-evil-lookup-func)
+         (lsp-mode . (lambda () (setq-local evil-lookup-func #'lsp-describe-thing-at-point))))
   :init
   (setq lsp-completion-provider :none
         lsp-keymap-prefix "C-c l"
@@ -105,6 +107,15 @@
 
   :config
   (setq evil-lookup-func #'lsp-describe-thing-at-point)
+  (defun my/set-evil-lookup-func ()
+    "Use devdocs when lsp is not available."
+    (if (not (eq (lsp-find-session-folder (lsp-session) (buffer-file-name)) nil))
+        (setq-local evil-lookup-func #'lsp-describe-thing-at-point)
+      (setq-local evil-lookup-func #'devdocs-lookup)))
+  (defun my/force-devdocs-K ()
+    "Use devdocs for evil lookup."
+    (interactive)
+    (setq-local evil-lookup-func #'devdocs-lookup))
   (advice-add #'lsp-completion-at-point :around #'cape-wrap-noninterruptible)
                                         ; Use consult for lsp completions
   (define-key lsp-mode-map [remap xref-find-apropos] #'consult-lsp-symbols)
