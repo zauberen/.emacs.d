@@ -250,6 +250,26 @@
   :ensure t
   :hook (sgml-mode . emmet-mode)
   :bind (("C-<tab>" . emmet-expand-line)))
+;; PHP
+(use-package php-mode
+  :ensure t)
+; PHP bindings to elisp
+(use-package php-runtime
+  :ensure t)
+; Run unit tests
+(use-package phpunit
+  :ensure t)
+; REPL for php, wget psysh.org/psysh;chmod +x psysh;sudo cp psysh /usr/bin
+(use-package psysh
+  :ensure t)
+; Error checking
+(use-package phpstan
+  :ensure t)
+(use-package flymake-phpstan
+  :ensure t)
+; Package management in PHP
+(use-package composer
+  :ensure t)
 
 ;; YAML
 ; Basic syntax highlighting in yaml
