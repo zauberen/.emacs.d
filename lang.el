@@ -252,7 +252,8 @@
   :bind (("C-<tab>" . emmet-expand-line)))
 ;; PHP
 (use-package php-mode
-  :ensure t)
+  :ensure t
+  :hook (php-mode . php-ts-mode))
 ; PHP bindings to elisp
 (use-package php-runtime
   :ensure t)
@@ -265,7 +266,7 @@
 ; Error checking
 (use-package phpstan
   :ensure t)
-(use-package flymake-phpstan
+(use-package flycheck-phpstan
   :ensure t)
 ; Package management in PHP
 (use-package composer

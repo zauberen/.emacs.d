@@ -2,6 +2,13 @@
 ;;; Commentary:
 ;;; Useless but fun Lisp functions.
 ;;; Code:
+
+(use-package tetris
+  :ensure nil
+  :custom
+  ; 7-bag emacs tetris
+  (tetris-allow-repetitions nil))
+
 (defun my-interest-calculator (payment interest-rate loan-amt &optional suppress-disp)
   "Calculates interest for a loan given a payment.
 PAYMENT The monthly payment.
