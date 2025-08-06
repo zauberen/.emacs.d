@@ -354,6 +354,11 @@
 ;; Fun stuff
 (load-file (expand-file-name "fun.el" user-emacs-directory))
 
+;; Review binlogs in emacs
+(when (eq system-type 'gnu/linux)
+  (use-package journalctl-mode
+    :ensure t))
+
 ;; Save minibuffer history
 (use-package savehist
   :config
