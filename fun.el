@@ -9,6 +9,15 @@
   ; 7-bag emacs tetris
   (tetris-allow-repetitions nil))
 
+(use-package gnus
+  :ensure nil
+  :bind (:map gnus-browse-mode-map
+         ("u" . gnus-browse-toggle-subscription-at-point)
+         :map gnus-group-mode-map
+         ("r" . gnus-summary-catchup))
+  :custom
+  (gnus-select-method '(nntp "news.gmane.io")))
+
 (defun my-interest-calculator (payment interest-rate loan-amt &optional suppress-disp)
   "Calculates interest for a loan given a payment.
 PAYMENT The monthly payment.
