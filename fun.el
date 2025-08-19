@@ -11,9 +11,7 @@
 
 (use-package gnus
   :ensure nil
-  :bind (:map gnus-browse-mode-map
-         ("u" . gnus-browse-toggle-subscription-at-point)
-         :map gnus-group-mode-map
+  :bind (:map gnus-group-mode-map
          ("r" . gnus-summary-catchup))
   :custom
   (gnus-select-method '(nntp "news.gmane.io")))

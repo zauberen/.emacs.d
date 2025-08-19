@@ -58,6 +58,7 @@
         org-default-notes-file (concat org-directory "/inbox.org")
         org-work-file (concat org-directory "/org-private/work.org")
         org-home-file (concat org-directory "/home.org")
+        org-idea-file (concat org-directory "/org-private/ideas.org")
         org-app-file (concat org-directory "/org-private/dnd-app.org")
         org-agenda-files (seq-filter
                           (lambda(x)
@@ -87,7 +88,7 @@
                                  "* TODO %? :@Home:\n:PROPERTIES:\n:CREATION: %U\n:END:\n")
                                 ("a" "App Task" entry (file+headline org-app-file "Inbox")
                                  "* TODO %?\n:PROPERTIES:\n:CREATION: %U\n:END:\n")
-                                ("d" "Idea" entry (file+headline org-app-file "New")
+                                ("d" "Idea" entry (file+headline org-idea-file "New")
                                  "* %?\n:PROPERTIES:\n:CREATION: %U\n:END:\n")
                                 ("j" "Journal" entry (file+datetree org-default-notes-file)
                                  "* %?\n%U\n%a")
