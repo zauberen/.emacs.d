@@ -252,23 +252,6 @@
          :map evil-normal-state-map
          ("U" . vundo)))
 
-;; Replace ediff (uses multiple windows) with a copy of vimdiff which doesn't.
-(use-package vdiff
-  :ensure t
-  :bind (:map vdiff-mode-map ("C-c v" . vdiff-mode-prefix-map)))
-(use-package vdiff-magit
-  :ensure t
-  :demand t
-  :after (vdiff magit)
-  :bind (:map magit-mode-map
-         ("e" . vdiff-magit-dwim)
-         ("E" . vdiff-magit))
-  :config
-  (transient-suffix-put 'magit-dispatch "e" :description "vdiff (dwim)")
-  (transient-suffix-put 'magit-dispatch "e" :command 'vdiff-magit-dwim)
-  (transient-suffix-put 'magit-dispatch "E" :description "vdiff")
-  (transient-suffix-put 'magit-dispatch "E" :command 'vdiff-magit))
-
 ;; Jump to text with avy
 (use-package avy
   :ensure t
@@ -353,6 +336,25 @@
 
 ;; Fun stuff
 (load-file (expand-file-name "fun.el" user-emacs-directory))
+
+;; Replace ediff (uses multiple windows) with a copy of vimdiff which doesn't.
+(use-package vdiff
+  :ensure t
+  :demand t
+  :after hydra
+  :bind (:map vdiff-mode-map ("C-c v" . vdiff-hydra/body)))
+(use-package vdiff-magit
+  :ensure t
+  :demand t
+  :after (vdiff magit)
+  :bind (:map magit-mode-map
+         ("e" . vdiff-magit-dwim)
+         ("E" . vdiff-magit))
+  :config
+  (transient-suffix-put 'magit-dispatch "e" :description "vdiff (dwim)")
+  (transient-suffix-put 'magit-dispatch "e" :command 'vdiff-magit-dwim)
+  (transient-suffix-put 'magit-dispatch "E" :description "vdiff")
+  (transient-suffix-put 'magit-dispatch "E" :command 'vdiff-magit))
 
 ;; Review binlogs in emacs
 (when (eq system-type 'gnu/linux)
