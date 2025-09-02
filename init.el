@@ -337,24 +337,11 @@
 ;; Fun stuff
 (load-file (expand-file-name "fun.el" user-emacs-directory))
 
-;; Replace ediff (uses multiple windows) with a copy of vimdiff which doesn't.
-(use-package vdiff
-  :ensure t
-  :demand t
-  :after hydra
-  :bind (:map vdiff-mode-map ("C-c v" . vdiff-hydra/body)))
-(use-package vdiff-magit
-  :ensure t
-  :demand t
-  :after (vdiff magit)
-  :bind (:map magit-mode-map
-         ("e" . vdiff-magit-dwim)
-         ("E" . vdiff-magit))
-  :config
-  (transient-suffix-put 'magit-dispatch "e" :description "vdiff (dwim)")
-  (transient-suffix-put 'magit-dispatch "e" :command 'vdiff-magit-dwim)
-  (transient-suffix-put 'magit-dispatch "E" :description "vdiff")
-  (transient-suffix-put 'magit-dispatch "E" :command 'vdiff-magit))
+;; Moved back to ediff because vdiff loses a lot of functionality
+(use-package ediff
+  :ensure nil
+  :custom
+  (ediff-window-setup-function 'ediff-setup-windows-plain))
 
 ;; Review binlogs in emacs
 (when (eq system-type 'gnu/linux)
