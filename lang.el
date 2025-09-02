@@ -326,14 +326,11 @@
   :ensure nil
   :demand t
   :custom
-  (treesit-font-lock-level 4)
-  (treesit-extra-load-path (list (expand-file-name "tree-sitter/linux" user-emacs-directory)
-                                 (expand-file-name "tree-sitter/macos" user-emacs-directory)
-                                 (expand-file-name "tree-sitter/win" user-emacs-directory))))
+  (treesit-font-lock-level 4))
 (use-package treesit-auto
   :ensure t
   :custom
-  (treesit-auto-install nil)
+  (treesit-auto-install 'prompt)
   :config
   (treesit-auto-add-to-auto-mode-alist 'all)
   (global-treesit-auto-mode))

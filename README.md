@@ -37,6 +37,7 @@ My emacs configuration
 4. Create `.emacs.d/auto-save`
 5. Start emacs (first load will take a while while it loads and compiles plugins)
 6. Run `all-the-icons-install-fonts` to install the emoji and icon fonts for the emacs UI
-7. Run `tree-sitter-langs-install-grammars` then `treesit-auto-install-all`
-8. In macos, you may have compilation issues if the first launch is not from the terminal.
-9. Odds are regardless of install type, you will need to restart emacs after installing to get a consistent experience.
+7. Run `treesit-auto-install-all`, there may be errors but it only matters if you want to use that language.
+8. Run `fontaine-set-preset` and pick hack-ttf, there is also a hack-ttf-mac which is better on MacOS since fonts appear smaller there.
+9. In macos, you may have compilation issues if the first launch is not from the terminal.
+10. Odds are regardless of install type, you will need to restart emacs after installing to get a consistent experience.

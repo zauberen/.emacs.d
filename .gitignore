@@ -49,3 +49,4 @@ flycheck_*.el
 /dap-ui-repl-java-history
 /semanticdb/
 /devdocs/
+/tree-sitter/
