@@ -56,8 +56,7 @@
          ("C-c C-." . lsp-execute-code-action)
          ("C-S-r" . lsp-rename)
          ("C-k" . lsp-find-references))
-  :hook ((prog-mode . my/set-evil-lookup-func)
-         (lsp-mode . (lambda () (setq-local evil-lookup-func #'lsp-describe-thing-at-point))))
+  :hook ((lsp-mode . (lambda () (setq-local evil-lookup-func #'lsp-describe-thing-at-point))))
   :init
   (setq lsp-completion-provider :none
         lsp-keymap-prefix "C-c l"
