@@ -340,8 +340,24 @@
 ;; Moved back to ediff because vdiff loses a lot of functionality
 (use-package ediff
   :ensure nil
+  :bind (:map ediff-mode-map
+              ("C-a" . 'ediff-copy-all-A-to-C)
+              ("C-b" . 'ediff-copy-all-B-to-C))
   :custom
-  (ediff-window-setup-function 'ediff-setup-windows-plain))
+  (ediff-window-setup-function 'ediff-setup-windows-plain)
+  :config
+  (defun ediff-copy-all-A-to-C ()
+    "Copy all diffs from A to C in ediff."
+    (interactive)
+    (when (numberp ediff-number-of-differences)
+      (dotimes (diff ediff-number-of-differences)
+        (ediff-copy-A-to-C (+ 1 diff)))))
+  (defun ediff-copy-all-B-to-C ()
+    "Copy all diffs from B to C in ediff."
+    (interactive)
+    (when (numberp ediff-number-of-differences)
+      (dotimes (diff ediff-number-of-differences)
+        (ediff-copy-B-to-C (+ 1 diff))))))
 
 ;; Review binlogs in emacs
 (when (eq system-type 'gnu/linux)

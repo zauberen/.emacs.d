@@ -25,9 +25,10 @@
 (use-package lsp-java
   :ensure t
   :after dap-mode
-  :hook (java-mode . (lambda ()
-                       (when (or (eq system-type 'ms-dos) (eq system-type 'windows-nt))
-                         (citre-use-global-windows))))
+  :mode (("\\.inc\\'" . java-ts-mode))
+  :hook (java-ts-mode . (lambda ()
+                          (when (or (eq system-type 'ms-dos) (eq system-type 'windows-nt))
+                            (citre-use-global-windows))))
   :bind (("C-c t s" . tomcat-start)
          ("C-c t x" . tomcat-stop)
          ("C-c t c" . tomcat-clear-logs))
