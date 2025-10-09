@@ -53,6 +53,11 @@
     (gptel-make-deepseek "DeepSeek"
       :stream t
       :key apikey))
+  (defun setup-gemini (apikey)
+    "Sets up gemini with the given APIKEY."
+    (gptel-make-gemini "Gemini"
+      :stream t
+      :key apikey))
   ;; In local.el, call the function with a model list to use Ollama.
   ;; Here's an example with my list of preferred llms:
   ;; Note: some other nice llms to have: nomic-embed-text

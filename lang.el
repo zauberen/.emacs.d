@@ -203,6 +203,56 @@
          (ejc-sql-mode . (lambda () (ejc-eldoc-setup))))
   :bind (:map ejc-sql-mode-keymap
               ("C-<return>" . ejc-eval-user-sql-at-point))
+  :init
+  (defun ejc-mariadb (display-name user password ip &optional port defaultdb)
+    "Add an ejc connection for a MariaDB database which displays DISPLAY-NAME when selecting the db in ejc-connect."
+    (ejc-create-connection
+     display-name
+     :dependencies [[org.mariadb.jdbc/mariadb-java-client "3.5.3"]]
+     :classname "org.mariadb.jdbc.Driver"
+     :connection-uri (concat "jdbc:mariadb://"
+                             ip
+                             (if (eq port nil)
+                                 ""
+                               (concat ":" port))
+                             (if (eq defaultdb nil)
+                                 ""
+                               (concat "/" defaultdb)))
+     :user user
+     :password password))
+  (defun ejc-postgres (display-name user password ip &optional port defaultdb)
+    "Add an ejc connection for a PostgreSQL database which displays DISPLAY-NAME when selecting the db in ejc-connect."
+    (ejc-create-connection
+     display-name
+     :dependencies [[org.postgresql/postgresql "42.7.8"]]
+     :classname "org.postgresql.Driver"
+     :connection-uri (concat "jdbc:postgresql://"
+                             ip
+                             (if (eq port nil)
+                                 ""
+                               (concat ":" port))
+                             (if (eq defaultdb nil)
+                                 ""
+                               (concat "/" defaultdb)))
+     :user user
+     :password password))
+  (defun ejc-oracle (display-name user password ip &optional port sid)
+    "Add an ejc connection for an Oracle database which displays DISPLAY-NAME when selecting the db in ejc-connect."
+    (ejc-create-connection
+     display-name
+     :dependencies [[com.oracle.database.jdbc/ojdbc8 "23.9.0.25.07"]]
+     :classname "oracle.jdbc.OracleDriver"
+     :connection-uri (concat "jdbc:oracle:thin:@"
+                             ip
+                             (if (eq port nil)
+                                 ""
+                               (concat ":" port))
+                             (if (eq sid nil)
+                                 ""
+                               (concat ":" sid)))
+     :user user
+     :password password
+     :separator "/"))
   :config
   (setq clomacs-httpd-default-port 9095
         ejc-sql-separator ";"

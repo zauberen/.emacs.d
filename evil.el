@@ -31,6 +31,7 @@
   (evil-define-key 'insert 'global
     (kbd "C-r") #'evil-paste-from-register)
   (evil-define-key 'normal 'global
+    (kbd "Y") #'avy-kill-ring-save-region
     (kbd "SPC b") #'switch-to-buffer
     (kbd "SPC t") #'tab-bar-switch-to-tab
     (kbd "g l") #'tab-bar-switch-to-tab

@@ -106,6 +106,13 @@
 
   :config
   (setq evil-lookup-func #'lsp-describe-thing-at-point)
+  ;; Fix lsp tree view on windows
+  (defun lsp-f-ancestor-of-patch (path-args)
+    (mapcar (lambda (path) (downcase path)) path-args))
+  (when (eq system-type 'windows-nt)
+    (advice-add 'lsp-f-ancestor-of? :filter-args #'lsp-f-ancestor-of-patch)
+    (advice-add 'lsp-f-same? :filter-args #'lsp-f-ancestor-of-patch))
+
   (defun my/set-evil-lookup-func ()
     "Use devdocs when lsp is not available."
     (if (not (eq (lsp-find-session-folder (lsp-session) (buffer-file-name)) nil))
