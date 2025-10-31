@@ -340,9 +340,10 @@
 ;; Moved back to ediff because vdiff loses a lot of functionality
 (use-package ediff
   :ensure nil
-  :bind (:map ediff-mode-map
-              ("C-a" . 'ediff-copy-all-A-to-C)
-              ("C-b" . 'ediff-copy-all-B-to-C))
+  ;; For some reason this is bound to the global key map...
+  ;; :bind (:map ediff-mode-map
+  ;;             ("C-a" . 'ediff-copy-all-A-to-C)
+  ;;             ("C-b" . 'ediff-copy-all-B-to-C))
   :custom
   (ediff-window-setup-function 'ediff-setup-windows-plain)
   :config
