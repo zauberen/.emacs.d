@@ -282,6 +282,9 @@
          ("\\.mustache\\'" . web-mode)
          ("\\.djhtml\\'" . web-mode)
          ("\\.html?\\'" . html-mode)))
+(use-package npm
+  :ensure t
+  :bind ("C-c n p" . npm))
 (use-package js2-mode
   :ensure t
   :hook (js-mode . js2-minor-mode)
