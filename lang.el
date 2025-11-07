@@ -284,7 +284,22 @@
          ("\\.html?\\'" . html-mode)))
 (use-package npm
   :ensure t
-  :bind ("C-c n p" . npm))
+  :init
+  (defun npm-run-local ()
+    "Run local npm script."
+    (interactive)
+    (npm-common--compile (npm-run--get-run-command "local")))
+  :bind (("C-c n p" . npm)
+         ("M-R" . npm-run-local)))
+
+(use-package elisp-mode
+  :ensure nil
+  :init
+  (defun my-elisp-lookup-evil ()
+    "Look up the value of the function at point"
+    (describe-function (function-called-at-point)))
+  :hook (emacs-lisp-mode . (lambda () (setq-local evil-lookup-func 'my-elisp-lookup-evil))))
+
 (use-package js2-mode
   :ensure t
   :hook (js-mode . js2-minor-mode)
