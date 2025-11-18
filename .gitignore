@@ -50,3 +50,5 @@ flycheck_*.el
 /semanticdb/
 /devdocs/
 /tree-sitter/
+/jabber-avatar-cache/
+/jabber-history/

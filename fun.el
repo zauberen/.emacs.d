@@ -16,6 +16,27 @@
   :custom
   (gnus-select-method '(nntp "news.gmane.io")))
 
+;; Jabber (XMPP chat)
+(use-package jabber
+  :ensure t
+  :config
+  (defvar w32-notification-id nil)
+  (define-jabber-alert w32-notify "Show a message in a toast notification"
+                       (lambda (text &optional from)
+                         (when (or (eq system-type 'ms-dos) (eq system-type 'windows-nt))
+                           (when (not (eq w32-notification-id nil))
+                             (w32-notification-close w32-notification-id))
+                           (setq w32-notification-id
+                                 (w32-notification-notify
+                                  :title (concat "Jabber"
+                                                 (when (not (eq from nil))
+                                                   (concat ": " from)))
+                                  :body text)))))
+  :custom
+  (jabber-history-enabled t)
+  (jabber-activity-count-in-title t)
+  (jabber-alert-message-hooks '(jabber-message-echo jabber-message-scroll jabber-message-w32-notify)))
+
 (defun my-interest-calculator (payment interest-rate loan-amt &optional suppress-disp)
   "Calculates interest for a loan given a payment.
 PAYMENT The monthly payment.
