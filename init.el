@@ -193,9 +193,9 @@
   (doom-themes-visual-bell-config)
   (doom-themes-org-config)
   (load-theme (cond
-               ((eq system-type 'darwin) 'doom-gruvbox)
+               ((eq system-type 'darwin) 'doom-Iosvkem)
                ((or (eq system-type 'ms-dos) (eq system-type 'windows-nt)) 'doom-molokai)
-               (t 'doom-Iosvkem))
+               (t 'doom-gruvbox))
               t)
   :ensure t)
 (use-package doom-modeline
