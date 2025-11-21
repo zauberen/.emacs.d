@@ -1,8 +1,8 @@
-# emacs-config
-My emacs configuration
+# EMACS configuration
+My emacs configuration. Generally supports only the latest stable release of emacs.
 
 ## Install instructions
-1. Install emacs on system
+1. Install emacs on system (unless latest stable is in the package repos, you will need to install from source, don't use flatpak or snap if possible. See https://write.as/zauberin/building-emacs-from-source for build instructions) 
 2. Install dependencies
    - Universal `ctags` (tested with 6.0) (provides completion and seek when lsp is not available)
    - Install libtree-sitter (libtree-sitter-dev with apt)
@@ -32,12 +32,11 @@ My emacs configuration
      - Get the code: `git clone https://github.com/blahgeek/emacs-lsp-booster`
      - Build: `cd emacs-lsp-booster; cargo build --release`
      - The binary is here: `target/release/emacs-lsp-booster`
-     - Move the `emacs-lsp-booster` binary to a directory on the path (eg `~/.local/bin`)
+     - Move the `emacs-lsp-booster` binary into the `.emacs.d/lsp` folder, replace the existing one. Note that each platform has a different spot.
 3. Create .emacs.d folder (varies) and dump this repo into it
-4. Create `.emacs.d/auto-save`
 5. Start emacs (first load will take a while while it loads and compiles plugins)
 6. Run `all-the-icons-install-fonts` to install the emoji and icon fonts for the emacs UI
 7. Run `treesit-auto-install-all`, there may be errors but it only matters if you want to use that language.
 8. Run `fontaine-set-preset` and pick hack-ttf, there is also a hack-ttf-mac which is better on MacOS since fonts appear smaller there.
-9. In macos, you may have compilation issues if the first launch is not from the terminal.
+9. In macos, you may have compilation issues if the first launch is not from the terminal. Generally, you will always want to launch from the terminal due to permission issues during launch otherwise.
 10. Odds are regardless of install type, you will need to restart emacs after installing to get a consistent experience.

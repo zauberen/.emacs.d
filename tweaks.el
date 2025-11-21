@@ -36,8 +36,13 @@
       scroll-margin 0
       next-screen-context-lines 3)
 ;; Sandbox/suppress auto file creation
+(defvar my-auto-save-dir
+(file-name-concat user-emacs-directory "auto-save/")
+"Auto save directory.")
+(when (not (file-directory-p my-auto-save-dir))
+  (make-directory my-auto-save-dir t))
 (setq auto-save-file-name-transforms
-      `((".*" ,(file-name-concat user-emacs-directory "auto-save/") t))
+      `((".*" ,my-auto-save-dir t))
       make-backup-files nil
       create-lockfiles nil
       custom-file null-device)
