@@ -135,7 +135,7 @@
     (when (not (or (eq system-type 'ms-dos) (eq system-type 'windows-nt)))
       (lsp)))
   (add-hook 'lsp-completion-mode #'corfu-lsp-setup)
-  (add-hook 'python-mode-hook #'my/dont-launch-lsp-on-windows)
+  (add-hook 'python-ts-mode-hook #'my/dont-launch-lsp-on-windows)
   (add-hook 'html-mode-hook #'my/dont-launch-lsp-on-windows)
   (add-hook 'js-mode-hook #'my/dont-launch-lsp-on-windows)
   (add-hook 'typescript-ts-mode-hook #'my/dont-launch-lsp-on-windows)

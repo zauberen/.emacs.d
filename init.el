@@ -56,14 +56,15 @@
   :ensure t
   :demand t
   :config
-  ;; FIXME: Use new fontaine-mode.
-  (fontaine-set-preset (or (fontaine-restore-latest-preset) 'regular))
-  (fontaine-mode 1)
-  ;; NOTE: Since Fontaine doesn't support the :width attribute, I
-  ;; don't use it for tab-bar faces. See
-  ;; <https://github.com/protesilaos/fontaine/issues/6>.
-  ;; FIXME: Fontaine 2.1 supports the :width attribute.
-  (cl-callf2 remq 'tab-bar fontaine-faces)
+  (when (display-graphic-p)
+    ;; FIXME: Use new fontaine-mode.
+    (fontaine-set-preset (or (fontaine-restore-latest-preset) 'regular))
+    (fontaine-mode 1)
+    ;; NOTE: Since Fontaine doesn't support the :width attribute, I
+    ;; don't use it for tab-bar faces. See
+    ;; <https://github.com/protesilaos/fontaine/issues/6>.
+    ;; FIXME: Fontaine 2.1 supports the :width attribute.
+    (cl-callf2 remq 'tab-bar fontaine-faces))
   :custom
   (fontaine-presets
    '((t :default-family "Hack"
@@ -166,7 +167,8 @@
 (use-package nyan-mode
   :ensure t :demand t
   :init
-  (scroll-bar-mode -1)
+  (when (display-graphic-p)
+    (scroll-bar-mode -1))
   :hook (window-state-change . (lambda () (setq-local nyan-bar-length
                                                       (max 10
                                                            (/ (window-width)
@@ -175,12 +177,6 @@
   (setq nyan-bar-length 25))
 
 ;; Theming ;;
-; I really like ef-elea-dark
-(use-package ef-themes
-  :config
-  ;(when (not (or (eq system-type 'ms-dos) (eq system-type 'windows-nt)))
-    ;(load-theme 'ef-elea-dark t))
-  :ensure t)
 ; My original emacs theme
 (use-package molokai-theme
   :config
@@ -192,12 +188,19 @@
   ;(when (eq system-type 'darwin)
   (doom-themes-visual-bell-config)
   (doom-themes-org-config)
+  :ensure t
+  :demand t)
+(use-package ef-themes
+  :ensure t
+  :after doom-themes
+  :config
   (load-theme (cond
-               ((eq system-type 'darwin) 'doom-Iosvkem)
-               ((or (eq system-type 'ms-dos) (eq system-type 'windows-nt)) 'doom-molokai)
-               (t 'doom-gruvbox))
-              t)
-  :ensure t)
+               ; This looks decent on terminals (doom-monokai-classic is also good)
+               ((not (display-graphic-p)) 'ef-bio)
+               ;; ((eq system-type 'darwin) 'doom-molokai)
+               ((or (eq system-type 'ms-dos) (eq system-type 'windows-nt)) 'doom-gruvbox)
+               (t 'ef-bio))
+              t))
 (use-package doom-modeline
   :ensure t
   :init
