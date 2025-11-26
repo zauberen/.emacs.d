@@ -197,8 +197,8 @@
   (load-theme (cond
                ; This looks decent on terminals (doom-monokai-classic is also good)
                ((not (display-graphic-p)) 'ef-bio)
-               ;; ((eq system-type 'darwin) 'doom-molokai)
-               ((or (eq system-type 'ms-dos) (eq system-type 'windows-nt)) 'doom-gruvbox)
+               ((eq system-type 'darwin) 'doom-gruvbox)
+               ((or (eq system-type 'ms-dos) (eq system-type 'windows-nt)) 'doom-molokai)
                (t 'ef-bio))
               t))
 (use-package doom-modeline
