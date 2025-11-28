@@ -386,7 +386,12 @@
   (gcmh-mode 1))
 
 ;; Wait for everything to be loaded
-(elpaca-wait)
+(defvar my-installed-file (expand-file-name "elpa/installed.txt" user-emacs-directory)
+  "The file used to show that elpaca has done the initial installation.")
+(if (file-exists-p my-installed-file)
+    (elpaca-wait)
+  (write-region "" nil my-installed-file))
+
 
 ;; Load custom settings
 (let ((local-settings (expand-file-name "local.el" user-emacs-directory)))

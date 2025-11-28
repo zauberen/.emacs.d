@@ -1,6 +1,6 @@
 ;;; corfu.el --- Packages for completion at point -*- lexical-binding: t -*-
 ;;; Commentary:
-;;; cape, corfu, corfu-terminal
+;;; cape, corfu
 ;;; Code:
 ;; Capf modifier
 (use-package cape
@@ -111,13 +111,6 @@ SUPER-AFTER: If non-nil adds the super capf after completion-at-point-functions.
        (cape--case-replace-list cape-dict-case-replace input words)))))
   
 ;; Terminal specific settings for corfu
-(use-package corfu-terminal
-  :ensure t
-  :demand t
-  :after corfu
-  :config
-  (unless (display-graphic-p)
-    (corfu-terminal-mode +1)))
 (use-package svg-lib
   :ensure t)
 (use-package kind-icon
