@@ -2,6 +2,10 @@
 ;;; Commentary:
 ;;; Programming language configuration.
 ;;; Code:
+(use-package compile
+  :ensure nil
+  :custom
+  (compilation-scroll-output t))
 
 ;; Java Configuration
 (use-package dap-mode
