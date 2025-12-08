@@ -390,6 +390,7 @@
   "The file used to show that elpaca has done the initial installation.")
 (if (file-exists-p my-installed-file)
     (elpaca-wait)
+  (make-directory (expand-file-name "elpa" user-emacs-directory) t)
   (write-region "" nil my-installed-file))
 
 

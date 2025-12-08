@@ -84,12 +84,12 @@
   (with-eval-after-load 'info-look
     (dash-register-info-lookup)))
 ;; Clojure
-(use-package clojure-ts-mode
+(use-package clojure-mode
   :ensure t)
 (use-package cider
   :ensure t
-  :hook ((clojure-ts-mode . rainbow-delimiters-mode)
-         (clojure-ts-mode . lsp))
+  :hook ((clojure-mode . rainbow-delimiters-mode)
+         (clojure-mode . lsp))
   :bind (("C-c b s" . clj-biff-start)
          ("C-c b x" . clj-biff-stop)
          ("C-c b c" . clj-biff-clear-logs))
@@ -444,7 +444,7 @@
          (js-ts-mode . (lambda () (my-devdocs-lang-hook "javascript" "dom")))
          (css-ts-mode . (lambda () (my-devdocs-lang-hook "css")))
          (bash-ts-mode . (lambda () (my-devdocs-lang-hook "bash")))
-         (clojure-ts-mode . (lambda () (my-devdocs-lang-hook "clojure~1.11")))
+         (clojure-mode . (lambda () (my-devdocs-lang-hook "clojure~1.11")))
          (emacs-lisp-mode . (lambda () (my-devdocs-lang-hook "elisp"))))
   ; (prog-mode . (lambda () (setq-local evil-lookup-func #'devdocs-lookup)))
   :init
