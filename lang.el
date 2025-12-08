@@ -38,7 +38,7 @@
          ("C-c t c" . tomcat-clear-logs))
   :init
   (if (or (eq system-type 'ms-dos) (eq system-type 'windows-nt))
-      (setq lsp-java-java-path "C:/Program Files/Eclipse Adoptium/jdk-17.0.7.7-hotspot/bin/java.exe"
+      (setq lsp-java-java-path "C:/Program Files/Eclipse Adoptium/jdk-21.0.9.10-hotspot/bin/java.exe"
             lsp-java-configuration-runtimes '[(:name "JavaSE-1.8"
                                                :path "C:/Program Files/Java/jdk1.8.0_202"
                                                :default t)
