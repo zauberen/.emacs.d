@@ -18,8 +18,6 @@
 ;;; General configuration
 (use-package emacs
   :ensure nil
-  :custom
-  (ispell-dictionary "en_US")
   :config
   ;; Kill buffer command
   (global-set-key (kbd "C-x k") 'kill-current-buffer)
@@ -246,15 +244,6 @@
   ;:config
   ;(editorconfig-mode 1))
 
-;; Visual undo
-(use-package vundo
-  :ensure t
-  :after evil
-  :demand t
-  :bind (("C-S-u" . vundo)
-         :map evil-normal-state-map
-         ("U" . vundo)))
-
 ;; Jump to text with avy
 (use-package avy
   :ensure t
@@ -265,6 +254,15 @@
 (load-file (expand-file-name "git.el" user-emacs-directory))
 
 (load-file (expand-file-name "evil.el" user-emacs-directory))
+
+;; Visual undo
+(use-package vundo
+  :ensure t
+  :after evil
+  :demand t
+  :bind (("C-S-u" . vundo)
+         :map evil-normal-state-map
+         ("U" . vundo)))
 
 ;; Which key
 (use-package which-key
@@ -339,6 +337,20 @@
 
 ;; Fun stuff
 (load-file (expand-file-name "fun.el" user-emacs-directory))
+
+;; Auto resize windows
+(use-package golden-ratio
+  :ensure t
+  :demand t
+  :after evil
+  :config
+  (golden-ratio-mode 1)
+  ;; Some functions are not wrapped properly
+  (advice-add 'evil-window-right :after 'golden-ratio)
+  (advice-add 'evil-window-left :after 'golden-ratio)
+  (advice-add 'evil-window-up :after 'golden-ratio)
+  (advice-add 'evil-window-down :after 'golden-ratio)
+  (advice-add 'ace-window :after 'golden-ratio))
 
 ;; Moved back to ediff because vdiff loses a lot of functionality
 (use-package ediff
