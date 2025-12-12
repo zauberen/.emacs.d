@@ -300,8 +300,11 @@
   :ensure nil
   :init
   (defun my-elisp-lookup-evil ()
-    "Look up the value of the function at point"
-    (describe-function (function-called-at-point)))
+    "Look up the value of the function or variable at point"
+    (let ((var-at-point (variable-at-point)))
+      (if (eq var-at-point 0)
+          (describe-function (function-called-at-point))
+        (describe-variable var-at-point))))
   :hook (emacs-lisp-mode . (lambda () (setq-local evil-lookup-func 'my-elisp-lookup-evil))))
 
 (use-package js2-mode
