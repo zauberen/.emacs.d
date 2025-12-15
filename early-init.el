@@ -16,7 +16,7 @@
       window-resize-pixelwise t)
 
 ;; Set up lsp-mode to use plists (for lsp-booster)
-(setenv "LSP_USE_PLISTS" "true")
+;; (setenv "LSP_USE_PLISTS" "true")
 
 ;; Disable package.el when using elpaca
 (setq package-enable-at-startup nil)

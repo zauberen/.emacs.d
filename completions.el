@@ -56,7 +56,12 @@
          ("C-c C-." . lsp-execute-code-action)
          ("C-S-r" . lsp-rename)
          ("C-k" . lsp-find-references))
-  :hook ((lsp-mode . (lambda () (setq-local evil-lookup-func #'lsp-describe-thing-at-point))))
+  :hook ((lsp-mode . (lambda () (setq-local evil-lookup-func #'lsp-describe-thing-at-point ; Look up function definitions
+                                            ; Fix stuck completion list issues
+                                            completion-category-defaults nil
+                                            completion-category-overrides nil))))
+  ;; :custom
+  ;; (lsp-idle-delay 1)
   :init
   (setq lsp-completion-provider :none
         lsp-keymap-prefix "C-c l"
@@ -71,12 +76,13 @@
          (when (byte-code-function-p bytecode)
            (funcall bytecode))))
      (apply old-fn args)))
-  (advice-add (if (progn (require 'json)
-                         (fboundp 'json-parse-buffer))
-                  'json-parse-buffer
-                'json-read)
-              :around
-              #'lsp-booster--advice-json-parse)
+  ;;TODO: If no issues are discovered with removing this in the near future, properly remove it from the code
+  ;; (advice-add (if (progn (require 'json)
+  ;;                        (fboundp 'json-parse-buffer))
+  ;;                 'json-parse-buffer
+  ;;               'json-read)
+  ;;             :around
+  ;;             #'lsp-booster--advice-json-parse)
 
   (defun lsp-booster--advice-final-command (old-fn cmd &optional test?)
     "Prepend emacs-lsp-booster command to lsp CMD."
@@ -102,7 +108,8 @@
                       (expand-file-name "lsp/linux/emacs-lsp-booster" user-emacs-directory)))
                   orig-result))
         orig-result)))
-  (advice-add 'lsp-resolve-final-command :around #'lsp-booster--advice-final-command)
+  ;;TODO: If no issues are discovered with removing this in the near future, properly remove it from the code
+  ;; (advice-add 'lsp-resolve-final-command :around #'lsp-booster--advice-final-command)
 
   :config
   (setq evil-lookup-func #'lsp-describe-thing-at-point)
@@ -140,6 +147,11 @@
   (add-hook 'js-mode-hook #'my/dont-launch-lsp-on-windows)
   (add-hook 'typescript-ts-mode-hook #'my/dont-launch-lsp-on-windows)
   (add-hook 'tsx-ts-mode-hook #'my/dont-launch-lsp-on-windows))
+;; Try this again someday, but as of 12.15.2025 it doesn't work on windows
+;; (use-package mason
+;;   :ensure t
+;;   :config
+;;   (mason-ensure))
 (use-package lsp-ui
   :ensure t
   :after lsp-mode)

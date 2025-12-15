@@ -196,7 +196,7 @@
                ; This looks decent on terminals (doom-monokai-classic is also good)
                ((not (display-graphic-p)) 'ef-bio)
                ((eq system-type 'darwin) 'doom-gruvbox)
-               ((or (eq system-type 'ms-dos) (eq system-type 'windows-nt)) 'doom-molokai)
+               ;; ((or (eq system-type 'ms-dos) (eq system-type 'windows-nt)) 'doom-molokai)
                (t 'ef-bio))
               t))
 (use-package doom-modeline
@@ -288,7 +288,7 @@
   (projectile-mode +1)
   ; Bind the most useful projectile commands to easier keys
   (evil-define-key 'normal 'global
-    ; Note that f is overridden if minibuffer.el is included to use consult-projectile
+    ; Note that f and p are overridden if minibuffer.el is included to use consult-projectile
     (kbd "SPC f") #'projectile-find-file
     (kbd "SPC p") #'projectile-switch-project
     (kbd "SPC e") #'projectile-run-eshell))
