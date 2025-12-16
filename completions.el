@@ -60,8 +60,11 @@
                                             ; Fix stuck completion list issues
                                             completion-category-defaults nil
                                             completion-category-overrides nil))))
-  ;; :custom
-  ;; (lsp-idle-delay 1)
+  :custom
+  ;; Windows is slow with LSP
+  (lsp-idle-delay (if (or (eq system-type 'ms-dos) (eq system-type 'windows-nt))
+                      1
+                    0.5))
   :init
   (setq lsp-completion-provider :none
         lsp-keymap-prefix "C-c l"

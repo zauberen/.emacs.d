@@ -393,7 +393,8 @@
   :init
   (setq gcmh-idle-delay 'auto
         gcmh-auto-idle-delay-factor 10
-        gcmh-high-cons-threshold (* 32 1024 1024))
+        gcmh-high-cons-threshold (* 100 1024 1024)
+        read-process-output-max (* 3 1024 1024))
   :config
   (gcmh-mode 1))
 
