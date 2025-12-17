@@ -449,7 +449,8 @@
          (bash-ts-mode . (lambda () (my-devdocs-lang-hook "bash")))
          (clojure-mode . (lambda () (my-devdocs-lang-hook "clojure~1.11")))
          (emacs-lisp-mode . (lambda () (my-devdocs-lang-hook "elisp"))))
-  ; (prog-mode . (lambda () (setq-local evil-lookup-func #'devdocs-lookup)))
+  :config
+  (setq evil-lookup-func #'devdocs-lookup)
   :init
   (defun my-install-docs (&rest docs)
     "Install a set of devdocs."

@@ -59,6 +59,10 @@
   :hook ((lsp-mode . (lambda () (setq-local evil-lookup-func #'lsp-describe-thing-at-point ; Look up function definitions
                                             ; Fix stuck completion list issues
                                             completion-category-defaults nil
+                                            completion-category-overrides nil)))
+         (lsp-after-open . (lambda () (setq-local evil-lookup-func #'lsp-describe-thing-at-point ; Look up function definitions
+                                            ; Fix stuck completion list issues
+                                            completion-category-defaults nil
                                             completion-category-overrides nil))))
   :custom
   ;; Windows is slow with LSP
@@ -113,9 +117,7 @@
         orig-result)))
   ;;TODO: If no issues are discovered with removing this in the near future, properly remove it from the code
   ;; (advice-add 'lsp-resolve-final-command :around #'lsp-booster--advice-final-command)
-
   :config
-  (setq evil-lookup-func #'lsp-describe-thing-at-point)
   ;; Fix lsp tree view on windows
   (defun lsp-f-ancestor-of-patch (path-args)
     (mapcar (lambda (path) (downcase path)) path-args))
