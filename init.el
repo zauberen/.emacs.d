@@ -27,9 +27,6 @@
   (global-set-key (kbd "C-x t l") 'tab-bar-switch-to-tab)
   ;; Tab show or hide
   (global-set-key (kbd "C-x t s") 'tab-bar-mode))
-(use-package repeat
-  :custom
-  (repeat-mode +1))
 ;; Line numbering and word wrap
 (setq display-line-numbers-type 'relative)
 (global-display-line-numbers-mode)
@@ -151,36 +148,18 @@
   :after evil
   :bind (("C-d" . substitute-target-in-buffer)
          ("C-c d" . #'substitute-prefix-map))
+  :custom
+  (substitute-ignore-narrowing nil)
   :config
-  ;; A PR is open for this.
-  (defun substitute--replace-targets (sub &optional scope fixed)
-  "Replace `substitute--last-matches' target with SUB.
-If optional SCOPE is equal to `above', then adjust for a reverse
-motion.
-
-With optional FIXED as a non-nil value, do not alter the case of
-the substituted text.  Otherwise perform capitalization or
-upcasing based on the target text.  See the documenation of
-`replace-match' for how this works."
-  (when-let* ((targets substitute--last-matches)
-              (buf-start (point-min))
-              (buf-end (point-max)))
-    (save-excursion
-      (when (listp buffer-undo-list)
-        (push (point) buffer-undo-list))
-      (save-restriction
-        (mapcar
-         (lambda (target)
-           (pcase-let ((`(,string ,beg ,end) target))
-             (when (and (<= buf-start beg)
-                        (>= buf-end end))
-               (pcase-let ((`(,pos ,fn) (if (eq scope 'above)
-                                            (list (max beg end) 're-search-backward)
-                                          (list (min beg end) 're-search-forward))))
-                 (goto-char pos)
-                 (funcall fn string)
-                 (replace-match sub (or fixed substitute-fixed-letter-case))))))
-         targets)))))
+  (defun substitute-all-targets-in-buffer (target sub &optional fixed-case)
+    "Replace data even if it is outside of the narrowed context."
+    (interactive
+     (let ((target (substitute--determine-target)))
+       (list target
+             (substitute--prompt target nil)
+             current-prefix-arg)))
+    (let ((substitute-ignore-narrowing t))
+      (substitute--operate target sub nil fixed-case)))
   (evil-define-key 'normal 'global
     (kbd "C-d") #'substitute-target-in-buffer)
   (evil-define-key 'visual 'global
