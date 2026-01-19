@@ -60,10 +60,8 @@
                                             ; Fix stuck completion list issues
                                             completion-category-defaults nil
                                             completion-category-overrides nil)))
-         (lsp-after-open . (lambda () (setq-local evil-lookup-func #'lsp-describe-thing-at-point ; Look up function definitions
-                                            ; Fix stuck completion list issues
-                                            completion-category-defaults nil
-                                            completion-category-overrides nil))))
+         (lsp-on-idle . (lambda () (setq-local completion-category-defaults nil
+                                               completion-category-overrides nil))))
   :custom
   ;; Windows is slow with LSP
   (lsp-idle-delay (if (or (eq system-type 'ms-dos) (eq system-type 'windows-nt))
