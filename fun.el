@@ -37,6 +37,12 @@
   (jabber-activity-count-in-title t)
   (jabber-alert-message-hooks '(jabber-message-echo jabber-message-scroll jabber-message-w32-notify)))
 
+(defun find-divisors (number)
+  "Find all integers which when multiplied by another integer = NUMBER."
+  (let* ((round-number (floor number))
+         (half-number (/ round-number 2)))
+    (cl-remove-if #'(lambda (n) (> (% round-number n) 0)) (number-sequence 1 half-number))))
+
 (defun my-interest-calculator (payment interest-rate loan-amt &optional suppress-disp)
   "Calculates interest for a loan given a payment.
 PAYMENT The monthly payment.
