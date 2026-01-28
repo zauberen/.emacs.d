@@ -3,6 +3,18 @@
 ;;; Useless but fun Lisp functions.
 ;;; Code:
 
+(use-package tmr
+  :ensure t
+  :bind (("C-c t t" . tmr)
+         ("C-c t T" . tmr-with-details)
+         ("C-c t a" . tmr-toggle-acknowledge)
+         ("C-c t p" . tmr-toggle-pause)
+         ("C-c t l" . tmr-tabulated-view)
+         ("C-c t q" . tmr-remove)
+         ("C-c t Q" . tmr-remove-finished))
+  :custom
+  (tmr-sound-file nil))
+
 (use-package tetris
   :ensure nil
   :custom

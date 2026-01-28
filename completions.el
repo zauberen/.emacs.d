@@ -10,7 +10,7 @@
   :bind (("C-c t j" . citre-jump)
          ("C-c t J" . citre-jump-back)
          ("C-c t r" . citre-peek-reference)
-         ("C-c t p" . citre-ace-peek)
+         ;; ("C-c t p" . citre-ace-peek)
          ("C-c t u" . citre-update-this-tags-file)
          ("C-c t U" . citre-global-update-database))
   :init

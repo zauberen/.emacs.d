@@ -348,6 +348,10 @@
 (use-package composer
   :ensure t)
 
+;; ASM
+(use-package nasm-mode
+  :ensure (:host github :repo "8dcc/nasm-mode" :branch "require-nasmtok"))
+
 ;; YAML
 ; Basic syntax highlighting in yaml
 (use-package yaml-mode
