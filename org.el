@@ -9,7 +9,7 @@
   :diminish org-indent-mode eldoc-mode auto-revert-mode
   ; Enable word wrap and org indenting
   :hook ((org-mode . org-indent-mode))
-  :bind (("C-c n S-l" . org-store-link)
+  :bind (("C-c n L" . org-store-link)
          ("C-c a o" . org-agenda)
          ("C-c c" . org-capture)
          :map org-mode-map

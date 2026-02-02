@@ -202,7 +202,7 @@
                                 (ejc-set-fetch-size 99)
                                 (ejc-set-max-rows 99)
                                 (ejc-set-show-too-many-rows-message t)
-                                (ejc-set-column-width-limit 25)
+                                (ejc-set-column-width-limit 50)
                                 (ejc-set-use-unicode t)))
          (ejc-sql-mode . (lambda () (ejc-eldoc-setup))))
   :bind (:map ejc-sql-mode-keymap
