@@ -413,15 +413,13 @@
 (defvar my-installed-file (expand-file-name "elpa/installed.txt" user-emacs-directory)
   "The file used to show that elpaca has done the initial installation.")
 (if (file-exists-p my-installed-file)
-    (elpaca-wait)
+    (let ((local-settings (expand-file-name "local.el" user-emacs-directory)))
+      (elpaca-wait)
+      ;; Load custom settings
+      (when (file-exists-p local-settings)
+        (load-file local-settings)))
   (make-directory (expand-file-name "elpa" user-emacs-directory) t)
   (write-region "" nil my-installed-file))
-
-
-;; Load custom settings
-(let ((local-settings (expand-file-name "local.el" user-emacs-directory)))
-  (when (file-exists-p local-settings)
-    (load-file local-settings)))
 
 ;; Open init.el on opening
 (find-file (expand-file-name "init.el" user-emacs-directory))

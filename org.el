@@ -10,7 +10,7 @@
   ; Enable word wrap and org indenting
   :hook ((org-mode . org-indent-mode))
   :bind (("C-c n L" . org-store-link)
-         ("C-c a o" . org-agenda)
+         ("C-c n a" . org-agenda)
          ("C-c c" . org-capture)
          :map org-mode-map
          ; Ensure consult gets it's bindings in org
@@ -60,12 +60,13 @@
         org-home-file (concat org-directory "/home.org")
         org-idea-file (concat org-directory "/org-private/ideas.org")
         org-app-file (concat org-directory "/org-private/dnd-app.org")
-        org-agenda-files (seq-filter
-                          (lambda(x)
-                            (and (not (string-match "/archive/"(file-name-directory x)))
-                                 (not (string-match "/denote/"(file-name-directory x)))
-                                 (not (string-match "/journal/"(file-name-directory x)))))
-                          (directory-files-recursively org-directory "\\.org$"))
+        org-personal-file (concat org-directory "/org-private/personal.org")
+        org-agenda-files (list org-work-file
+                               org-home-file
+                               org-idea-file
+                               org-app-file
+                               org-personal-file
+                               org-default-notes-file)
         org-archive-location (concat "%s_archive::" org-directory "/archive")
         org-tag-persistent-alist '((:startgroup . nil)
                                    ("important" . ?i)
