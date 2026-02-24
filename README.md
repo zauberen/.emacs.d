@@ -5,6 +5,8 @@ My emacs configuration. Generally supports only the latest stable release of ema
 1. Install emacs on system (unless latest stable is in the package repos, you will need to install from source, don't use flatpak or snap if possible. See https://write.as/zauberin/building-emacs-from-source for build instructions) 
 2. Install dependencies
    - Universal `ctags` (tested with 6.0) (provides completion and seek when lsp is not available)
+   - Build tools for C and C++ (Optional, but necessary to build tree-sitter libs, you can mostly bypass this via step 7, but some langs will just need this)
+     - In windows, you can use: https://winlibs.com/#download-release
    - Install libtree-sitter (libtree-sitter-dev with apt)
      - May also compile from source, see https://www.masteringemacs.org/article/how-to-get-started-tree-sitter
    - `python3`(.10+ preferred) (python lsp) then run `pip3 install "python-lsp-server[all]"` (python lsp)
@@ -21,12 +23,13 @@ My emacs configuration. Generally supports only the latest stable release of ema
    - `ispell` (non-macos) (causes completion errors without it)
    - For clojure support
      - `leiningen` (also released as `lein`, and is that on the path)
-     - `clojure`
+     - `clojure` (MUST install via the site instructions, no package managers)
      - `hiccup-cli` (optional) also requires elpaca-try hiccup-cli. Adds better hiccup conversion support. Must install manually either by compiling from source or by downloading and adding the binary to path.
    - `vale` A spell checker for writing. See https://github.com/errata-ai/vale
      - To initialize vale in a new directory, create a `.vale.ini` in the git home directory, a generator is here: https://vale.sh/generator
      - Next run `vale sync` in the git home directory, and it will be ready!
    - `emacs-lsp-booster` (binaries included in lsp folder) Optimizes lsp-mode, but requires a full plugin reinstall to work.
+     - Note: This is no longer used at the moment
      - If you want to build the booster binaries, follow these steps:
      - Install rust: `curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh`
      - Get the code: `git clone https://github.com/blahgeek/emacs-lsp-booster`
@@ -44,4 +47,4 @@ rename 's/^/libtree-sitter-/' *.so
 8. Run `fontaine-set-preset` and pick hack-ttf, there is also a hack-ttf-mac which is better on MacOS since fonts appear smaller there.
 9. `MacOS`: You may have compilation issues if the first launch is not from the terminal. Generally, you will always want to launch from the terminal due to permission issues during launch otherwise.
 10. Restart emacs
-11. Run `treesit-auto-install-all` to install languages not covered by the packaged grammars.
+11. Run `treesit-auto-install-all` to install languages not covered by the packaged grammars. If you want to use any of these grammars, you'll need to restart again, similarly, there are a few other grammars (php) that do not auto install here, and you'll need to restart after installing that as well if/when you do.

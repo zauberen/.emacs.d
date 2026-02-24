@@ -10,7 +10,8 @@
          (prog-mode . (lambda () (if (eq system-type 'darwin)
                                      (my/build-capf macp-super-capf yasc-prece-capf t)
                                    (my/build-capf winp-super-capf yasc-prece-capf t))))
-         (org-mode . (lambda () (my/build-capf org-super-capf))))
+         (org-mode . (lambda () (my/build-capf org-super-capf)))
+         (jabber-chat-mode . (lambda () (my/build-capf text-super-capf))))
   :custom
   ;; Minad rewrote my method, this is the new "lisp only" setting
   (cape-dict-grep nil)

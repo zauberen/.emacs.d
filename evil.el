@@ -35,9 +35,9 @@
     (kbd "SPC b") #'switch-to-buffer
     (kbd "SPC t") #'tab-bar-switch-to-tab
     (kbd "g l") #'tab-bar-switch-to-tab
-    (kbd "M-l") #'evil-avy-goto-char
+    (kbd "M-l") #'evil-avy-goto-word-or-subword-1
     (kbd "SPC SPC") #'evil-avy-goto-word-or-subword-1
-    (kbd "C-f") #'evil-avy-goto-word-or-subword-1
+    (kbd "C-f") #'evil-avy-goto-char
     (kbd "g SPC") #'evil-join-whitespace
     (kbd "C-u") #'universal-argument
     (kbd "C-a") #'beginning-of-line
