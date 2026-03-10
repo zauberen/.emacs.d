@@ -84,7 +84,7 @@ MODEL-LIST like \='(deepseek-r1:8b deepseek-coder-v2:16b)."
 
 (use-package copilot-chat
   :ensure t
-  :bind ("C-c a c" . copilot-chat-display)
+  :bind ("C-c a C" . copilot-chat-display)
   :config
   ; Fix doom-modeline
   (defun copilot-chat--org-goto-input()
@@ -99,4 +99,12 @@ The input is created if not found."
         (let ((start (point))
               (inhibit-read-only t))
           (insert copilot-chat--org-delimiter "\n\n"))))))
+
+(use-package claude-code-ide
+  :ensure (:host github :repo "manzaltu/claude-code-ide.el")
+  :bind ("C-c a c" . claude-code-ide-menu)
+  :custom
+  (claude-code-ide-terminal-backend 'eat)
+  :config
+  (claude-code-ide-emacs-tools-setup))
 ;;; ai.el ends here

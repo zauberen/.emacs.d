@@ -18,8 +18,8 @@
 (use-package yasnippet-capf
   :ensure (:host github :repo "zauberen/yasnippet-capf")
   :after cape yasnippet
-  :config
-  (setq yasnippet-capf-lookup-by 'name))
+  :custom
+  (yasnippet-capf-lookup-by 'name))
 (use-package tempel
   :ensure t
   :demand t
