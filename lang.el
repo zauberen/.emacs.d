@@ -194,8 +194,11 @@
     (put sym 'completion-predicate #'ignore)))
 
 ;; SQL
+(use-package simple-httpd
+  :ensure (:host github :repo "skeeto/emacs-web-server"))
 (use-package ejc-sql
   :ensure t
+  :after simple-httpd
   :if (and (executable-find "clj")
            (executable-find "lein"))
   :hook ((ejc-sql-connected . (lambda ()
