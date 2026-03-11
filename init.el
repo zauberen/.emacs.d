@@ -354,8 +354,23 @@
   :ensure t
   :demand t
   :after evil
+  :custom
+  (golden-ratio-exclude-modes '("ediff-mode"))
+  (golden-ratio-exclude-buffer-names '("COMMIT_EDITMSG"))
+  (golden-ratio-inhibit-functions '(my/golden-ratio-inhibit-ediff
+                                    my/golden-ratio-inhibit-claude-code))
   :config
   (golden-ratio-mode 1)
+  (defun my/golden-ratio-inhibit-ediff ()
+    "Don't use golden ratio when ediff is active."
+    (cl-some (lambda (win)
+               (eq (buffer-local-value 'major-mode (window-buffer win)) 'ediff-mode))
+             (window-list)))
+  (defun my/golden-ratio-inhibit-claude-code ()
+    "Don't use golden ratio when a claude-code buffer is visible."
+    (cl-some (lambda (win)
+               (string-match-p "*claude-code[%]*" (buffer-name (window-buffer win))))
+             (window-list)))
   ;; Some functions are not wrapped properly
   (advice-add 'evil-window-right :after 'golden-ratio)
   (advice-add 'evil-window-left :after 'golden-ratio)

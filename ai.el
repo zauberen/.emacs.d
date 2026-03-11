@@ -66,14 +66,10 @@
   ;; (use-package gptel
   ;;   :ensure nil
   ;;   :config
-  ;;   (set-default-chat 'qwen3:32b
-  ;;                     (setup-ollama '(deepseek-r1:32b   ; Decent thinking AI
-  ;;                                     gemma3:27b        ; Decent text based AI
-  ;;                                     qwen3:32b         ; Decent coding AI
-  ;;                                     mistral-small3.1:24b
-  ;;                                     starcoder2:15b
-  ;;                                     devstral:24b      ; Thinking about getting rid of qwen3 and starcoder for this one.
-  ;;                                     qwen3:30b-a3b)))) ; Good at mind numbing things with /no_think
+  ;;   (set-default-chat 'gpt-oss:20b
+  ;;                     (setup-ollama '(gemma3:27b        ; Decent text based AI
+  ;;                                     gpt-oss:20b       ; Solid default for anything
+  ;;                                     lfm2:24b))))      ; Solid small AI
   (defun setup-ollama (model-list)
     "Sets up ollama with the given
 MODEL-LIST like \='(deepseek-r1:8b deepseek-coder-v2:16b)."
@@ -100,6 +96,7 @@ The input is created if not found."
               (inhibit-read-only t))
           (insert copilot-chat--org-delimiter "\n\n"))))))
 
+;; Only works in linux/mac
 (use-package claude-code-ide
   :ensure (:host github :repo "manzaltu/claude-code-ide.el")
   :bind ("C-c a c" . claude-code-ide-menu)
