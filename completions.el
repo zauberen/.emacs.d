@@ -59,7 +59,9 @@
   :hook ((lsp-mode . (lambda () (setq-local evil-lookup-func #'lsp-describe-thing-at-point ; Look up function definitions
                                             ; Fix stuck completion list issues
                                             completion-category-defaults nil
-                                            completion-category-overrides nil)))
+                                            completion-category-overrides nil
+                                            evil-goto-definition-functions (cons (lambda (_ _) (lsp-find-definition))
+                                                                                 evil-goto-definition-functions))))
          (lsp-on-idle . (lambda () (setq-local completion-category-defaults nil
                                                completion-category-overrides nil))))
   :custom
