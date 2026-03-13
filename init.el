@@ -355,7 +355,7 @@
   :demand t
   :after evil
   :custom
-  (golden-ratio-exclude-modes '("ediff-mode"))
+  (golden-ratio-exclude-modes '("ediff-mode" "vundo-mode"))
   (golden-ratio-exclude-buffer-names '("COMMIT_EDITMSG"))
   (golden-ratio-inhibit-functions '(my/golden-ratio-inhibit-ediff
                                     my/golden-ratio-inhibit-claude-code))
