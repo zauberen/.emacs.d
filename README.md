@@ -7,6 +7,7 @@ My emacs configuration. Generally supports only the latest stable release of ema
    - Universal `ctags` (tested with 6.0) (provides completion and seek when lsp is not available)
    - Build tools for C and C++ (Optional, but necessary to build tree-sitter libs, you can mostly bypass this via step 7, but some langs will just need this)
      - In windows, you can use: https://winlibs.com/#download-release
+   - On windows, you need `git` with the gnu coreutils optional package installed. This is to support projects.
    - Install libtree-sitter (libtree-sitter-dev with apt)
      - May also compile from source, see https://www.masteringemacs.org/article/how-to-get-started-tree-sitter
    - `python3`(.10+ preferred) (python lsp) then run `pip3 install "python-lsp-server[all]"` (python lsp)

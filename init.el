@@ -291,6 +291,9 @@
   :diminish projectile-mode
   :bind (:map projectile-mode-map
          ("C-c p" . projectile-command-map))
+  :custom
+  (projectile-indexing-method 'alien)
+  (projectile-enable-caching (or (eq system-type 'ms-dos) (eq system-type 'windows-nt)))
   :init
   (when (not (or (eq system-type 'ms-dos) (eq system-type 'windows-nt)))
     (setq projectile-project-search-path '("~/.emacs.d"
