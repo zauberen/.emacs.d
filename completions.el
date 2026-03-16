@@ -60,7 +60,8 @@
                                             ; Fix stuck completion list issues
                                             completion-category-defaults nil
                                             completion-category-overrides nil
-                                            evil-goto-definition-functions (cons (lambda (_ _) (lsp-find-definition))
+                                            evil-goto-definition-functions (cons (lambda (_ _)
+                                                                                   (lsp-find-locations-evil "textDocument/definition" nil))
                                                                                  evil-goto-definition-functions))))
          (lsp-on-idle . (lambda () (setq-local completion-category-defaults nil
                                                completion-category-overrides nil))))
@@ -73,6 +74,14 @@
   (setq lsp-completion-provider :none
         lsp-keymap-prefix "C-c l"
         lsp-pylsp-plugins-ruff-line-length 300)
+  ;; This is to facilitate evil-goto-definition using LSP
+  (cl-defun lsp-find-locations-evil (method &optional extra &key display-action references?)
+    "Copied from lsp-find-locations verbatim, except returns t if a match is found."
+    (let ((loc (lsp-request method
+                            (append (lsp--text-document-position-params) extra))))
+      (when (not (seq-empty-p loc))
+        (lsp-show-xrefs (lsp--locations-to-xref-items loc) display-action references?)
+        t)))
   ;; This code is used to optimize the lsp interaction with emacs
   ;; Code adapted from https://github.com/blahgeek/emacs-lsp-booster
   (defun lsp-booster--advice-json-parse (old-fn &rest args)
