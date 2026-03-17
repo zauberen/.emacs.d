@@ -346,11 +346,12 @@
 ; REPL for php, wget psysh.org/psysh;chmod +x psysh;sudo cp psysh /usr/bin
 (use-package psysh
   :ensure t)
-; Error checking
-(use-package phpstan
-  :ensure t)
-(use-package flycheck-phpstan
-  :ensure t)
+                                        ; Error checking
+; Removed due to packaging issues.
+;(use-package phpstan
+;  :ensure (:host github :repo "emacs-php/phpstan.el"))
+;(use-package flycheck-phpstan
+;  :ensure t)
 ; Package management in PHP
 (use-package composer
   :ensure t)

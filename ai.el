@@ -97,11 +97,24 @@ The input is created if not found."
           (insert copilot-chat--org-delimiter "\n\n"))))))
 
 ;; Only works in linux/mac
-(use-package claude-code-ide
-  :ensure (:host github :repo "manzaltu/claude-code-ide.el")
-  :bind ("C-c a c" . claude-code-ide-menu)
-  :custom
-  (claude-code-ide-terminal-backend 'eat)
-  :config
-  (claude-code-ide-emacs-tools-setup))
+;; (use-package claude-code-ide
+;;   :ensure (:host github :repo "manzaltu/claude-code-ide.el")
+;;   :bind ("C-c a c" . claude-code-ide-menu)
+;;   :custom
+;;   (claude-code-ide-terminal-backend 'eat)
+;;   :config
+;;   (claude-code-ide-emacs-tools-setup))
+
+(use-package shell-maker
+  :ensure t)
+(use-package acp
+  :ensure t)
+(use-package agent-shell
+  :ensure t
+  :bind (("C-c a s" . agent-shell)
+         ("C-c a A" . agent-shell-diff-accept-all))
+  :ensure-system-package
+  ;; Add agent installation configs here
+  ((claude-agent-acp . "npm install -g @zed-industries/claude-agent-acp")))
+
 ;;; ai.el ends here

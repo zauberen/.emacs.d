@@ -3,7 +3,7 @@
 ;;; Code:
 ;; Citations and paper storage
 (use-package citar
-  :ensure t
+  :ensure (:host github :repo "emacs-citar/citar")
   :no-require
   :after org
   :bind (:map org-mode-map

@@ -52,3 +52,4 @@ flycheck_*.el
 /tree-sitter/
 /jabber-avatar-cache/
 /jabber-history/
+/.agent-shell/
