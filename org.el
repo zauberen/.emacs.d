@@ -8,7 +8,9 @@
   :after evil evil-org org-contrib consult
   :diminish org-indent-mode eldoc-mode auto-revert-mode
   ; Enable word wrap and org indenting
-  :hook ((org-mode . org-indent-mode))
+  :hook ((org-mode . org-indent-mode)
+         ; Disable flycheck using org-lint, since it doesn't like my hidden tag
+         (org-mode . (lambda () (setq-local flycheck-disabled-checkers '(org-lint)))))
   :bind (("C-c n L" . org-store-link)
          ("C-c n a" . org-agenda)
          ("C-c c" . org-capture)
