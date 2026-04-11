@@ -133,17 +133,18 @@
   :ensure t
   :demand t
   :after (evil evil-collection)
+  :hook (deadgrep-mode . (lambda ()
+                           ; Done in a hook because evil collection messes
+                           ; with the keys at a difficult time during startup
+                           (evil-define-key 'normal deadgrep-mode-map (kbd "<S-return>") 'deadgrep-visit-result)
+                           (evil-define-key 'normal deadgrep-mode-map (kbd "RET") 'deadgrep-visit-result-other-window)))
   :bind (("C-M-s" . deadgrep)
          :map deadgrep-mode-map
          ; Invert the ret/s-ret bindings
          ("RET" . deadgrep-visit-result-other-window)
          ("<S-return>" . deadgrep-visit-result)
          ("C-M-s" . deadgrep-search-term)
-         ("C-s" . deadgrep-search-term))
-  :config
-  ; Invert the ret/s-ret bindings
-  (evil-define-key 'normal 'deadgrep-mode-map (kbd "<S-return>") 'deadgrep-visit-result)
-  (evil-define-key 'normal 'deadgrep-mode-map (kbd "RET") 'deadgrep-visit-result-other-window))
+         ("C-s" . deadgrep-search-term)))
 ;; Allows editing directly inside the deadgrep buffer
 (use-package wgrep-deadgrep
   :ensure t

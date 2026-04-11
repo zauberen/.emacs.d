@@ -31,7 +31,7 @@
     (interactive)
     (setq-local citre-gtags-program "~/Global_669/bin/gtags.exe"
                 citre-global-program "~/Global_669/bin/global.exe"))
-  (evil-define-key 'normal 'citre-mode-map
+  (evil-define-key 'normal citre-mode-map
     (kbd "g j") 'citre-jump
     (kbd "g J") 'citre-jump-back
     (kbd "g p") 'citre-peek

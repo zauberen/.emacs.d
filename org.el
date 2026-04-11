@@ -290,5 +290,5 @@ Argument COUNT number of lines to insert."
     (when (org-at-item-p)
       (evil-org-open-above count)
       (org-metadown)))
-  (evil-define-key 'normal 'evil-org-mode (kbd "o") 'my-evil-org-open-below))
+  (evil-define-key 'normal evil-org-mode (kbd "o") 'my-evil-org-open-below))
 ;;; org.el ends here
