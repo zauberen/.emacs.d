@@ -1,5 +1,5 @@
 # EMACS configuration
-My emacs configuration. Generally supports only the latest stable release of emacs.
+My emacs configuration. Generally supports only the latest stable release of emacs and git master.
 
 ## Install instructions
 1. Install emacs on system (unless latest stable is in the package repos, you will need to install from source, don't use flatpak or snap if possible. See https://write.as/zauberin/building-emacs-from-source for build instructions) 

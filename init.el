@@ -19,6 +19,20 @@
 (use-package emacs
   :ensure nil
   :config
+  (defun open-dir ()
+    "Open the OS's file explorer in the directory of the current buffer's file."
+    (interactive)
+    (if-let ((file (buffer-file-name)))
+        (let ((dir (file-name-directory (expand-file-name file))))
+          (cond
+           ((eq system-type 'windows-nt)
+            (w32-shell-execute "open" dir))
+           ((eq system-type 'darwin)
+            (shell-command (concat "open " (shell-quote-argument dir))))
+           (t
+            (shell-command (concat "xdg-open " (shell-quote-argument dir))))))
+      (message "Buffer is not visiting a file")))
+  (global-set-key (kbd "C-c o p") 'open-dir)
   ;; Kill buffer command
   (global-set-key (kbd "C-x k") 'kill-current-buffer)
   ;; Indent region command
