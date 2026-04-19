@@ -289,6 +289,18 @@
 
 (load-file (expand-file-name "evil.el" user-emacs-directory))
 
+(use-package sqlite-mode
+  :ensure nil
+  :after evil
+  :config
+  (evil-define-key 'normal sqlite-mode-map
+    (kbd "RET") 'sqlite-mode-list-data
+    (kbd "TAB") 'sqlite-mode-list-data
+    (kbd "DEL") 'sqlite-mode-delete
+    (kbd "c") 'sqlite-mode-list-columns
+    (kbd "t") 'sqlite-mode-list-tables
+    (kbd "q") 'quit-window))
+
 ;; Visual undo
 (use-package vundo
   :ensure t
