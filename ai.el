@@ -97,14 +97,15 @@ The input is created if not found."
           (insert copilot-chat--org-delimiter "\n\n"))))))
 
 ;; Only works in linux/mac
-;; (use-package claude-code-ide
-;;   :ensure (:host github :repo "manzaltu/claude-code-ide.el")
-;;   :bind ("C-c a c" . claude-code-ide-menu)
-;;   :custom
-;;   (claude-code-ide-terminal-backend 'eat)
-;;   :config
-;;   (claude-code-ide-emacs-tools-setup))
+(use-package claude-code-ide
+  :ensure (:host github :repo "manzaltu/claude-code-ide.el")
+  :bind ("C-c a c" . claude-code-ide-menu)
+  :custom
+  (claude-code-ide-terminal-backend 'eat)
+  :config
+  (claude-code-ide-emacs-tools-setup))
 
+;; Not working on linux
 (use-package shell-maker
   :ensure t)
 (use-package acp
