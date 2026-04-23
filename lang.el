@@ -113,7 +113,8 @@
 (use-package sly
   :ensure t
   :hook ((sly-mode . rainbow-delimiters-mode)
-         (lisp-mode . rainbow-delimiters-mode))
+         (lisp-mode . rainbow-delimiters-mode)
+         (janet-ts-mode . rainbow-delimiters-mode))
   :config
   ;; Roswell has its own special configuration
   ;; After installing roswell run:
@@ -122,6 +123,34 @@
            (file-exists-p (expand-file-name "~/.roswell/helper.el")))
       (load (expand-file-name "~/.roswell/helper.el"))
     (setq inferior-lisp-program "sbcl")))
+;; Janet
+;; Installation:
+;; - Install janet in some way..
+;; - git clone https://github.com/janet-lang/jpm
+;; - cd jpm; janet bootstrap.janet
+;; - Done! A common lib I use:
+;; - jpm install sh
+(use-package janet-ts-mode
+  :after evil
+  :ensure (:host github
+           :repo "sogaiu/janet-ts-mode"
+           :files ("*.el")))
+(use-package ajrepl
+  :after janet-ts-mode
+  :ensure (:host github
+           :repo "sogaiu/ajrepl"
+           :files ("*.el" "ajrepl"))
+  :hook (janet-ts-mode . ajrepl-interaction-mode)
+  :config
+  (defun ajrepl-doc ()
+    "Define janet symbol at point."
+    (interactive)
+    (ajrepl-send-code (concat "(doc " (thing-at-point 'symbol) ")")))
+  (evil-define-key 'normal janet-ts-mode-map (kbd "K") #'ajrepl-doc))
+(use-package flycheck-janet
+  :ensure (:host github
+           :repo "sogaiu/flycheck-janet"
+           :files ("*.el")))
 ;;; End LISP
 
 ;; CSV editing mode
