@@ -126,6 +126,5 @@ This only works with orderless and for the first component of the search."
          ("C-:" . embark-collect)))
 (use-package embark-consult
   :ensure t
-  :after embark consult
-  :hook (embark-collect-mode . consult-preview-at-point-mode))
+  :after embark consult)
 ;;; minibuffer.el ends here
