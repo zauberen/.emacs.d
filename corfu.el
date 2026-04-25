@@ -23,6 +23,25 @@
   (cape-dict-case-fold 'case-fold-search)
   (cape-dict-limit 100)
   :config
+  ;; Since janet doesn't have a capf, just make one with the standard lib
+  (when (executable-find "janet")
+    (use-package cape-keyword
+      :ensure nil
+      :config
+      (defun janet-get-bindings ()
+        "Run janet to get all bindings and return them as a vector of strings."
+        (let* ((has-spork (= 0 (call-process "janet" nil nil nil "-e" "(import spork)")))
+               (output (shell-command-to-string
+                        (if has-spork
+                            "janet -e '(import spork) (each binding (all-bindings) (print binding))'"
+                          "janet -e '(each binding (all-bindings) (print binding))'"))))
+          (split-string (string-trim output) "\n" t)))
+      (add-to-list
+       'cape-keyword-list
+       (append
+        '(janet-ts-mode)
+        (janet-get-bindings)))))
+  
   (when (or (eq system-type 'ms-dos) (eq system-type 'windows-nt))
       (setq text-mode-ispell-word-completion nil))
   (setq completion-cycle-threshold 5

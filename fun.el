@@ -30,7 +30,8 @@
 
 ;; Jabber (XMPP chat)
 (use-package jabber
-  :ensure t
+  :ensure (:repo "https://codeberg.org/emacs-jabber/emacs-jabber"
+           :files ("lisp/*.el"))
   :config
   (defvar w32-notification-id nil)
   (define-jabber-alert w32-notify "Show a message in a toast notification"

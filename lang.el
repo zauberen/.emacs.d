@@ -113,8 +113,7 @@
 (use-package sly
   :ensure t
   :hook ((sly-mode . rainbow-delimiters-mode)
-         (lisp-mode . rainbow-delimiters-mode)
-         (janet-ts-mode . rainbow-delimiters-mode))
+         (lisp-mode . rainbow-delimiters-mode))
   :config
   ;; Roswell has its own special configuration
   ;; After installing roswell run:
@@ -132,6 +131,7 @@
 ;; - jpm install sh
 (use-package janet-ts-mode
   :after evil
+  :hook (janet-ts-mode . rainbow-delimiters-mode)
   :ensure (:host github
            :repo "sogaiu/janet-ts-mode"
            :files ("*.el")))
@@ -142,11 +142,25 @@
            :files ("*.el" "ajrepl"))
   :hook (janet-ts-mode . ajrepl-interaction-mode)
   :config
+  ;; Better handling for evil
+  (defun ajrepl-send-expression-at-point ()
+    "Send expression at point."
+    (interactive)
+    (save-excursion
+      (let ((end (+ (point) 1)))
+        (save-excursion
+          (skip-chars-backward " \t\n")
+          (beginning-of-line)
+          (when (looking-at "[ \t]*#")
+            (setq end (point))))
+        (when-let ((beg (ajrepl--column-zero-target-backward)))
+          (when-let ((code (ajrepl--helper beg end)))
+            (ajrepl-send-code code))))))
   (defun ajrepl-doc ()
     "Define janet symbol at point."
     (interactive)
     (ajrepl-send-code (concat "(doc " (thing-at-point 'symbol) ")")))
-  (evil-define-key 'normal janet-ts-mode-map (kbd "K") #'ajrepl-doc))
+  (evil-define-key 'normal janet-ts-mode-map (kbd "K") 'ajrepl-doc))
 (use-package flycheck-janet
   :ensure (:host github
            :repo "sogaiu/flycheck-janet"
