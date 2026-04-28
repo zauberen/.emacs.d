@@ -33,12 +33,11 @@
                                        "ls")))
                            ; This is here because it uses the ls variable set above
                            (eshell/alias "ll" (concat ls " -AlohG --color=always"))))))
-
-(use-package eat
-  :ensure t
-  :demand t
-  :config
-  (when (not (or (eq system-type 'ms-dos) (eq system-type 'windows-nt)))
+(when (not (or (eq system-type 'ms-dos) (eq system-type 'windows-nt)))
+  (use-package eat
+    :ensure t
+    :demand t
+    :config
     (eat-eshell-mode)
     (eat-eshell-visual-command-mode)))
 ;;; eshell.el ends here

@@ -120,7 +120,8 @@ This only works with orderless and for the first component of the search."
   :config
   (marginalia-mode))
 (use-package embark
-  :ensure (:host github :repo "oantolin/embark")
+  ; :ensure (:host github :repo "oantolin/embark" :files ("*.el"))
+  :ensure t
   :after evil
   :bind (("C-;" . embark-act)
          ("C-:" . embark-collect)))

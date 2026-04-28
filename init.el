@@ -327,6 +327,8 @@
   :bind (:map projectile-mode-map
          ("C-c p" . projectile-command-map))
   :custom
+  (projectile-warn-when-dirconfig-is-ignored nil)
+  (projectile-warn-on-prefixless-dirconfig-lines nil)
   (projectile-indexing-method 'alien)
   (projectile-enable-caching (or (eq system-type 'ms-dos) (eq system-type 'windows-nt)))
   :init

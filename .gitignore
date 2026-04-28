@@ -54,3 +54,4 @@ flycheck_*.el
 /jabber-history/
 /.agent-shell/
 /bookmarks.eld
+/jabber/

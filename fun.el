@@ -30,8 +30,14 @@
 
 ;; Jabber (XMPP chat)
 (use-package jabber
-  :ensure (:repo "https://codeberg.org/emacs-jabber/emacs-jabber"
-           :files ("lisp/*.el"))
+  ;; This is basically only half functional, you need to manually create the load-path record.
+  :ensure (:host github
+           :repo "emacsmirror/jabber")
+  :init
+  (add-to-list 'load-path (expand-file-name "elpaca/builds/jabber/lisp" user-emacs-directory))
+  ;; Maybe in emacs 31 windows will support this one?
+  ;; :ensure (:repo "https://codeberg.org/emacs-jabber/emacs-jabber"
+  ;;          :files ("lisp/*.el"))
   :config
   (defvar w32-notification-id nil)
   (define-jabber-alert w32-notify "Show a message in a toast notification"
