@@ -88,8 +88,7 @@
   :ensure t)
 (use-package cider
   :ensure t
-  :hook ((clojure-mode . rainbow-delimiters-mode)
-         (clojure-mode . lsp))
+  :hook ((clojure-mode . rainbow-delimiters-mode))
   :bind (("C-c b s" . clj-biff-start)
          ("C-c b x" . clj-biff-stop)
          ("C-c b c" . clj-biff-clear-logs))
@@ -240,7 +239,7 @@
 (use-package simple-httpd
   :ensure (:host github :repo "skeeto/emacs-web-server"))
 (use-package ejc-sql
-  :ensure t
+  :ensure (:host github :repo "kostafey/ejc-sql")
   :after simple-httpd
   :if (and (executable-find "clj")
            (executable-find "lein"))
@@ -309,17 +308,21 @@
         ejc-completion-system 'standard
         ejc-result-table-impl 'orgtbl-mode))
 ;; This is only here to facilitate capfs for ejc-sql
-(use-package company
-  :ensure t)
-(use-package ejc-company
+;; (use-package company
+;;   :ensure t)
+;; (use-package ejc-company
+;;   :ensure nil
+;;   :after (ejc-sql company cape)
+;;   :custom
+;;   (ejc-complete-on-dot t)
+;;   :hook (ejc-sql-mode . (lambda () (setq-local completion-at-point-functions (mapcar #'cape-company-to-capf (list #'ejc-company-backend #'company-keywords))))))
+(use-package ejc-capf
   :ensure nil
-  :after (ejc-sql company cape)
-  :hook (ejc-sql-mode . (lambda () (setq-local completion-at-point-functions (mapcar #'cape-company-to-capf (list #'ejc-company-backend #'company-keywords))))))
+  :after ejc-sql
+  :hook (ejc-sql-mode . (lambda () (setq-local completion-at-point-functions (list #'ejc-capf)))))
 
 (use-package sql
   :hook (sql-mode . sql-highlight-mariadb-keywords))
-;;(sql-mode . ejc-sql-mode)
-;(setq sql-mysql-options '("--prompt=mysql> " "-C" "-t" "-f" "-n"))
 
 ;; Web
 (use-package web-mode
