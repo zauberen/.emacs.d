@@ -92,13 +92,12 @@
          (when (byte-code-function-p bytecode)
            (funcall bytecode))))
      (apply old-fn args)))
-  ;;TODO: If no issues are discovered with removing this in the near future, properly remove it from the code
-  ;; (advice-add (if (progn (require 'json)
-  ;;                        (fboundp 'json-parse-buffer))
-  ;;                 'json-parse-buffer
-  ;;               'json-read)
-  ;;             :around
-  ;;             #'lsp-booster--advice-json-parse)
+  (advice-add (if (progn (require 'json)
+                         (fboundp 'json-parse-buffer))
+                  'json-parse-buffer
+                'json-read)
+              :around
+              #'lsp-booster--advice-json-parse)
 
   (defun lsp-booster--advice-final-command (old-fn cmd &optional test?)
     "Prepend emacs-lsp-booster command to lsp CMD."
@@ -124,8 +123,7 @@
                       (expand-file-name "lsp/linux/emacs-lsp-booster" user-emacs-directory)))
                   orig-result))
         orig-result)))
-  ;;TODO: If no issues are discovered with removing this in the near future, properly remove it from the code
-  ;; (advice-add 'lsp-resolve-final-command :around #'lsp-booster--advice-final-command)
+  (advice-add 'lsp-resolve-final-command :around #'lsp-booster--advice-final-command)
   :config
   ;; Fix lsp tree view on windows
   (defun lsp-f-ancestor-of-patch (path-args)

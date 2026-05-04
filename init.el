@@ -15,6 +15,9 @@
       package-quickstart t)
 (load-file (expand-file-name "elpaca.el" user-emacs-directory))
 
+;; This package is used all over the place, force it to use the latest version
+(use-package compat :ensure (:repo "https://github.com/emacs-compat/compat"))
+
 ;;; General configuration
 (use-package emacs
   :ensure nil
