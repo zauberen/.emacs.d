@@ -15,11 +15,13 @@
   :hook ((dap-mode . dap-ui-mode)
          (dap-mode . dap-tooltip-mode)
          (dap-session-created . (lambda (&_rest) (dap-hydra)))
-         (dap-stopped . (lambda (arg) (call-interactively #'dap-hydra)))
+         (dap-stopped . (lambda (&_rest) (call-interactively #'dap-hydra)))
          (dap-terminated . (lambda (&_rest) (dap-hydra/nil))))
   :bind (:map lsp-mode-map
               ("M-S-d" . dap-debug)
-              ("M-d" . dap-hydra))
+              ("M-d" . dap-hydra)
+              ("C-c b b" . dap-java-run-last-test)
+              ("C-c b t" . dap-java-run-test-method))
   :config
   (require 'dap-java)
   (require 'dap-python))
@@ -47,6 +49,38 @@
     (setq lsp-java-java-path "/usr/bin/java"
           lsp-java-configuration-runtimes '[(:name "OpenJDK-21"
                                              :path "/opt/homebrew/opt/openjdk@21")]))
+  ;; Modified to not use environment variables
+  (defun dap-java--run-unit-test-command (runner dwim?)
+    "Run debug test with the following arguments.
+RUNNER is the test executor.  DWIM? when t it will try to run the
+surrounding method.  Otherwise it will run the surrounding test."
+    (-let* ((run-method? (and dwim? (dap-java-test-method-at-point t)))
+            (to-run (if run-method?
+                        (dap-java-test-method-at-point)
+                      (dap-java-test-class)))
+            (test-class-name (cl-first (s-split "#" to-run)))
+            (class-path (->> (with-lsp-workspace (lsp-find-workspace 'jdtls)
+                               (lsp-send-execute-command "vscode.java.resolveClasspath"
+                                                         (vector test-class-name nil)))
+                             cl-second
+                             (s-join dap-java--classpath-separator)))
+            (prog-list (if dap-java-use-testng
+                           (cl-list* runner
+                                     "-cp" class-path
+                                     "org.testng.TestNG"
+                                     "-d" dap-java-testng-report-dir
+                                     (if (and (s-contains? "#" to-run) run-method?) "-methods" "-testclass")
+                                     (if run-method? (s-replace "#" "." to-run) test-class-name)
+                                     dap-java-test-additional-args)
+                         (cl-list* runner "-jar" dap-java-test-runner
+                                   "-cp" class-path
+                                   (if (and (s-contains? "#" to-run) run-method?) "-m" "-c")
+                                   (if run-method? to-run test-class-name)
+                                   dap-java-test-additional-args))))
+      (list :program-to-start (s-join " " prog-list)
+            :environment-variables `(("JUNIT_CLASS_PATH" . ,class-path))
+            :name to-run
+            :cwd (lsp-java--get-root))))
   ;; current VSCode defaults
   (setq lsp-java-vmargs '("-XX:+UseParallelGC" "-XX:GCTimeRatio=4" "-XX:AdaptiveSizePolicyWeight=90" "-Dsun.zip.disableMemoryMapping=true" "-Xmx2G" "-Xms100m")
         ;; Default path, change this in local.el!
