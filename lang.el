@@ -392,9 +392,7 @@ surrounding method.  Otherwise it will run the surrounding test."
 
 (use-package js2-mode
   :ensure t
-  :hook (js-mode . js2-minor-mode)
-  ;; :mode (("\\.tsx\\'" . js-mode)
-  ;;        ("\\.ts\\'" . js-mode))
+  :hook (js-ts-mode . js2-minor-mode)
   :config
   (if (or (eq system-type 'ms-dos) (eq system-type 'windows-nt))
       (setq inhibit-compacting-font-cache t)))

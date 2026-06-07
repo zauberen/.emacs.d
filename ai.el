@@ -78,44 +78,12 @@ MODEL-LIST like \='(deepseek-r1:8b deepseek-coder-v2:16b)."
       :stream t
       :models model-list)))
 
-(use-package copilot-chat
-  :ensure t
-  :bind ("C-c a C" . copilot-chat-display)
-  :config
-  ; Fix doom-modeline
-  (defun copilot-chat--org-goto-input()
-    "Go to the input part of the chat buffer.
-The input is created if not found."
-    (goto-char (point-max))
-    (let ((span (pm-innermost-span (point))))
-      (if (and span
-               (not (eq (car span) nil)))  ; nil span-type means host mode
-          (goto-char (+ 1 (car (pm-innermost-range (point)))))
-        (insert "\n\n")
-        (let ((start (point))
-              (inhibit-read-only t))
-          (insert copilot-chat--org-delimiter "\n\n"))))))
-
-;; Only works in linux/mac
-(use-package claude-code-ide
-  :ensure (:host github :repo "manzaltu/claude-code-ide.el")
-  :bind ("C-c a c" . claude-code-ide-menu)
-  :custom
-  (claude-code-ide-terminal-backend 'eat)
-  :config
-  (claude-code-ide-emacs-tools-setup))
-
-;; Not working on linux
-(use-package shell-maker
-  :ensure t)
-(use-package acp
-  :ensure t)
-(use-package agent-shell
-  :ensure t
-  :bind (("C-c a s" . agent-shell)
-         ("C-c a A" . agent-shell-diff-accept-all))
-  :ensure-system-package
-  ;; Add agent installation configs here
-  ((claude-agent-acp . "npm install -g @zed-industries/claude-agent-acp")))
+;; Want to test first, dont have time now
+;; (use-package eca
+;;   :ensure t
+;;   :bind (("C-c a e" . eca)
+;;          ("C-c a s" . eca-stop)
+;;          ("C-c a r" . eca-restart)
+;;          ("C-c a w" . eca-workspaces)))
 
 ;;; ai.el ends here
