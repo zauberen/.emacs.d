@@ -407,6 +407,11 @@ surrounding method.  Otherwise it will run the surrounding test."
   :ensure t
   :hook (sgml-mode . emmet-mode)
   :bind (("C-<tab>" . emmet-expand-line)))
+
+;; KDL (niri configuration)
+(use-package kdl-mode
+  :ensure t)
+
 ;; PHP
 (use-package php-mode
   :ensure t
