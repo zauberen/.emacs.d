@@ -36,6 +36,34 @@
             (shell-command (concat "xdg-open " (shell-quote-argument dir))))))
       (message "Buffer is not visiting a file")))
   (global-set-key (kbd "C-c o p") 'open-dir)
+  ;; Functions to split a selection into separate lines
+  (defun split-region-sep (start end separator)
+    "Split the active region and insert each piece on a new line."
+    (interactive "r\nsSplit string by separator(removed): ")
+    (let* ((text (buffer-substring-no-properties start end))
+           (split-list (split-string text separator t))
+           (new-text (string-join split-list "\n")))
+      (delete-region start end)
+      (insert new-text)))
+  (global-set-key (kbd "C-c X") 'split-region-sep)
+  (defun split-region-keep-sep (start end separator)
+    "Split the active region and insert each piece w separator on a new line."
+    (interactive "r\nsSplit string by separator(kept): ")
+    (let* ((text (buffer-substring-no-properties start end))
+           (split-list (split-string text separator t))
+           (new-text (string-join split-list (concat (s-trim separator) "\n"))))
+      (delete-region start end)
+      (insert new-text)))
+  (global-set-key (kbd "C-c x") 'split-region-keep-sep)
+  (defun join-region-sep (start end separator)
+    "Join the active region into 1 line with a separator."
+    (interactive "r\nsJoin string by separator: ")
+    (let* ((text (buffer-substring-no-properties start end))
+           (new-text (string-join (cl-map 'list 's-trim (split-string text "\n")) separator)))
+      (delete-region start end)
+      (insert new-text)))
+  (global-set-key (kbd "C-c j") 'join-region-sep)
+
   ;; Kill buffer command
   (global-set-key (kbd "C-x k") 'kill-current-buffer)
   ;; Indent region command
