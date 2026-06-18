@@ -21,7 +21,7 @@
               ("M-S-d" . dap-debug)
               ("M-d" . dap-hydra)
               ("C-c b b" . dap-java-run-last-test)
-              ("C-c b t" . dap-java-run-test-method))
+              ("C-c b r" . dap-java-run-test-method))
   :config
   (require 'dap-java)
   (require 'dap-python))
@@ -517,14 +517,6 @@ surrounding method.  Otherwise it will run the surrounding test."
                            python-mode
                            js-ts-mode))
   (which-function-mode))
-;; Stick the function name of the top function to the top of the screen.
-(use-package semantic
-  :ensure nil
-  ;; Only use this when not using lsp.
-  :bind ("C-c b r" . semantic-stickyfunc-mode)
-  :config
-  (semantic-mode)
-  (global-semanticdb-minor-mode))
 
 ;; Local doc viewer
 (use-package devdocs
