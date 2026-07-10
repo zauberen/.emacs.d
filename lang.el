@@ -273,7 +273,7 @@ surrounding method.  Otherwise it will run the surrounding test."
 (use-package simple-httpd
   :ensure (:host github :repo "skeeto/emacs-web-server"))
 (use-package ejc-sql
-  :ensure (:host github :repo "kostafey/ejc-sql")
+  :ensure (:host github :repo "zauberen/ejc-sql" :ref "blob-display-mariadb")
   :after simple-httpd
   :if (and (executable-find "clj")
            (executable-find "lein"))

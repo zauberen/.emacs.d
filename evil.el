@@ -3,7 +3,9 @@
 ;;; Evil configuration
 ;;; Code:
 (use-package evil-collection
-  :ensure t
+  :ensure (:host github :repo "emacs-evil/evil-collection" 
+		 ;:ref "8018b2c855fbb871293c3a32d64837e265cd2a56"
+		 )
   :demand t
   :diminish evil-collection-unimpaired-mode
   :init
