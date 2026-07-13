@@ -411,8 +411,8 @@
 ;; Text editor functionality (bibliography, etc)
 (load-file (expand-file-name "editor.el" user-emacs-directory))
 
-;; Eshell configuration
-(load-file (expand-file-name "eshell.el" user-emacs-directory))
+;; Shell configuration
+(load-file (expand-file-name "shell.el" user-emacs-directory))
 
 ;; AI integration
 (load-file (expand-file-name "ai.el" user-emacs-directory))

@@ -1,4 +1,4 @@
-;;; eshell.el --- Universal eshell configuration -*- lexical-binding: t -*-
+;;; shell.el --- Universal eshell and shell configuration -*- lexical-binding: t -*-
 ;;; Commentary:
 ;;; Code:
 (use-package eshell
@@ -40,4 +40,13 @@
     :config
     (eat-eshell-mode)
     (eat-eshell-visual-command-mode)))
-;;; eshell.el ends here
+
+;; Ghostty based shell, usable in all OS'
+(use-package ghostel
+  :ensure t
+  :bind (("C-x m" . ghostel)))
+(use-package evil-ghostel
+  :ensure t
+  :after (ghostel evil)
+  :hook (ghostel-mode . evil-ghostel-mode))
+;;; shell.el ends here
