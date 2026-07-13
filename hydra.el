@@ -7,7 +7,6 @@
   :ensure t
   :demand t
   :bind (("C-c C-v" . my-hydra-rare-modes/body)
-         ("C-c j" . dumb-jump-hydra/body)
          :map Buffer-menu-mode-map
          ("." . hydra-buffer-menu/body))
   :config
