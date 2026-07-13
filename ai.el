@@ -58,25 +58,30 @@
     (gptel-make-gemini "Gemini"
       :stream t
       :key apikey))
-  ;; In local.el, call the function with a model list to use Ollama.
-  ;; Here's an example with my list of preferred llms:
-  ;; Note: some other nice llms to have: nomic-embed-text
+  ;; In local.el, call the function to use Ollama. Model list is automatically created when called.
   ;; Note: if you do not want to set an ollama llm as the default chat, simply
   ;;       call the setup-ollama function without the set-default-chat wrapping it.
   ;; (use-package gptel
   ;;   :ensure nil
   ;;   :config
   ;;   (set-default-chat 'gpt-oss:20b
-  ;;                     (setup-ollama '(gemma3:27b        ; Decent text based AI
-  ;;                                     gpt-oss:20b       ; Solid default for anything
-  ;;                                     lfm2:24b))))      ; Solid small AI
-  (defun setup-ollama (model-list)
-    "Sets up ollama with the given
-MODEL-LIST like \='(deepseek-r1:8b deepseek-coder-v2:16b)."
+  ;;                     (setup-ollama)))
+  (defun setup-ollama ()
+    "Sets up ollama, model list is built from the ollama cli."
     (gptel-make-ollama "Ollama"
       :host "localhost:11434"
       :stream t
-      :models model-list)))
+      :models (let* ((ollama-ls (->> (split-string (shell-command-to-string "ollama ls") "  ")
+                                     (-map 's-trim)
+                                     (-filter (lambda (n) (not (string= "" n))))))
+                     (size (/ (length ollama-ls) 4))
+                     (result ()))
+                (dotimes (idx size)
+                  (push (nth (* idx 4) ollama-ls) result))
+                (->> result
+                     (nreverse)
+                     (-take-last (- size 1))
+                     (-map 'intern))))))
 
 ;; Want to test first, dont have time now
 ;; (use-package eca
