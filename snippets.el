@@ -11,7 +11,21 @@
   :after (yasnippet-snippets evil)
   :diminish yas-minor-mode
   :bind ("C-c y" . yas-insert-snippet)
+  :bind (:map yas-keymap
+              ("TAB" . my/yas-next-field-or-corfu)
+              ("<tab>" . my/yas-next-field-or-corfu))
   :config
+  (defun my/yas-next-field-or-corfu ()
+    "Move to the next yasnippet field, unless corfu popup is visible."
+    (interactive)
+    (if (and (bound-and-true-p corfu-mode)
+             (boundp 'corfu--frame)
+             (frame-live-p corfu--frame)
+             (frame-visible-p corfu--frame))
+        (call-interactively (or (lookup-key corfu-map (kbd "TAB"))
+                                (lookup-key corfu-map (kbd "<tab>"))
+                                #'corfu-complete))
+      (yas-next-field-or-maybe-expand)))
   (evil-define-key 'normal 'global
     (kbd "SPC y") #'yas-insert-snippet)
   (yas-global-mode 1))
