@@ -91,4 +91,12 @@
 ;;          ("C-c a r" . eca-restart)
 ;;          ("C-c a w" . eca-workspaces)))
 
+(use-package shell-maker
+  :ensure t)
+(use-package acp
+  :ensure t)
+(use-package agent-shell
+  :ensure t
+  :bind (("C-c a s" . agent-shell)
+         ("C-c a A" . agent-shell-diff-accept-all)))
 ;;; ai.el ends here
