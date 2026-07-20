@@ -62,7 +62,9 @@
                                             completion-category-overrides nil
                                             evil-goto-definition-functions (cons (lambda (_ _)
                                                                                    (lsp-find-locations-evil "textDocument/definition" nil))
-                                                                                 evil-goto-definition-functions))))
+                                                                                 evil-goto-definition-functions))
+                       (when (-contains? '(java-ts-mode) major-mode)
+                         (lsp-inlay-hints-mode 1))))
          (lsp-on-idle . (lambda () (setq-local completion-category-defaults nil
                                                completion-category-overrides nil))))
   :custom
