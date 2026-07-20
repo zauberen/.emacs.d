@@ -358,6 +358,7 @@
   :bind (:map projectile-mode-map
          ("C-c p" . projectile-command-map))
   :custom
+  (projectile-async-indexing nil)
   (projectile-warn-when-dirconfig-is-ignored nil)
   (projectile-warn-on-prefixless-dirconfig-lines nil)
   (projectile-indexing-method 'alien)
