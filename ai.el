@@ -91,6 +91,36 @@
 ;;          ("C-c a r" . eca-restart)
 ;;          ("C-c a w" . eca-workspaces)))
 
+;; Tab complete
+(use-package minuet
+  :ensure t
+  :bind
+  (("M-y" . #'minuet-complete-with-minibuffer) ;; use minibuffer for completion
+   ("M-i" . #'minuet-show-suggestion) ;; use overlay for completion
+   :map minuet-active-mode-map
+   ;; These keymaps activate only when a minuet suggestion is displayed in the current buffer
+   ("M-p" . #'minuet-previous-suggestion) ;; invoke completion or cycle to next completion
+   ("M-n" . #'minuet-next-suggestion) ;; invoke completion or cycle to previous completion
+   ("M-A" . #'minuet-accept-suggestion) ;; accept whole completion
+   ;; Accept the first line of completion, or N lines with a numeric-prefix:
+   ;; e.g. C-u 2 M-a will accepts 2 lines of completion.
+   ("M-a" . #'minuet-accept-suggestion-line)
+   ("M-e" . #'minuet-dismiss-suggestion))
+  :custom
+  (minuet-provider 'openai-compatible)
+  (minuet-request-timeout 2.5)
+  (minuet-auto-suggestion-throttle-delay 1.5)
+  (minuet-auto-suggestion-debounce-delay 0.6)
+  :config
+  (plist-put minuet-openai-compatible-options :end-point "https://opencode.ai/zen/go/v1/chat/completions")
+  ;; To make this functional, add (setenv "OPENCODE_GO_API_KEY" "sk-...") to your local.el
+  (plist-put minuet-openai-compatible-options :api-key "OPENCODE_GO_API_KEY")
+  (plist-put minuet-openai-compatible-options :model "deepseek-v4-flash")
+  (minuet-set-optional-options minuet-openai-compatible-options :thinking '(:type "disabled"))
+  (minuet-set-optional-options minuet-openai-compatible-options :max_tokens 56)
+  (minuet-set-optional-options minuet-openai-compatible-options :top_p 0.9))
+
+;; Agent interaction, use with eg Opencode
 (use-package shell-maker
   :ensure t)
 (use-package acp
@@ -98,5 +128,7 @@
 (use-package agent-shell
   :ensure t
   :bind (("C-c a s" . agent-shell)
-         ("C-c a A" . agent-shell-diff-accept-all)))
+         ("C-c a A" . agent-shell-diff-accept-all))
+  :custom
+  (agent-shell-opencode-default-model-id "opencode-go/deepseek-v4-flash"))
 ;;; ai.el ends here

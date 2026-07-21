@@ -55,3 +55,4 @@ flycheck_*.el
 /.agent-shell/
 /bookmarks.eld
 /jabber/
+/projectile-frecency.eld
