@@ -30,14 +30,12 @@
 
 ;; Jabber (XMPP chat)
 (use-package jabber
-  ;; This is basically only half functional, you need to manually create the load-path record.
-  :ensure (:host github
-           :repo "emacsmirror/jabber")
-  :init
-  (add-to-list 'load-path (expand-file-name "elpaca/builds/jabber/lisp" user-emacs-directory))
-  ;; Maybe in emacs 31 windows will support this one?
-  ;; :ensure (:repo "https://codeberg.org/emacs-jabber/emacs-jabber"
-  ;;          :files ("lisp/*.el"))
+  :ensure (:host codeberg
+           :repo "emacs-jabber/emacs-jabber"
+           :branch "master"
+           :files ("lisp/*.el"))
+  :bind-keymap (("C-x C-j" . jabber-global-keymap))
+  :hook (kill-emacs . jabber-disconnect)
   :config
   (defvar w32-notification-id nil)
   (define-jabber-alert w32-notify "Show a message in a toast notification"
@@ -51,6 +49,85 @@
                                                  (when (not (eq from nil))
                                                    (concat ": " from)))
                                   :body text)))))
+  (jabber-modeline-mode 1)
+  (defun jabber--jid-completion-with-metadata (table)
+    "Wrap TABLE as a completion table matching both JIDs and names.
+Candidates follow `jabber-jid-completion-display'; the other form
+is shown as an annotation.  Both are matchable regardless of mode.
+Candidates display sorted by availability, then name."
+    (let ((alt-to-candidate (make-hash-table :test 'equal))
+          (candidate-to-alt (make-hash-table :test 'equal))
+          (use-names (eq jabber-jid-completion-display 'name))
+          (sort-candidates
+           (lambda (candidates)
+             (sort (copy-sequence candidates)
+                   (lambda (a b) (jabber--jid-candidate-lessp a b table))))))
+      ;; Build bi-directional maps between candidates and alternate forms.
+      (dolist (entry table)
+        (let* ((candidate (car entry))
+               (sym (cdr entry))
+               (jid (symbol-name sym))
+               (name (get sym 'name))
+               (alt (if use-names jid name)))
+          (when (and alt (not (string= alt candidate)))
+            (puthash (downcase alt) candidate alt-to-candidate)
+            (puthash candidate alt candidate-to-alt))))
+      (lambda (string pred action)
+        (cond
+         ((eq action 'metadata)
+          `(metadata
+            (display-sort-function . ,sort-candidates)
+            (cycle-sort-function . ,sort-candidates)
+            (annotation-function
+             . ,(lambda (candidate)
+                  (when-let* ((sym (cdr (assoc-string candidate table t))))
+                    (let* ((jid (symbol-name sym))
+                           (name (get sym 'name))
+                           (alt (if use-names jid name))
+                           (show (get sym 'show))
+                           (presence (cdr (assoc show jabber-presence-strings)))
+                           (parts (list
+                                   (and alt (not (string= alt candidate)) alt)
+                                   presence)))
+                      (when-let* ((text (string-join
+                                         (delq nil parts)
+                                         "  ")))
+                        (unless (string-empty-p text)
+                          (concat "  " text)))))))))
+         ((eq (car-safe action) 'boundaries)
+          (cons 'boundaries (completion-boundaries string table pred (cdr action))))
+         ((eq action 'lambda)
+          (let ((case-fold-search completion-ignore-case))
+            (or (test-completion string table pred)
+                (when-let* ((cand (gethash (downcase string) alt-to-candidate)))
+                  (or (null pred) (funcall pred cand))))))
+         (t
+          ;; For action t (all-completions) or action nil (try-completion)
+          (let ((matches nil)
+                (case-fold-search completion-ignore-case))
+            (dolist (entry table)
+              (let* ((cand (car entry))
+                     (alt (gethash cand candidate-to-alt)))
+                (when (or (and (or (string-empty-p string)
+                                   (string-prefix-p string cand completion-ignore-case)
+                                   (string-match-p (regexp-quote string) cand))
+                               (or (null completion-regexp-list)
+                                   (cl-every (lambda (re) (string-match-p re cand))
+                                             completion-regexp-list))
+                               (or (null pred) (funcall pred cand)))
+                          (and alt
+                               (or (string-empty-p string)
+                                   (string-prefix-p string alt completion-ignore-case)
+                                   (string-match-p (regexp-quote string) alt))
+                               (or (null completion-regexp-list)
+                                   (cl-every (lambda (re) (string-match-p re alt))
+                                             completion-regexp-list))
+                               (or (null pred) (funcall pred cand) (funcall pred alt))))
+                  (push cand matches))))
+            (setq matches (nreverse matches))
+            (if (eq action t)
+                matches
+              (try-completion string matches))))))))
   :custom
   (jabber-history-enabled t)
   (jabber-activity-count-in-title t)
