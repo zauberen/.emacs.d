@@ -37,7 +37,8 @@
                             (citre-use-global-windows))))
   :bind (("C-c t s" . tomcat-start)
          ("C-c t x" . tomcat-stop)
-         ("C-c t c" . tomcat-clear-logs))
+         ("C-c t c" . tomcat-clear-logs)
+         ("C-c m r" . maven-run))
   :init
   (if (or (eq system-type 'ms-dos) (eq system-type 'windows-nt))
       (setq lsp-java-java-path "C:/Program Files/Eclipse Adoptium/jdk-21.0.9.10-hotspot/bin/java.exe"
@@ -82,13 +83,14 @@ surrounding method.  Otherwise it will run the surrounding test."
             :name to-run
             :cwd (lsp-java--get-root))))
   ;; current VSCode defaults
-  (setq lsp-java-vmargs '("-XX:+UseParallelGC" "-XX:GCTimeRatio=4" "-XX:AdaptiveSizePolicyWeight=90" "-Dsun.zip.disableMemoryMapping=true" "-Xmx2G" "-Xms100m")
+  (setq lsp-java-vmargs '("-XX:+UseParallelGC" "-XX:GCTimeRatio=4" "-XX:AdaptiveSizePolicyWeight=90" "-Dsun.zip.disableMemoryMapping=true" "-Xmx10G" "-Xms1G")
         ;; Default path, change this in local.el!
         tomcat-path "~/tomcat"
         ;; Set the name of the catalina script. If using binary distributions, this should work out of the box.
         tomcat-catalina-name (if (or (eq system-type 'ms-dos) (eq system-type 'windows-nt))
                                  "catalina.bat"
                                "catalina.sh"))
+  ;; Tomcat management (recommend running in a dedicated frame)
   (defun tomcat-clear-logs ()
     "Clears the tomcat log."
     (interactive)
@@ -106,7 +108,19 @@ surrounding method.  Otherwise it will run the surrounding test."
   (defun tomcat-kill ()
     "Kill the tomcat process started by tomcat-start."
     (interactive)
-    (kill-process (get-buffer-process "*tomcat*"))))
+    (kill-process (get-buffer-process "*tomcat*")))
+  ;; Maven control
+  (defun maven-run ()
+    "Run maven in the project root."
+    (interactive)
+    (tomcat-clear-logs)
+    (let* ((projectile-folder (projectile-project-root))
+           (folder (if (eq projectile-folder nil)
+                       default-directory
+                     projectile-folder))
+           (mvn-buffer (get-buffer-create (concat "*Maven Run - " folder))))
+      (with-current-buffer mvn-buffer (erase-buffer))
+      (async-shell-command (concat "cd " folder " && mvn exec:java") (concat "*Maven Run - " folder "*")))))
 
 ;;; LISP
 ;; Emacs Lisp

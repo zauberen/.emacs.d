@@ -8,7 +8,6 @@
   :demand t
   :bind (("C-c o a" . consult-org-agenda)
          ("C-'" . consult-bookmark)
-         ("C-c m" . bookmark-set)
          ("C-c b d" . bookmark-delete)
          ("C-c b m" . bookmark-set)
          ("C-c b l" . consult-bookmark)

@@ -62,9 +62,7 @@
                                             completion-category-overrides nil
                                             evil-goto-definition-functions (cons (lambda (_ _)
                                                                                    (lsp-find-locations-evil "textDocument/definition" nil))
-                                                                                 evil-goto-definition-functions))
-                       (when (-contains? '(java-ts-mode) major-mode)
-                         (lsp-inlay-hints-mode 1))))
+                                                                                 evil-goto-definition-functions))))
          (lsp-on-idle . (lambda () (setq-local completion-category-defaults nil
                                                completion-category-overrides nil))))
   :custom
@@ -72,6 +70,17 @@
   (lsp-idle-delay (if (or (eq system-type 'ms-dos) (eq system-type 'windows-nt))
                       1
                     0.5))
+  ;; For performance, just disable a bunch of stuff
+  (lsp-signature-auto-activate nil)
+  (lsp-modeline-code-actions-enable nil)
+  (lsp-modeline-workspace-status-enable nil)
+  (lsp-modeline-diagnostics-enable nil)
+  (lsp-semantic-tokens-enable nil)
+  (lsp-enable-folding nil)
+  (lsp-enable-on-type-formatting nil)
+  (lsp-enable-indentation nil)
+  (lsp-lens-enable nil)
+  (lsp-enable-file-watchers nil)
   :init
   (setq lsp-completion-provider :none
         lsp-keymap-prefix "C-c l"
