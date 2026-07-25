@@ -1,6 +1,8 @@
 # EMACS configuration
 My emacs configuration. Generally supports only the latest stable release of emacs and git master.
 
+Targets Windows and Linux, MacOS has some support but I do not own one anymore.
+
 ## Install instructions
 1. Install emacs on system (unless latest stable is in the package repos, you will need to install from source, don't use flatpak or snap if possible. See https://write.as/zauberin/building-emacs-from-source for build instructions) 
 2. Install dependencies
@@ -14,10 +16,10 @@ My emacs configuration. Generally supports only the latest stable release of ema
      - If you want debugging support with DAP, you will also need `ptvsd`
    - `dasel` for python venv support
    - `node` (tested with 20.3) (lsp)
-   - `rg` or `ripgrep` (project searching) (optional)
+   - `rg` or `ripgrep` (project searching and indexing)
      - Built into consult, replaces git-grep when installed.
      - Get your search in a buffer using deadgrep (C-M-s)
-     - Similar functionality to deadgrep by using embark-collect (C-s to search, then M-S-; to collect)
+     - Similar functionality to deadgrep by using embark-collect (C-s to search, then C-S-; to collect)
    - `fonts-hack-ttf`(ubuntu) or `homebrew/cask-fonts/font-hack`(macos) Hack font
    - Some LaTeX distribution (recommend `texlive`)
    - `pandoc` (optional but recommended) for exporting files
@@ -26,11 +28,7 @@ My emacs configuration. Generally supports only the latest stable release of ema
      - `leiningen` (also released as `lein`, and is that on the path)
      - `clojure` (MUST install via the site instructions, no package managers)
      - `hiccup-cli` (optional) also requires elpaca-try hiccup-cli. Adds better hiccup conversion support. Must install manually either by compiling from source or by downloading and adding the binary to path.
-   - `vale` A spell checker for writing. See https://github.com/errata-ai/vale
-     - To initialize vale in a new directory, create a `.vale.ini` in the git home directory, a generator is here: https://vale.sh/generator
-     - Next run `vale sync` in the git home directory, and it will be ready!
    - `emacs-lsp-booster` (binaries included in lsp folder) Optimizes lsp-mode, but requires a full plugin reinstall to work.
-     - Note: This is no longer used at the moment
      - If you want to build the booster binaries, follow these steps:
      - Install rust: `curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh`
      - Get the code: `git clone https://github.com/blahgeek/emacs-lsp-booster`

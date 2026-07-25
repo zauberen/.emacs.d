@@ -297,6 +297,7 @@ surrounding method.  Otherwise it will run the surrounding test."
                                 (ejc-set-show-too-many-rows-message t)
                                 (ejc-set-column-width-limit 50)
                                 (ejc-set-use-unicode t)))
+         (kill-emacs . ejc-quit-connection)
          (ejc-sql-mode . (lambda () (ejc-eldoc-setup))))
   :bind (:map ejc-sql-mode-keymap
               ("C-<return>" . ejc-eval-user-sql-at-point))
