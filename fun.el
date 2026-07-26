@@ -30,8 +30,7 @@
 
 ;; Jabber (XMPP chat)
 (use-package jabber
-  :ensure (:host codeberg
-           :repo "emacs-jabber/emacs-jabber"
+  :ensure (:repo "https://git.thanosapollo.org/emacs-jabber"
            :branch "master"
            :files ("lisp/*.el"))
   :bind-keymap (("C-x C-j" . jabber-global-keymap))
