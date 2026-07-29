@@ -181,4 +181,10 @@
 (use-package consult-lsp
   :ensure t
   :after consult lsp-mode)
+;; Generic link generator, use M-RET on something link-like to trigger it
+(use-package hyperbole
+  :ensure t
+  :config
+  (hyperbole-mode 1)
+  (hywiki-mode :all))
 ;;; completions.el ends here
