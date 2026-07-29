@@ -38,7 +38,9 @@
   :bind (("C-c t s" . tomcat-start)
          ("C-c t x" . tomcat-stop)
          ("C-c t c" . tomcat-clear-logs)
-         ("C-c m r" . maven-run))
+         ("C-c m r" . maven-run)
+         ("C-c m t" . maven-test)
+         ("C-c m p" . maven-build))
   :init
   (if (or (eq system-type 'ms-dos) (eq system-type 'windows-nt))
       (setq lsp-java-java-path "C:/Program Files/Eclipse Adoptium/jdk-21.0.9.10-hotspot/bin/java.exe"
@@ -50,40 +52,16 @@
     (setq lsp-java-java-path "/usr/bin/java"
           lsp-java-configuration-runtimes '[(:name "OpenJDK-21"
                                              :path "/opt/homebrew/opt/openjdk@21")]))
-  ;; Modified to not use environment variables
-  (defun dap-java--run-unit-test-command (runner dwim?)
-    "Run debug test with the following arguments.
-RUNNER is the test executor.  DWIM? when t it will try to run the
-surrounding method.  Otherwise it will run the surrounding test."
-    (-let* ((run-method? (and dwim? (dap-java-test-method-at-point t)))
-            (to-run (if run-method?
-                        (dap-java-test-method-at-point)
-                      (dap-java-test-class)))
-            (test-class-name (cl-first (s-split "#" to-run)))
-            (class-path (->> (with-lsp-workspace (lsp-find-workspace 'jdtls)
-                               (lsp-send-execute-command "vscode.java.resolveClasspath"
-                                                         (vector test-class-name nil)))
-                             cl-second
-                             (s-join dap-java--classpath-separator)))
-            (prog-list (if dap-java-use-testng
-                           (cl-list* runner
-                                     "-cp" class-path
-                                     "org.testng.TestNG"
-                                     "-d" dap-java-testng-report-dir
-                                     (if (and (s-contains? "#" to-run) run-method?) "-methods" "-testclass")
-                                     (if run-method? (s-replace "#" "." to-run) test-class-name)
-                                     dap-java-test-additional-args)
-                         (cl-list* runner "-jar" dap-java-test-runner
-                                   "-cp" class-path
-                                   (if (and (s-contains? "#" to-run) run-method?) "-m" "-c")
-                                   (if run-method? to-run test-class-name)
-                                   dap-java-test-additional-args))))
-      (list :program-to-start (s-join " " prog-list)
-            :environment-variables `(("JUNIT_CLASS_PATH" . ,class-path))
-            :name to-run
-            :cwd (lsp-java--get-root))))
-  ;; current VSCode defaults
-  (setq lsp-java-vmargs '("-XX:+UseParallelGC" "-XX:GCTimeRatio=4" "-XX:AdaptiveSizePolicyWeight=90" "-Dsun.zip.disableMemoryMapping=true" "-Xmx10G" "-Xms1G")
+  ;; current VSCode defaults (and then some)
+  (setq lsp-java-vmargs '("-XX:+UseParallelGC"
+                          "-XX:GCTimeRatio=4"
+                          "-XX:AdaptiveSizePolicyWeight=90"
+                          "-Dsun.zip.disableMemoryMapping=true"
+                          ;; To make tests work, test classes have to be unique among loaded projects
+                          "--add-opens=java.base/java.lang=ALL-UNNAMED"
+                          ;; Increased significantly to improve perf
+                          "-Xmx10G"
+                          "-Xms1G")
         ;; Default path, change this in local.el!
         tomcat-path "~/tomcat"
         ;; Set the name of the catalina script. If using binary distributions, this should work out of the box.
@@ -118,9 +96,31 @@ surrounding method.  Otherwise it will run the surrounding test."
            (folder (if (eq projectile-folder nil)
                        default-directory
                      projectile-folder))
-           (mvn-buffer (get-buffer-create (concat "*Maven Run - " folder))))
+           (mvn-buffer (get-buffer-create (concat "*Maven Run - " folder "*"))))
       (with-current-buffer mvn-buffer (erase-buffer))
-      (async-shell-command (concat "cd " folder " && mvn exec:java") (concat "*Maven Run - " folder "*")))))
+      (async-shell-command (concat "cd " folder " && mvn exec:java") mvn-buffer)))
+  (defun maven-test ()
+    "Run maven test in the project root."
+    (interactive)
+    (tomcat-clear-logs)
+    (let* ((projectile-folder (projectile-project-root))
+           (folder (if (eq projectile-folder nil)
+                       default-directory
+                     projectile-folder))
+           (mvn-buffer (get-buffer-create (concat "*Maven Test - " folder "*"))))
+      (with-current-buffer mvn-buffer (erase-buffer))
+      (async-shell-command (concat "cd " folder " && mvn test") mvn-buffer)))
+  (defun maven-build ()
+    "Run maven clean package in the project root."
+    (interactive)
+    (tomcat-clear-logs)
+    (let* ((projectile-folder (projectile-project-root))
+           (folder (if (eq projectile-folder nil)
+                       default-directory
+                     projectile-folder))
+           (mvn-buffer (get-buffer-create (concat "*Maven Build - " folder "*"))))
+      (with-current-buffer mvn-buffer (erase-buffer))
+      (async-shell-command (concat "cd " folder " && mvn clean package") mvn-buffer))))
 
 ;;; LISP
 ;; Emacs Lisp

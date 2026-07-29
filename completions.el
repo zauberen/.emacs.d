@@ -185,6 +185,5 @@
 (use-package hyperbole
   :ensure t
   :config
-  (hyperbole-mode 1)
-  (hywiki-mode :all))
+  (hyperbole-mode 1))
 ;;; completions.el ends here
