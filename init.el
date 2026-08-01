@@ -448,6 +448,9 @@
   (advice-add 'evil-window-left :after 'golden-ratio)
   (advice-add 'evil-window-up :after 'golden-ratio)
   (advice-add 'evil-window-down :after 'golden-ratio)
+  (advice-add 'evil-avy-goto-char :after 'golden-ratio)
+  (advice-add 'evil-avy-goto-line :after 'golden-ratio)
+  (advice-add 'evil-avy-goto-word-or-subword-1 :after 'golden-ratio)
   (advice-add 'ace-window :after 'golden-ratio))
 
 ;; Moved back to ediff because vdiff loses a lot of functionality

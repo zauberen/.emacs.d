@@ -175,9 +175,6 @@
 ;;   :ensure t
 ;;   :config
 ;;   (mason-ensure))
-(use-package lsp-ui
-  :ensure t
-  :after lsp-mode)
 (use-package consult-lsp
   :ensure t
   :after consult lsp-mode)

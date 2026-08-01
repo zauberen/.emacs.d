@@ -19,7 +19,8 @@
   :ensure t
   :demand t
   :after evil-collection avy
-  :bind ("C-/" . evil-search-forward)
+  :bind (("C-/" . evil-search-forward)
+         ("C-c F" . evil-avy-goto-char))
   :config
   (defun my-mark-defun ()
     "Marks the defun by moving to the start of the defun then marking it."
