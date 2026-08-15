@@ -50,8 +50,8 @@
                                               (:name "JavaSE-17"
                                                :path "C:/Program Files/Eclipse Adoptium/jdk-17.0.7.7-hotspot")])
     (setq lsp-java-java-path "/usr/bin/java"
-          lsp-java-configuration-runtimes '[(:name "OpenJDK-21"
-                                             :path "/opt/homebrew/opt/openjdk@21")]))
+          lsp-java-configuration-runtimes '[(:name "OpenJDK-26"
+                                             :path "/usr/sbin/java")]))
   ;; current VSCode defaults (and then some)
   (setq lsp-java-vmargs '("-XX:+UseParallelGC"
                           "-XX:GCTimeRatio=4"
@@ -268,21 +268,6 @@
     (interactive)
     (add-hook 'python-base-mode-hook 'pet-mode -10)))
 
-;; rust
-(use-package rust-mode
-  :ensure t
-  :init
-  (setq rust-format-on-save nil))
-(use-package cargo
-  :ensure t
-  :after rust-mode
-  :diminish cargo-mode-minor
-  :hook ((rust-mode . cargo-mode-minor)
-         (toml-mode . cargo-mode-minor))
-  :config
-  (dolist (sym '(rust-enable-format-on-save rust-disable-format-on-save))
-    (put sym 'completion-predicate #'ignore)))
-
 ;; SQL
 (use-package simple-httpd
   :ensure (:host github :repo "skeeto/emacs-web-server"))
@@ -356,15 +341,6 @@
         ejc-sql-separator ";"
         ejc-completion-system 'standard
         ejc-result-table-impl 'orgtbl-mode))
-;; This is only here to facilitate capfs for ejc-sql
-;; (use-package company
-;;   :ensure t)
-;; (use-package ejc-company
-;;   :ensure nil
-;;   :after (ejc-sql company cape)
-;;   :custom
-;;   (ejc-complete-on-dot t)
-;;   :hook (ejc-sql-mode . (lambda () (setq-local completion-at-point-functions (mapcar #'cape-company-to-capf (list #'ejc-company-backend #'company-keywords))))))
 (use-package ejc-capf
   :ensure nil
   :after ejc-sql
@@ -440,19 +416,9 @@
 ; REPL for php, wget psysh.org/psysh;chmod +x psysh;sudo cp psysh /usr/bin
 (use-package psysh
   :ensure t)
-                                        ; Error checking
-; Removed due to packaging issues.
-;(use-package phpstan
-;  :ensure (:host github :repo "emacs-php/phpstan.el"))
-;(use-package flycheck-phpstan
-;  :ensure t)
 ; Package management in PHP
 (use-package composer
   :ensure t)
-
-;; ASM
-(use-package nasm-mode
-  :ensure (:host github :repo "8dcc/nasm-mode" :branch "require-nasmtok"))
 
 ;; YAML
 ; Basic syntax highlighting in yaml
@@ -474,36 +440,6 @@
   :ensure t
   :hook (prog-mode . rainbow-mode))
 ;; Tree sitter
-;;; The background on the difference between these plugins is that treesit-auto uses the built in treesit package, while tree-sitter-langs uses the tree-sitter package which predates the emacs treesit builtin.
-;;; Preserving old configuration from when I was not using treesit for everything just in case.
-;; (if (or (eq system-type 'ms-dos) (eq system-type 'windows-nt))
-;;     (progn (use-package tree-sitter-langs
-;;              :ensure t
-;;              :demand t
-;;              :after tree-sitter
-;;              :hook (tree-sitter-after-on . tree-sitter-hl-mode)
-;;              :config
-;;              (global-tree-sitter-mode))
-;;            (use-package tree-sitter
-;;              :ensure t
-;;              :demand t
-;;              :init
-;;              (setq treesit-font-lock-level 4)))
-;;   (progn (use-package treesit-auto
-;;            :ensure t
-;;            :custom
-;;            (treesit-auto-install nil)
-;;            (treesit-extra-load-path (list (expand-file-name "tree-sitter/linux" user-emacs-directory)
-;;                                           (expand-file-name "tree-sitter/macos" user-emacs-directory)
-;;                                           (expand-file-name "tree-sitter/win" user-emacs-directory)))
-;;            :config
-;;            (treesit-auto-add-to-auto-mode-alist 'all)
-;;            (global-treesit-auto-mode))
-;;          (use-package treesit
-;;            :ensure nil
-;;            :demand t
-;;            :custom
-;;            (treesit-font-lock-level 4))))
 (use-package treesit
   :ensure nil
   :demand t
