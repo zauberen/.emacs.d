@@ -394,9 +394,6 @@
 ;; Org mode
 (load-file (expand-file-name "org.el" user-emacs-directory))
 
-;; Obsidian in Emacs configuration
-(load-file (expand-file-name "obsidian.el" user-emacs-directory))
-
 ;; Text editor functionality (bibliography, etc)
 (load-file (expand-file-name "editor.el" user-emacs-directory))
 
