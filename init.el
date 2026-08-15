@@ -25,7 +25,7 @@
   (defun open-dir ()
     "Open the OS's file explorer in the directory of the current buffer's file."
     (interactive)
-    (if-let ((file (buffer-file-name)))
+    (if-let* ((file (buffer-file-name)))
         (let ((dir (file-name-directory (expand-file-name file))))
           (cond
            ((eq system-type 'windows-nt)
@@ -178,11 +178,6 @@
   :ensure t
   :demand t
   :after (evil evil-collection)
-  :hook (deadgrep-mode . (lambda ()
-                           ; Done in a hook because evil collection messes
-                           ; with the keys at a difficult time during startup
-                           (evil-define-key 'normal deadgrep-mode-map (kbd "<S-return>") 'deadgrep-visit-result)
-                           (evil-define-key 'normal deadgrep-mode-map (kbd "RET") 'deadgrep-visit-result-other-window)))
   :bind (("C-M-s" . deadgrep)
          :map deadgrep-mode-map
          ; Invert the ret/s-ret bindings

@@ -3,7 +3,7 @@
 ;;; Evil configuration
 ;;; Code:
 (use-package evil-collection
-  :ensure (:host github :repo "emacs-evil/evil-collection" 
+  :ensure (:host github :repo "emacs-evil/evil-collection"
 		 ;:ref "8018b2c855fbb871293c3a32d64837e265cd2a56"
 		 )
   :demand t
@@ -14,6 +14,17 @@
         ; Removes default insert bindings
         evil-disable-insert-state-bindings t)
   :config
+  (with-eval-after-load 'evil-collection-deadgrep
+    (defun my/deadgrep-action-other-window ()
+      (interactive)
+      (if (button-at (point))
+          (call-interactively #'push-button)
+        (call-interactively #'deadgrep-visit-result-other-window)))
+    (evil-collection-define-key 'normal 'deadgrep-mode-map
+      (kbd "RET")        'my/deadgrep-action-other-window
+      (kbd "<return>")   'my/deadgrep-action-other-window
+      (kbd "S-RET")      'evil-collection-deadgrep-action
+      (kbd "S-<return>") 'evil-collection-deadgrep-action))
   (evil-collection-init))
 (use-package evil
   :ensure t
