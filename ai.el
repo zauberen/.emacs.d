@@ -82,6 +82,10 @@
                      (nreverse)
                      (-take-last (- size 1))
                      (-map 'intern))))))
+(use-package gptel-agent
+  :ensure (:repo "https://github.com/karthink/gptel-agent")
+  :config
+  (gptel-agent-update))
 
 ;; Want to test first, dont have time now
 ;; (use-package eca
@@ -130,5 +134,5 @@
   :bind (("C-c a s" . agent-shell)
          ("C-c a A" . agent-shell-diff-accept-all))
   :custom
-  (agent-shell-opencode-default-model-id "opencode-go/deepseek-v4-flash"))
+  (agent-shell-opencode-default-model-id "opencode-go/glm-5.2"))
 ;;; ai.el ends here
