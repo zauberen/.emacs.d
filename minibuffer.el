@@ -69,7 +69,7 @@ This only works with orderless and for the first component of the search."
   :config
   (evil-define-key 'normal 'global
     (kbd "SPC p") #'project-switch-project
-    (kbd "SPC f") #'consult-project-buffer
+    (kbd "SPC f") #'consult-project-extra-find
     (kbd "SPC F") #'consult-fd
     (kbd "SPC e") #'project-eshell))
 (use-package consult-flycheck
