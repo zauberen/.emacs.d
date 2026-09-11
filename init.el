@@ -336,33 +336,52 @@
   :config
   (which-key-mode))
 
-;; Projectile
-;; Set up projectile project directories in local.el!
-(use-package projectile
-  :ensure t
+;; Projects
+(use-package project
+  :ensure nil
   :demand t
-  :after evil
-  :diminish projectile-mode
-  :bind (:map projectile-mode-map
-         ("C-c p" . projectile-command-map))
-  :custom
-  (projectile-async-indexing nil)
-  (projectile-warn-when-dirconfig-is-ignored nil)
-  (projectile-warn-on-prefixless-dirconfig-lines nil)
-  (projectile-indexing-method 'alien)
-  (projectile-enable-caching (or (eq system-type 'ms-dos) (eq system-type 'windows-nt)))
-  :init
-  (when (not (or (eq system-type 'ms-dos) (eq system-type 'windows-nt)))
-    (setq projectile-project-search-path '("~/.emacs.d"
-                                            ("~/Documents/GitHub" . 1))))
   :config
-  (projectile-mode +1)
-  ; Bind the most useful projectile commands to easier keys
-  (evil-define-key 'normal 'global
-    ; Note that f and p are overridden if minibuffer.el is included to use consult-projectile
-    (kbd "SPC f") #'projectile-find-file
-    (kbd "SPC p") #'projectile-switch-project
-    (kbd "SPC e") #'projectile-run-eshell))
+  (when (file-directory-p "~/Documents/GitHub")
+    (project-remember-projects-under "~/Documents/GitHub"))
+  (when (file-directory-p "~/.emacs.d")
+    (project--remember-dir "~/.emacs.d/")))
+
+;; Projectile (abandoned because perf is shit on windows)
+;; Set up projectile project directories in local.el!
+;; (use-package projectile
+;;   :ensure t
+;;   :demand t
+;;   :after evil
+;;   :diminish projectile-mode
+;;   :bind (:map projectile-mode-map
+;;               ("C-c p" . projectile-command-map))
+;;   :custom
+;;   (projectile-async-indexing nil)
+;;   (projectile-warn-when-dirconfig-is-ignored nil)
+;;   (projectile-warn-on-prefixless-dirconfig-lines nil)
+;;   (projectile-enable-caching (or (eq system-type 'ms-dos) (eq system-type 'windows-nt)))
+;;   (projectile-auto-cleanup-known-projects (not (or (eq system-type 'ms-dos) (eq system-type 'windows-nt))))
+;;   :init
+;;   (when (not (or (eq system-type 'ms-dos) (eq system-type 'windows-nt)))
+;;     (setq projectile-project-search-path '("~/.emacs.d"
+;;                                            ("~/Documents/GitHub" . 1))))
+;;   :config
+;;   (projectile-mode +1)
+;;                                         ; Bind the most useful projectile commands to easier keys
+;;   (evil-define-key 'normal 'global
+;;                                         ; Note that f and p are overridden if minibuffer.el is included to use consult-projectile
+;;     (kbd "SPC f") #'projectile-find-file
+;;     (kbd "SPC p") #'projectile-switch-project
+;;     (kbd "SPC e") #'projectile-run-eshell))
+;; From minibuffer.el:
+;; (use-package consult-projectile
+;;   :ensure t
+;;   :demand t
+;;   :after projectile evil
+;;   :config
+;;   ; Rebind SPC f to use consult
+;;   (evil-define-key 'normal 'global
+;;     (kbd "SPC p") #'consult-projectile-switch-project))
 
 ;; Virtico, Corfu, cape, orderless, consult, embark, marginalia
 (use-package orderless
@@ -477,9 +496,10 @@
   :ensure t
   :diminish gcmh-mode
   :init
-  (setq gcmh-idle-delay 'auto
+  (setq gcmh-idle-delay 5
         gcmh-auto-idle-delay-factor 10
-        gcmh-high-cons-threshold (* 1000 1024 1024)
+        gcmh-high-cons-threshold (* 32 1024 1024)
+        gcmh-low-cons-threshold (* 800 1024)
         read-process-output-max (* 3 1024 1024))
   :config
   (gcmh-mode 1))

@@ -6,7 +6,7 @@
 (use-package citre
   :ensure t
   :defer t
-  :after projectile evil
+  :after evil
   :bind (("C-c t j" . citre-jump)
          ("C-c t J" . citre-jump-back)
          ("C-c t r" . citre-peek-reference)
@@ -17,7 +17,6 @@
   (require 'citre-config)
   ; Ctags config
   (setq citre-default-create-tags-file-location 'global-cache
-        citre-project-root-function #'projectile-project-root
         citre-prompt-language-for-ctags-command t
         citre-use-project-root-when-creating-tags t
         ; Make completions easier to find

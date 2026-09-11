@@ -44,6 +44,8 @@
         org-catch-invisible-edits 'show-and-error
         org-special-ctrl-a/e t
         org-insert-heading-respect-content t
+        ;; Headings at 4 *s deep will appear in imenu
+        org-imenu-depth 4
         ;; Follow links on RET (cannot always use gx)
         org-return-follows-link t
         ;; Use ID links instead of file position links
@@ -135,8 +137,6 @@
   (nconc org-babel-default-header-args:java
          '((:dir . nil)
            (:results . value))))
-
-
 
 ; Denote settings
 (use-package denote

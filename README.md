@@ -16,6 +16,7 @@ Targets Windows and Linux, MacOS has some support but I do not own one anymore.
      - If you want debugging support with DAP, you will also need `ptvsd`
    - `dasel` for python venv support
    - `node` (tested with 20.3) (lsp)
+   - `fd` Project file selection.
    - `rg` or `ripgrep` (project searching and indexing)
      - Built into consult, replaces git-grep when installed.
      - Get your search in a buffer using deadgrep (C-M-s)

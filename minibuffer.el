@@ -12,8 +12,7 @@
          ("C-c b m" . bookmark-set)
          ("C-c b l" . consult-bookmark)
          ("C-x r l" . consult-bookmark) ; Replace the existing bookmark list with consult, not that I'd use it
-         ;("C-c h" . consult-history)
-         ;("C-c s" . consult-line)
+         ("C-x p b" . consult-project-buffer)
          ("C-c C-s" . consult-line-multi)
          ("C-c t o" . consult-outline)
          ("C-," . consult-yank-from-kill-ring)
@@ -28,7 +27,7 @@
     (consult-customize
      consult-ripgrep consult-git-grep consult-grep
      consult-bookmark consult-recent-file consult-xref
-     consult-projectile consult-buffer consult-notes
+     consult-project-buffer consult-buffer consult-notes
      consult-source-bookmark consult-source-file-register
      consult-source-recent-file consult-source-project-recent-file
      :preview-key '(:debounce 0.5 any)))
@@ -61,15 +60,18 @@ This only works with orderless and for the first component of the search."
     (kbd "SPC b") #'consult-buffer
     (kbd "/") #'consult-line
     (kbd "g m") #'evil-collection-consult-mark))
-(use-package consult-projectile
-  :ensure t
+(use-package consult-project-extra
+  :after (consult evil)
+  :ensure (:repo "https://github.com/Qkessler/consult-project-extra")
   :demand t
-  :after projectile evil
+  :custom
+  (consult-project-function #'consult-project-extra-project-fn)
   :config
-  ; Rebind SPC f to use consult
   (evil-define-key 'normal 'global
-    (kbd "SPC f") #'consult-projectile
-    (kbd "SPC p") #'consult-projectile-switch-project))
+    (kbd "SPC p") #'project-switch-project
+    (kbd "SPC f") #'consult-project-buffer
+    (kbd "SPC F") #'consult-fd
+    (kbd "SPC e") #'project-eshell))
 (use-package consult-flycheck
   :ensure t
   :after consult flycheck

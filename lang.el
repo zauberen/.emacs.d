@@ -92,10 +92,10 @@
     "Run maven in the project root."
     (interactive)
     (tomcat-clear-logs)
-    (let* ((projectile-folder (projectile-project-root))
-           (folder (if (eq projectile-folder nil)
+    (let* ((project-folder (project-root (project-current)))
+           (folder (if (eq project-folder nil)
                        default-directory
-                     projectile-folder))
+                     project-folder))
            (mvn-buffer (get-buffer-create (concat "*Maven Run - " folder "*"))))
       (with-current-buffer mvn-buffer (erase-buffer))
       (async-shell-command (concat "cd " folder " && mvn exec:java") mvn-buffer)))
@@ -103,10 +103,10 @@
     "Run maven test in the project root."
     (interactive)
     (tomcat-clear-logs)
-    (let* ((projectile-folder (projectile-project-root))
-           (folder (if (eq projectile-folder nil)
+    (let* ((project-folder (project-root (project-current)))
+           (folder (if (eq project-folder nil)
                        default-directory
-                     projectile-folder))
+                     project-folder))
            (mvn-buffer (get-buffer-create (concat "*Maven Test - " folder "*"))))
       (with-current-buffer mvn-buffer (erase-buffer))
       (async-shell-command (concat "cd " folder " && mvn test") mvn-buffer)))
@@ -114,10 +114,10 @@
     "Run maven clean package in the project root."
     (interactive)
     (tomcat-clear-logs)
-    (let* ((projectile-folder (projectile-project-root))
-           (folder (if (eq projectile-folder nil)
+    (let* ((project-folder (project-root (project-current)))
+           (folder (if (eq project-folder nil)
                        default-directory
-                     projectile-folder))
+                     project-folder))
            (mvn-buffer (get-buffer-create (concat "*Maven Build - " folder "*"))))
       (with-current-buffer mvn-buffer (erase-buffer))
       (async-shell-command (concat "cd " folder " && mvn clean package") mvn-buffer))))
@@ -272,7 +272,7 @@
 (use-package simple-httpd
   :ensure (:host github :repo "skeeto/emacs-web-server"))
 (use-package ejc-sql
-  :ensure (:host github :repo "zauberen/ejc-sql" :ref "blob-display-mariadb")
+  :ensure (:host github :repo "kostafey/ejc-sql")
   :after simple-httpd
   :if (and (executable-find "clj")
            (executable-find "lein"))
