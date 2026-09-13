@@ -120,7 +120,15 @@
   ;; To make this functional, add (setenv "OPENCODE_GO_API_KEY" "sk-...") to your local.el
   (plist-put minuet-openai-compatible-options :api-key "OPENCODE_GO_API_KEY")
   (plist-put minuet-openai-compatible-options :model "glm-5.3-flash")
-  (minuet-set-optional-options minuet-openai-compatible-options :thinking '(:type "disabled"))
+  (defvar minuet-opencode-go-session-uuid
+    "Random session UUID, generated once per Emacs session."
+    (org-id-uuid))
+  (defun minuet-opencode-go-transform (settings)
+    "Add the required x-opencode-session header to OpenCode Go requests."
+    (plist-put settings :headers
+               (cons (cons "x-opencode-session" minuet-opencode-go-session-uuid)
+                     (plist-get settings :headers))))
+  (plist-put minuet-openai-compatible-options :transform '(minuet-opencode-go-transform))
   (minuet-set-optional-options minuet-openai-compatible-options :max_tokens 56)
   (minuet-set-optional-options minuet-openai-compatible-options :top_p 0.9))
 
