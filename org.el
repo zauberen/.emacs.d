@@ -101,8 +101,78 @@
                                  "* TODO %?\n:PROPERTIES:\n:CREATION: %U\n:END:\n%a")
                                 ("o" "Link Work Issue" entry (file+headline org-work-file "Inbox")
                                  "* TODO %?\n:PROPERTIES:\n:CREATION: %U\n:END:\n%a")
-                                ("m" "Link Home Task" entry (file+headline org-home-file "Tasks")
-                                 "* TODO %?\n:PROPERTIES:\n:CREATION: %U\n:END:\n%a")))
+                                ("m" "Meeting" plain
+                                 (file+function org-meetings-file my/org-find-meeting-category)
+                                 "*** %u %(org-capture-get :meeting-title)\n%?")))
+  (defvar org-meetings-file (concat org-directory "/meetings.org")
+    "Path to the Org file storing meeting notes.")
+
+  (defun my/org-find-meeting-category ()
+    "Locate category, prompt for title, and position point at the end of that category."
+    (widen)
+    (goto-char (point-min))
+
+    ;; 1. Ensure top-level '* Meetings' exists
+    (unless (re-search-forward "^\\* +Meetings\\b" nil t)
+      (goto-char (point-max))
+      (unless (bolp) (insert "\n"))
+      (insert "* Meetings\n")
+      (goto-char (point-min))
+      (re-search-forward "^\\* +Meetings\\b" nil t))
+
+    ;; Record where the '* Meetings' block ends
+    (org-back-to-heading t)
+    (let ((meetings-end (save-excursion (org-end-of-subtree t t)))
+          (categories '()))
+
+      ;; 2. Collect existing Level 2 subheadings under '* Meetings'
+      (save-excursion
+        (while (re-search-forward "^\\*\\* +\\(.+\\)$" meetings-end t)
+          (push (org-trim (match-string-no-properties 1)) categories)))
+      (setq categories (nreverse categories))
+
+      ;; 3. Prompt for category
+      (let* ((choice (completing-read
+                      "Meeting category: "
+                      categories nil nil nil nil
+                      (or (car categories) "Unsorted Meetings")))
+             (target-cat (if (string-blank-p choice) "Unsorted Meetings" choice)))
+
+        ;; 4. Move to or create the Level 2 category
+        (goto-char (point-min))
+        (re-search-forward "^\\* +Meetings\\b" nil t)
+        (let ((pattern (concat "^\\*\\* +" (regexp-quote target-cat) "[ \t]*$")))
+          (if (re-search-forward pattern meetings-end t)
+              (org-back-to-heading t)
+            ;; Missing: insert at the very end of '* Meetings'
+            (goto-char meetings-end)
+            (unless (bolp) (insert "\n"))
+            (insert "** " target-cat "\n")
+            (forward-line -1)
+            (org-back-to-heading t)))
+
+        ;; 5. Collect existing Level 3 titles under THIS category
+        (let* ((cat-pos (point))
+               ;; Find boundary: either the next ** heading or the end of * Meetings
+               (cat-end (save-excursion
+                          (forward-line 1)
+                          (if (re-search-forward "^\\*\\*? " meetings-end t)
+                              (match-beginning 0)
+                            meetings-end)))
+               (titles '()))
+          (save-excursion
+            (while (re-search-forward "^\\*\\*\\* +\\(?:\\[[^]]+\\] +\\)?\\(.+\\)$" cat-end t)
+              (push (org-trim (match-string-no-properties 1)) titles)))
+          (setq titles (delete-dups (nreverse titles)))
+
+          ;; 6. Prompt for Title
+          (let ((chosen-title (completing-read "Meeting Title: " titles nil nil nil nil nil)))
+            (org-capture-put :meeting-title chosen-title))
+
+          ;; 7. Land point right before next heading, cleanly after existing notes
+          (goto-char cat-end)
+          (skip-chars-backward " \t\n")
+          (insert "\n\n")))))
   :config
   ; For some reason, this assignment leaks into inappropriate maps
   (evil-define-key 'normal org-mode-map (kbd "RET") 'org-open-at-point)
