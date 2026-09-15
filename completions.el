@@ -51,7 +51,8 @@
   :ensure t
   :demand t
   :after consult corfu cape
-  :bind (:map lsp-mode-map
+  :bind (("M-L" . lsp)
+         :map lsp-mode-map
          ("C-c C-." . lsp-execute-code-action)
          ("C-S-r" . lsp-rename)
          ("C-k" . lsp-find-references))
