@@ -361,4 +361,7 @@ Argument COUNT number of lines to insert."
       (evil-org-open-above count)
       (org-metadown)))
   (evil-define-key 'normal 'evil-org-mode (kbd "o") 'my-evil-org-open-below))
+(use-package remember
+  :ensure nil
+  :bind ("C-x M-r" . remember))
 ;;; org.el ends here
