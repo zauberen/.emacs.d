@@ -119,7 +119,7 @@
   (plist-put minuet-openai-compatible-options :end-point "https://opencode.ai/zen/go/v1/chat/completions")
   ;; To make this functional, add (setenv "OPENCODE_GO_API_KEY" "sk-...") to your local.el
   (plist-put minuet-openai-compatible-options :api-key "OPENCODE_GO_API_KEY")
-  (plist-put minuet-openai-compatible-options :model "glm-5.3-flash")
+  (plist-put minuet-openai-compatible-options :model "deepseek-v4.1-flash")
   (defvar minuet-opencode-go-session-uuid
     "Random session UUID, generated once per Emacs session."
     (org-id-uuid))
@@ -129,7 +129,7 @@
                (cons (cons "x-opencode-session" minuet-opencode-go-session-uuid)
                      (plist-get settings :headers))))
   (plist-put minuet-openai-compatible-options :transform '(minuet-opencode-go-transform))
-  (minuet-set-optional-options minuet-openai-compatible-options :max_tokens 56)
+  (minuet-set-optional-options minuet-openai-compatible-options :max_tokens 112)
   (minuet-set-optional-options minuet-openai-compatible-options :top_p 0.9))
 
 ;; Agent interaction, use with eg Opencode
