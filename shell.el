@@ -3,6 +3,7 @@
 ;;; Code:
 (use-package eshell
   :bind ("C-x e" . eshell)
+  :hook (eshell-mode . my/disable-line-numbers)
   :hook (eshell-mode . (lambda ()
                          (eshell/alias "open" "find-file $1")
                          (eshell/alias "emacs" "find-file $1")
@@ -26,7 +27,8 @@
 ;; Ghostty based shell, usable in all OS'
 (use-package ghostel
   :ensure t
-  :bind (("C-x m" . ghostel)))
+  :bind (("C-x m" . ghostel))
+  :hook (ghostel-mode . my/disable-line-numbers))
 (use-package evil-ghostel
   :ensure t
   :after (ghostel evil)

@@ -125,7 +125,8 @@ This only works with orderless and for the first component of the search."
   :ensure t
   :after evil
   :bind (("C-;" . embark-act)
-         ("C-:" . embark-collect)))
+         ("C-:" . embark-collect))
+  :hook (embark-collect-mode . my/disable-line-numbers))
 (use-package embark-consult
   :ensure t
   :after embark consult)

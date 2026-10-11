@@ -75,6 +75,9 @@
 ;; Line numbering and word wrap
 (setq display-line-numbers-type 'relative)
 (global-display-line-numbers-mode)
+(defun my/disable-line-numbers ()
+  "Turn off line numbers in the current buffer."
+  (display-line-numbers-mode -1))
 (column-number-mode)
 (transient-mark-mode 1)
 (global-visual-line-mode)
@@ -184,7 +187,8 @@
          ("RET" . deadgrep-visit-result-other-window)
          ("<S-return>" . deadgrep-visit-result)
          ("C-M-s" . deadgrep-search-term)
-         ("C-s" . deadgrep-search-term)))
+         ("C-s" . deadgrep-search-term))
+  :hook (deadgrep-mode . my/disable-line-numbers))
 ;; Allows editing directly inside the deadgrep buffer
 (use-package wgrep-deadgrep
   :ensure t
