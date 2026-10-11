@@ -272,7 +272,7 @@
 (use-package simple-httpd
   :ensure (:host github :repo "skeeto/emacs-web-server"))
 (use-package ejc-sql
-  :ensure (:host github :repo "kostafey/ejc-sql")
+  :ensure (:host github :repo "zauberen/ejc-sql" :branch "result-and-capf-improvements")
   :after simple-httpd
   :if (and (executable-find "clj")
            (executable-find "lein"))
@@ -286,6 +286,9 @@
          (ejc-sql-mode . (lambda () (ejc-eldoc-setup))))
   :bind (:map ejc-sql-mode-keymap
               ("C-<return>" . ejc-eval-user-sql-at-point))
+  :custom
+  (ejc-hide-empty-columns t)
+  (ejc-capf-complete-tables-without-alias t)
   :init
   (defun ejc-mariadb (display-name user password ip &optional port defaultdb)
     "Add an ejc connection for a MariaDB database which displays DISPLAY-NAME when selecting the db in ejc-connect."
