@@ -22,6 +22,8 @@ Targets Windows and Linux, MacOS has some support but I do not own one anymore.
      - Get your search in a buffer using deadgrep (C-M-s)
      - Similar functionality to deadgrep by using embark-collect (C-s to search, then C-S-; to collect)
    - `fonts-hack-ttf`(ubuntu) or `homebrew/cask-fonts/font-hack`(macos) Hack font
+   - `fonts-noto-color-emoji` (ubuntu) `noto-fonts-emoji` (arch) Google emoji font, only necessary on linux
+     - After installing fonts, remember to run `fc-cache -f` 
    - Some LaTeX distribution (recommend `texlive`)
    - `pandoc` (optional but recommended) for exporting files
    - `ispell` (non-macos) (causes completion errors without it)

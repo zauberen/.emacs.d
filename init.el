@@ -111,6 +111,14 @@
     ;; <https://github.com/protesilaos/fontaine/issues/6>.
     ;; FIXME: Fontaine 2.1 supports the :width attribute.
     (cl-callf2 remq 'tab-bar fontaine-faces))
+  (defun my/set-emoji-font ()
+    "Set the emoji fallback font based on the OS."
+    (let ((family (if (eq system-type 'windows-nt)
+                      "Segoe UI Emoji"
+                    "Noto Color Emoji")))
+      (set-fontset-font t 'emoji (font-spec :family family) nil 'prepend)))
+  (add-hook 'fontaine-set-preset-hook #'my/set-emoji-font)
+  (my/set-emoji-font)
   :custom
   (fontaine-presets
    '((t :default-family "Hack"
