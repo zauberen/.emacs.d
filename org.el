@@ -44,6 +44,9 @@
         org-catch-invisible-edits 'show-and-error
         org-special-ctrl-a/e t
         org-insert-heading-respect-content t
+        ;; Never insert a blank line before new list items (auto copies
+        ;; existing blank lines in the list, causing gaps on o/O/S-RET)
+        org-blank-before-new-entry '((heading . auto) (plain-list-item . nil))
         ;; Headings at 4 *s deep will appear in imenu
         org-imenu-depth 4
         ;; Follow links on RET (cannot always use gx)

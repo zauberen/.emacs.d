@@ -52,6 +52,38 @@
     (setq lsp-java-java-path "/usr/bin/java"
           lsp-java-configuration-runtimes '[(:name "OpenJDK-26"
                                              :path "/usr/sbin/java")]))
+  ;; DAP broke again with the env variables
+  (defun dap-java--run-unit-test-command (runner dwim?)
+    "Run debug test with the following arguments.
+RUNNER is the test executor.  DWIM? when t it will try to run the
+surrounding method.  Otherwise it will run the surrounding test."
+    (-let* ((run-method? (and dwim? (dap-java-test-method-at-point t)))
+            (to-run (if run-method?
+                        (dap-java-test-method-at-point)
+                      (dap-java-test-class)))
+            (test-class-name (cl-first (s-split "#" to-run)))
+            (class-path (->> (with-lsp-workspace (lsp-find-workspace 'jdtls)
+                               (lsp-send-execute-command "vscode.java.resolveClasspath"
+                                                         (vector test-class-name nil)))
+                             cl-second
+                             (s-join dap-java--classpath-separator)))
+            (prog-list (if dap-java-use-testng
+                           (cl-list* runner
+                                     "-cp" class-path
+                                     "org.testng.TestNG"
+                                     "-d" dap-java-testng-report-dir
+                                     (if (and (s-contains? "#" to-run) run-method?) "-methods" "-testclass")
+                                     (if run-method? (s-replace "#" "." to-run) test-class-name)
+                                     dap-java-test-additional-args)
+                         (cl-list* runner "-jar" dap-java-test-runner
+                                   "-cp" class-path
+                                   (if (and (s-contains? "#" to-run) run-method?) "-m" "-c")
+                                   (if run-method? to-run test-class-name)
+                                   dap-java-test-additional-args))))
+      (list :program-to-start (s-join " " prog-list)
+            :environment-variables `(("JUNIT_CLASS_PATH" . ,class-path))
+            :name to-run
+            :cwd (lsp-java--get-root))))
   ;; current VSCode defaults (and then some)
   (setq lsp-java-vmargs '("-XX:+UseParallelGC"
                           "-XX:GCTimeRatio=4"

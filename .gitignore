@@ -13,6 +13,8 @@ local.el
 /package-quickstart.el
 /eshell/
 /elpa/
+/elpa.bak/
+/elpaca.bak/
 history
 projectile-bookmarks.eld
 network-security.data
