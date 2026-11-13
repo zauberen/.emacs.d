@@ -62,7 +62,7 @@ Evil bindings are added with `evil-define-key` inside `:config` blocks. The main
 - LSP completions go through `lsp-completion-at-point`, wrapped by cape
 
 ### LSP setup
-`lsp-mode` is in `completions.el`. Language-specific LSP hooks are in `lang.el`. On Windows, LSP is not auto-started for most languages (`my/dont-launch-lsp-on-windows`). Java LSP only auto-starts if `*jdtls*` buffer already exists.
+`lsp-mode` is in `completions.el`. Language-specific LSP hooks are in `lang.el`. LSP is not auto-started for most languages; start it manually with `M-L`. Java LSP only auto-starts if `*jdtls*` buffer already exists.
 
 ### AI integration (ai.el)
 - **gptel**: general LLM chat, configured for org-mode output. AI backends (DeepSeek, Gemini, Ollama) are set up via helper functions `setup-deep-seek`, `setup-gemini`, `setup-ollama` — call these with API keys in `local.el`.

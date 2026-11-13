@@ -434,6 +434,20 @@ surrounding method.  Otherwise it will run the surrounding test."
   :hook (sgml-mode . emmet-mode)
   :bind (("C-<tab>" . emmet-expand-line)))
 
+;; Rust
+(use-package rust-mode
+  :ensure t
+  :init
+  ;; Make rust-mode derive from rust-ts-mode so tree-sitter highlighting and
+  ;; rust-ts-mode-hook apply while keeping rust-mode's cargo commands.
+  (setq rust-mode-treesitter-derive t))
+
+;; TOML (built-in tree-sitter mode)
+(use-package toml-ts-mode
+  :ensure nil
+  :mode (("\\.toml\\'" . toml-ts-mode)
+         ("/Cargo\\.lock\\'" . toml-ts-mode)))
+
 ;; KDL (niri configuration)
 (use-package kdl-mode
   :ensure t)

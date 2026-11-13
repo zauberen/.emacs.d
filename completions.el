@@ -160,16 +160,7 @@
     (setf (alist-get 'styles
                      (alist-get 'lsp-capf completion-category-defaults))
           '(orderless)))
-  (defun my/dont-launch-lsp-on-windows ()
-    "Don't launch lsp on windows by default"
-    (when (not (or (eq system-type 'ms-dos) (eq system-type 'windows-nt)))
-      (lsp)))
-  (add-hook 'lsp-completion-mode #'corfu-lsp-setup)
-  (add-hook 'python-ts-mode-hook #'my/dont-launch-lsp-on-windows)
-  (add-hook 'html-mode-hook #'my/dont-launch-lsp-on-windows)
-  (add-hook 'js-mode-hook #'my/dont-launch-lsp-on-windows)
-  (add-hook 'typescript-ts-mode-hook #'my/dont-launch-lsp-on-windows)
-  (add-hook 'tsx-ts-mode-hook #'my/dont-launch-lsp-on-windows))
+  (add-hook 'lsp-completion-mode #'corfu-lsp-setup))
 ;; Try this again someday, but as of 12.15.2025 it doesn't work on windows
 ;; (use-package mason
 ;;   :ensure t
