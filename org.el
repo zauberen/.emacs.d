@@ -125,7 +125,10 @@
 
     ;; Record where the '* Meetings' block ends
     (org-back-to-heading t)
-    (let ((meetings-end (save-excursion (org-end-of-subtree t t)))
+    ;; A marker, so it stays valid after a new category is inserted at the
+    ;; end of '* Meetings' (a plain position goes stale and breaks the
+    ;; bounded searches below with "Invalid search bound").
+    (let ((meetings-end (copy-marker (save-excursion (org-end-of-subtree t t)) t))
           (categories '()))
 
       ;; 2. Collect existing Level 2 subheadings under '* Meetings'
@@ -367,4 +370,42 @@ Argument COUNT number of lines to insert."
 (use-package remember
   :ensure nil
   :bind ("C-x M-r" . remember))
+
+;; muesli: record meetings, transcribe locally (LocalAI in docker), and
+;; let Claude Code turn notes + transcript into org notes.
+;; Installed by elpaca from my GitHub repo; only on Linux where ffmpeg/PipeWire exist.
+(use-package muesli
+  :ensure (:host github :repo "zauberen/muesliel")
+  :if (eq system-type 'gnu/linux)
+  :after org
+  :demand t
+  :commands (muesli-capture muesli-start muesli-stop muesli-abort
+             muesli-show-transcript muesli-regenerate muesli-restore-notes
+             muesli-name-speakers muesli-resume)
+  :bind (("C-c M c" . muesli-capture)
+         ("C-c M s" . muesli-start)
+         ("C-c M q" . muesli-stop)
+         ("C-c M a" . muesli-abort)
+         ("C-c M t" . muesli-show-transcript)
+         ("C-c M n" . muesli-name-speakers)
+         ("C-c M g" . muesli-regenerate)
+         ("C-c M u" . muesli-restore-notes)
+         ("C-c M r" . muesli-resume))
+  :custom
+  ;; Same file as `org-meetings-file' (which isn't defined yet when this loads)
+  (muesli-meetings-file (expand-file-name "meetings.org" org-directory))
+  (muesli-default-mode 'room)
+  ;; LocalAI on localhost:8080 (see the muesli README)
+  (muesli-stt-base-url "http://localhost:8080/v1")
+  (muesli-stt-model "parakeet-cpp-tdt-0.6b-v3")
+  (muesli-diarization-backend 'localai)
+  (muesli-diarization-model "parakeet-cpp-nemotron-3-diarization")
+  ;; Summaries through headless Claude Code (claude -p, tools disabled)
+  (muesli-summary-backend 'claude-code)
+  (muesli-claude-command (or (executable-find "claude")
+                             (expand-file-name "~/.local/bin/claude")))
+  (muesli-action-item-style 'checkbox)
+  ;; The "m" capture template above keeps working: `muesli-start' adds
+  ;; the :ID: muesli needs.  (`muesli-capture' is muesli's own variant.)
+  )
 ;;; org.el ends here
