@@ -28,15 +28,12 @@
 (use-package ghostel
   :ensure t
   :demand t
-  :bind (("C-x m" . ghostel))
-  :hook (ghostel-mode . my/disable-line-numbers))
-(use-package ghostel-project
-  :after ghostel
-  :demand t
-  :bind (("C-x M" . ghostel-project)
+  :bind (("C-x m" . ghostel)
+         ("C-x M" . ghostel-project)
          :map project-prefix-map
          ("m" . ghostel-project)
          ("M" . ghostel-project-list-buffers))
+  :hook (ghostel-mode . my/disable-line-numbers)
   :config
   (add-to-list 'project-switch-commands '(ghostel-project "Ghostel") t)
   (add-to-list 'project-switch-commands '(ghostel-project-list-buffers "Ghostel buffers") t))
